@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<tree string="Party Credit">
+  <field name="party"/>
+  <field name="date"/>
+  <field name="start_date"/>
+  <field name="end_date"/>
+  <field name="requested_credit_limit"/>
+  <field name="approved_credit_limit"/>
+  <field name="invoice_line"/>
+  <field name="state"/>>
+  <field name="maximum_registered_credit_amount"/>
+</tree>

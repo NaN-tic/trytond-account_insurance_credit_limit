@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<form string="Party Credit" col="6">
+  <label name="party"/>
+  <field name="party"/>
+
+  <label name="date"/>
+  <field name="date"/>
+
+  <label name="start_date"/>
+  <field name="start_date"/>
+
+  <label name="end_date"/>
+  <field name="end_date"/>
+
+  <label name="requested_credit_limit"/>
+  <field name="requested_credit_limit"/>
+
+  <label name="approved_credit_limit"/>
+  <field name="approved_credit_limit"/>
+
+  <label name="invoice_line"/>
+  <field name="invoice_line"/>
+
+  <label name="state"/>
+  <field name="state"/>
+
+  <label name="maximum_registered_credit_amount"/>
+  <field name="maximum_registered_credit_amount"/>
+
+  <group col="6" colspan="6" id="approve-buttons" yfill="1">
+    <button name="approve" string="Approve" icon="tryton-go-next"/>
+    <button name="reject" string="Reject" icon="tryton-dialog-error"/>
+  </group>
+</form>
