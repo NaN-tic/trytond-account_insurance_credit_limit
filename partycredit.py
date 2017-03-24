@@ -7,7 +7,7 @@ from trytond.pyson import Eval
 __all__ = ['PartyCredit']
 
 
-class PartyCredit(ModelSQL, ModelView, Workflow):
+class PartyCredit(Workflow, ModelSQL, ModelView):
     'Party Credit'
     __name__ = 'party.credit'
 
@@ -34,6 +34,7 @@ class PartyCredit(ModelSQL, ModelView, Workflow):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ], 'State', required=True)
+
     # Returns the maximum risk amount registered for the given timeframe
     # maximum_registered_credit_amount = fields.Function(
     #    fields.Numeric('Maximum Registered Credit Amount', digits=(16, 2)))

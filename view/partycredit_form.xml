@@ -19,14 +19,8 @@
   <label name="approved_credit_limit"/>
   <field name="approved_credit_limit"/>
 
-  <label name="invoice_line"/>
-  <field name="invoice_line"/>
-
   <label name="state"/>
   <field name="state"/>
-
-  <label name="maximum_registered_credit_amount"/>
-  <field name="maximum_registered_credit_amount"/>
 
   <group col="6" colspan="6" id="approve-buttons" yfill="1">
     <button name="approve" string="Approve" icon="tryton-go-next"/>

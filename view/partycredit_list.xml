@@ -7,7 +7,5 @@
   <field name="end_date"/>
   <field name="requested_credit_limit"/>
   <field name="approved_credit_limit"/>
-  <field name="invoice_line"/>
-  <field name="state"/>>
-  <field name="maximum_registered_credit_amount"/>
+  <field name="state"/>
 </tree>
