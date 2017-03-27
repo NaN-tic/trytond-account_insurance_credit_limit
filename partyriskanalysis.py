@@ -17,11 +17,8 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
     """
 
     party = fields.Many2One('party.party', 'Party')
-    date = fields.Date('Date')  # fecha de vencimiento de la factura
-    amount = fields.Numeric('Amount', digits=(16, 2))  # importe de la factura
-
-    # Facturas de ventas
-    # Dinero que el cliente debe a mi empresa en una fecha determinada
+    date = fields.Date('Date')  # Invoice maturity date
+    amount = fields.Numeric('Amount', digits=(16, 2))  # Invoice total amount
 
 
 class PartyRiskAnalysisCalculateStart(ModelView):
@@ -38,6 +35,7 @@ class PartyRiskAnalysisCalculateStart(ModelView):
 
 class PartyRiskAnalysisCalculate(Wizard):
     'Party Risk Analysis Calculate'
+
     __name__ = 'party.risk.analysis.calculate'
 
     start = StateView(
@@ -48,16 +46,17 @@ class PartyRiskAnalysisCalculate(Wizard):
             Button('Cancel', 'end', 'tryton-cancel')
         ]
     )
-    calculate = StateTransition()
+    calculate_risk = StateTransition()
 
     def transition_calculate_risk(self):
         pool = Pool()
-        PartyRiskAnalysis = pool.get()
+        PartyRiskAnalysis = pool.get('party.risk.analysis')
         Invoice = pool.get('account.invoice')
         invoices = Invoice.search([
             ('type', '=', 'out_invoice'),
             ('invoice_date', '>=', self.start.date)
         ])
+
         parties_risks = []
         for invoice in invoices:
             party_risk = PartyRiskAnalysis()
@@ -66,5 +65,6 @@ class PartyRiskAnalysisCalculate(Wizard):
             party_risk.amount = invoice.total_amount
             parties_risks.append(party_risk)
 
-        PartyRiskAnalysis.create(partyrisk for partyrisk in parties_risks)
+        PartyRiskAnalysis.create([
+            partyrisk._save_values for partyrisk in parties_risks])
         return 'end'

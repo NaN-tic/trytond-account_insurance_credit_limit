@@ -20,6 +20,9 @@
         <field name="act_window" ref="act_partyriskanalysis"/>
     </record>
 
+    <menuitem id="menu_party_risk_analysis" parent="menu_party_credit_root"
+      sequence="30" action="act_partyriskanalysis"/>
+
     <!-- Wizard PartyRiskAnalysisCalculate (party.risk.analysis.calculate) -->
     <record model="ir.action.wizard" id="act_party_risk_analysis_calculate">
         <field name="name">Party Risk Analysis Calculate</field>
