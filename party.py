@@ -24,11 +24,12 @@ class Party:
         pool = Pool()
         PartyCredit = pool.get('party.credit')
         party_credits = PartyCredit.search([
-            ('party', '=', self.id),  # TODO: check self.id or self
+            ('party', '=', self),
             ('state', '=', 'approved')
         ], limit=1)
         # There won't be two records of the model party.credit corresponding
         # to the same party with state=approved
-        if party_credits:
+        if (party_credits and
+        party_credits[0].approved_credit_limit is not None):
             return party_credits[0].approved_credit_limit
         return 0

@@ -38,20 +38,23 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     # Returns the maximum risk amount registered for the given timeframe
     # maximum_registered_credit_amount = fields.Function(
     #    fields.Numeric('Maximum Registered Credit Amount', digits=(16, 2)))
-# TODO: How to calculate maximum_registered_credit_amount?.
-# Necesita el wizard de partyriskanalysis.py
+    # TODO: How to calculate maximum_registered_credit_amount?.
+    # Necesita el wizard de partyriskanalysis.py
 
     @staticmethod
     def default_state():
         return 'requested'
 
     def get_rec_name(self, name):
-        return '%s - %s' % (self.party.name, self.date)
+        return '%s - %s' % (self.party.rec_name, self.state)
 
-    # TODO: search_rec_name
     @classmethod
     def search_rec_name(cls, name, clause):
-        pass
+        names = clause[2].split(' - ', 1)
+        domain = [('party.name', clause[1], names[0])]
+        if len(names) != 1 and names[1]:
+            domain.append(('state', '=', names[1]))
+        return domain
 
     @classmethod
     def __setup__(cls):
@@ -60,8 +63,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         cls._error_messages.update({
             'approved_credit_party': ('It is only allowed an approved credit '
                 'per party and the party credit "%(rec_name)s" you want to '
-                'add exceeds this limit. An approved party credit assigned to '
-                'this party already exists "%(approved_party_credits)s"')
+                'add exceeds this limit. Approved party credits assigned to '
+                'the same party: "%(approved_party_credits)s"')
         })
         # Workflow transitions
         cls._transitions |= set((
@@ -107,15 +110,21 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @Workflow.transition('approved')
     def approve(cls, party_credits):
         for party_credit in party_credits:
-            party_credit.party.credit_limit_amount = (
-                party_credit.party.company_credit_limit +
-                party_credit.party.insurance_credit_limit)
+            if (party_credit.party.company_credit_limit is not None and
+            party_credit.party.insurance_credit_limit is not None):
+                party_credit.party.credit_limit_amount = (
+                    party_credit.party.company_credit_limit +
+                    party_credit.party.insurance_credit_limit)
+            else:
+                party_credit.party.credit_limit_amount = 0
 
     @classmethod
     @ModelView.button
     @Workflow.transition('rejected')
     def reject(cls, party_credits):
         for party_credit in party_credits:
-            party_credit.party.credit_limit_amount -= (
-                party_credit.party.company_credit_limit +
-                party_credit.party.insurance_credit_limit)
+            if (party_credit.party.company_credit_limit is not None and
+            party_credit.party.insurance_credit_limit is not None):
+                party_credit.party.credit_limit_amount -= (
+                    party_credit.party.company_credit_limit +
+                    party_credit.party.insurance_credit_limit)

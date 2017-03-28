@@ -17,8 +17,10 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
     """
 
     party = fields.Many2One('party.party', 'Party')
-    date = fields.Date('Date')  # Invoice maturity date
-    amount = fields.Numeric('Amount', digits=(16, 2))  # Invoice total amount
+    # Invoice maturity date
+    date = fields.Date('Date')
+    # Invoice total amount
+    amount = fields.Numeric('Amount', digits=(16, 2))
 
 
 class PartyRiskAnalysisCalculateStart(ModelView):

@@ -19,8 +19,8 @@
   <label name="approved_credit_limit"/>
   <field name="approved_credit_limit"/>
 
-  <label name="state"/>
-  <field name="state"/>
+  <label name="state" invisible="1"/>
+  <field name="state" invisible="1"/>
 
   <group col="6" colspan="6" id="approve-buttons" yfill="1">
     <button name="approve" string="Approve" icon="tryton-go-next"/>
