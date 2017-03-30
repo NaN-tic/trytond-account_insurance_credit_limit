@@ -16,11 +16,26 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
         the party's sale invoices from a specific date
     """
 
-    party = fields.Many2One('party.party', 'Party')
+    party = fields.Many2One('party.party', 'Party', required=True,
+        readonly=True)
     # Invoice maturity date
-    date = fields.Date('Date')
+    date = fields.Date('Date', required=True, readonly=True)
     # Invoice total amount
-    amount = fields.Numeric('Amount', digits=(16, 2))
+    amount = fields.Numeric('Amount', digits=(16, 2), readonly=True)
+
+    invoices = fields.Function(fields.One2Many('account.invoice', None,
+        'Invoices', required=True, readonly=True), 'get_invoices')
+
+    def get_invoices(self, name=None):
+        Invoice = Pool().get('account.invoice')
+        invoices = Invoice.search([
+            ('party', '=', self.party.id),
+            ('type', '=', 'out_invoice'),
+            ('invoice_date', '>=', self.date),
+            ('state', '=', 'posted')
+        ])
+
+        return tuple([i.id for i in invoices])
 
 
 class PartyRiskAnalysisCalculateStart(ModelView):
@@ -56,17 +71,34 @@ class PartyRiskAnalysisCalculate(Wizard):
         Invoice = pool.get('account.invoice')
         invoices = Invoice.search([
             ('type', '=', 'out_invoice'),
-            ('invoice_date', '>=', self.start.date)
-        ])
-
+            ('invoice_date', '>=', self.start.date),
+            ('state', '=', 'posted')
+        ], order=[('party', 'ASC')])
         parties_risks = []
+        current_party = None
+
+        self.remove_all_records()
+
         for invoice in invoices:
-            party_risk = PartyRiskAnalysis()
-            party_risk.party = invoice.party
-            party_risk.date = invoice.invoice_date
-            party_risk.amount = invoice.total_amount
-            parties_risks.append(party_risk)
+            if invoice.party is not current_party:
+                if current_party:
+                    parties_risks.append(party_risk)
+
+                party_risk = PartyRiskAnalysis()
+                current_party = invoice.party
+                party_risk.party = invoice.party
+                party_risk.date = self.start.date
+                party_risk.amount = 0
+
+            party_risk.amount += invoice.total_amount
+
+        parties_risks.append(party_risk)
 
         PartyRiskAnalysis.create([
             partyrisk._save_values for partyrisk in parties_risks])
         return 'end'
+
+    def remove_all_records(self):
+        PartyRiskAnalysis = Pool().get('party.risk.analysis')
+        records = PartyRiskAnalysis.search([])
+        PartyRiskAnalysis.delete(records)

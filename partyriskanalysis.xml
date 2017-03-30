@@ -9,9 +9,21 @@
         <field name="name">partyriskanalysis_list</field>
     </record>
 
+    <record model="ir.ui.view" id="partyriskanalysis_form_view">
+        <field name="model">party.risk.analysis</field>
+        <field name="type">form</field>
+        <field name="name">partyriskanalysis_form</field>
+    </record>
+
     <record model="ir.action.act_window" id="act_partyriskanalysis">
         <field name="name">Party Risk Analysis</field>
         <field name="res_model">party.risk.analysis</field>
+    </record>
+
+    <record model="ir.action.act_window.view" id="act_partyriskanalysis_view">
+      <field name="sequence" eval="20"/>
+      <field name="view" ref="partyriskanalysis_form_view"/>
+      <field name="act_window" ref="act_partyriskanalysis"/>
     </record>
 
     <record model="ir.action.act_window.view" id="act_partyriskanalysis_view1">

@@ -22,8 +22,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     end_date = fields.Date('End Date')
     # requested_credit_limit: amount of money requested by the party to the
     # insurance company
-    requested_credit_limit = fields.Numeric('Credit Limit', digits=(16, 2),
-        required=True)
+    requested_credit_limit = fields.Numeric('Requested Credit Limit',
+        digits=(16, 2), required=True)
     # approved_credit_limit: amount of money granted by the insurance company
     approved_credit_limit = fields.Numeric('Approved Credit Limit',
         digits=(16, 2))
@@ -36,10 +36,18 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     ], 'State', required=True)
 
     # Returns the maximum risk amount registered for the given timeframe
-    # maximum_registered_credit_amount = fields.Function(
-    #    fields.Numeric('Maximum Registered Credit Amount', digits=(16, 2)))
+    maximum_registered_credit_amount = fields.Function(
+        fields.Numeric('Maximum Registered Credit Amount', digits=(16, 2)),
+        'on_change_with_maximum_amount')
     # TODO: How to calculate maximum_registered_credit_amount?.
     # Necesita el wizard de partyriskanalysis.py
+
+    def __setup__(cls):
+        super(PartyCredit, cls).__setup__(cls)
+        cls._sql_constrains = [
+            ('party_unique', 'Unique(party, state)', 'There can only be one '
+                'party with the same state')
+        ]
 
     @staticmethod
     def default_state():
@@ -56,6 +64,13 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             domain.append(('state', '=', names[1]))
         return domain
 
+    def on_change_with_maximum_amount(self, name=None):
+        PartyRisk = Pool().get('party.risk.analysis')
+        party_risk = PartyRisk.search([('party', '=', self.party)], limit=1)
+        if not party_risk:
+            return
+        return party_risk[0].amount
+
     @classmethod
     def __setup__(cls):
         super(PartyCredit, cls).__setup__()
@@ -67,7 +82,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                 'the same party: "%(approved_party_credits)s"')
         })
         # Workflow transitions
-        cls._transitions |= set((
+        cls._transitions = set((
             ('requested', 'approved'),
             ('approved', 'rejected')
         ))
