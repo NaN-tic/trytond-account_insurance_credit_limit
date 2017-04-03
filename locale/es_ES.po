@@ -1,0 +1,210 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:party.credit:"
+msgid ""
+"It is only allowed an approved credit per party and the party credit "
+"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
+"assigned to the same party: \"%(approved_party_credits)s\""
+msgstr ""
+
+#, fuzzy
+msgctxt "field:party.credit,accounts:"
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgctxt "field:party.credit,approved_credit_limit:"
+msgid "Approved Credit Limit"
+msgstr ""
+
+#, fuzzy
+msgctxt "field:party.credit,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+#, fuzzy
+msgctxt "field:party.credit,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+#, fuzzy
+msgctxt "field:party.credit,date:"
+msgid "Date"
+msgstr "Fecha"
+
+#, fuzzy
+msgctxt "field:party.credit,end_date:"
+msgid "End Date"
+msgstr "Fecha final"
+
+#, fuzzy
+msgctxt "field:party.credit,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.credit,maximum_registered_credit_amount:"
+msgid "Maximum Registered Credit Amount"
+msgstr ""
+
+#, fuzzy
+msgctxt "field:party.credit,party:"
+msgid "Party"
+msgstr "Terceros"
+
+#, fuzzy
+msgctxt "field:party.credit,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:party.credit,requested_credit_limit:"
+msgid "Requested Credit Limit"
+msgstr ""
+
+#, fuzzy
+msgctxt "field:party.credit,start_date:"
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#, fuzzy
+msgctxt "field:party.credit,state:"
+msgid "State"
+msgstr "Estado"
+
+#, fuzzy
+msgctxt "field:party.credit,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+#, fuzzy
+msgctxt "field:party.credit,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:party.party,company_credit_limit:"
+msgid "Company Credit Limit"
+msgstr ""
+
+msgctxt "field:party.party,insurance_credit_limit:"
+msgid "Insurance credit limit"
+msgstr ""
+
+msgctxt "field:party.risk.analysis,balance:"
+msgid "Balance"
+msgstr "Saldo"
+
+msgctxt "field:party.risk.analysis,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:party.risk.analysis,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:party.risk.analysis,credit:"
+msgid "Credit"
+msgstr "Haber"
+
+msgctxt "field:party.risk.analysis,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:party.risk.analysis,debit:"
+msgid "Debit"
+msgstr "Debe"
+
+msgctxt "field:party.risk.analysis,description:"
+msgid "Description"
+msgstr "Descripción"
+
+msgctxt "field:party.risk.analysis,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.risk.analysis,move:"
+msgid "Move"
+msgstr "Asiento"
+
+msgctxt "field:party.risk.analysis,party:"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:party.risk.analysis,party_credit:"
+msgid "Party Credit"
+msgstr "Credito del tercero"
+
+msgctxt "field:party.risk.analysis,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:party.risk.analysis,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:party.risk.analysis,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "model:ir.action,name:act_partycredit"
+msgid "Party Credit"
+msgstr ""
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit"
+msgid "Party Credit"
+msgstr ""
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
+msgid "Parties Credits"
+msgstr ""
+
+msgctxt "model:party.credit,name:"
+msgid "Party Credit"
+msgstr ""
+
+msgctxt "model:party.risk.analysis,name:"
+msgid "Party Risk Analysis"
+msgstr "Analisi de riesgo del tercero"
+
+#, fuzzy
+msgctxt "selection:party.credit,state:"
+msgid "Approved"
+msgstr "Aprobado"
+
+msgctxt "selection:party.credit,state:"
+msgid "Rejected"
+msgstr ""
+
+#, fuzzy
+msgctxt "selection:party.credit,state:"
+msgid "Requested"
+msgstr "Solicitado"
+
+#, fuzzy
+msgctxt "view:party.credit:"
+msgid "Approve"
+msgstr "Aprobar"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit"
+msgstr ""
+
+msgctxt "view:party.credit:"
+msgid "Reject"
+msgstr ""
+
+#, fuzzy
+msgctxt "view:party.credit:"
+msgid "Request"
+msgstr "Solicitud"
+
+msgctxt "view:party.risk.analysis:"
+msgid "Party Risk Analysis"
+msgstr "Analisi de riesgo del tercero"
+
+msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
+msgid "Calculate"
+msgstr "Calcular"
+
+msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
+msgid "Cancel"
+msgstr "Cancel·lar"

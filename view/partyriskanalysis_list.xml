@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 
 <tree string="Party Risk Analysis">
-  <field name="party"/>
-  <field name="date"/>
-  <field name="amount"/>
+	<field name="move"/>
+  	<field name="date"/>
+  	<field name="debit"/>
+  	<field name="credit"/>
+  	<field name="balance"/>
+  	<field name="description"/>
 </tree>
