@@ -61,5 +61,17 @@
         <field name="type">tree</field>
         <field name="name">partyriskanalysis_list</field>
     </record>
+
+    <record model="ir.ui.view" id="partyriskanalysistable_graph_view">
+        <field name="model">party.risk.analysis</field>
+        <field name="type">graph</field>
+        <field name="name">partyriskanalysis_graph</field>
+    </record> 
+
+    <record model="ir.ui.view" id="partyriskanalysistable_list_view">
+        <field name="model">party.risk.analysis</field>
+        <field name="type">tree</field>
+        <field name="name">partyriskanalysis_list</field>
+    </record>
   </data>
 </tryton>

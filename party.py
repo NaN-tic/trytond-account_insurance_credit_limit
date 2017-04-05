@@ -8,7 +8,8 @@ from sql import Null, Column, Null, Window, Literal
 from sql.aggregate import Sum, Max, Min
 from sql.conditionals import Coalesce, Case
 
-__all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis']
+__all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
+    'PartyRiskAnalysisTable']
 
 
 class Party:
@@ -79,8 +80,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         readonly=True)
     # TODO: How to calculate maximum_registered_credit_amount?.
     # Necesita el wizard de partyriskanalysis.py
-    accounts = fields.One2Many('party.risk.analysis', 'party_credit',
+    accounts = fields.One2Many('party.risk.analysis.table', 'party_credit',
             'Accounts', readonly=True)
+    accounts_data = fields.Function(fields.One2Many('party.risk.analysis',
+            'party_credit', 'Accounts', readonly=True),
+        'on_change_with_accounts_data')
 
     @classmethod
     def __setup__(cls):
@@ -137,6 +141,24 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             return 0
         return max([a.balance for a in self.accounts])
 
+    @fields.depends('accounts')
+    def on_change_with_accounts_data(self, name):
+        Pool().get('party.risk.analysis')
+        vlist = []
+        for account in self.accounts:
+            if account.date >= self.start_date:
+                vlist.append({
+                    'date': account.date,
+                    'party': account.party.id,
+                    'debit': account.debit,
+                    'credit': account.credit,
+                    'balance': account.balance,
+                    'description': account.description,
+                    'move': account.move.id,
+                    'party_credit': self.id,
+                    })
+        return vlist
+
     @classmethod
     @ModelView.button
     @Workflow.transition('approved')
@@ -192,9 +214,34 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
 
-class PartyRiskAnalysis(ModelSQL, ModelView):
+class PartyRiskAnalysis(ModelView):
     'Party Risk Analysis'
     __name__ = 'party.risk.analysis'
+    # TODO reuse rec_name of Account
+    date = fields.Date('Date')
+    party = fields.Many2One('party.party', 'Party',
+        states={
+            'invisible': ~Eval('party_required', False),
+            },
+        depends=['party_required'])
+    # party_required = fields.Boolean('Party Required')
+    # company = fields.Many2One('company.company', 'Company')
+    debit = fields.Numeric('Debit',
+        digits=(16, Eval('currency_digits', 2)),
+        depends=['currency_digits'])
+    credit = fields.Numeric('Credit',
+        digits=(16, Eval('currency_digits', 2)))
+    balance = fields.Numeric('Balance',
+        digits=(16, Eval('currency_digits', 2)))
+    description = fields.Char('Description')
+    move = fields.Many2One('account.move', 'Move')
+    party_credit = fields.Many2One('party.credit', 'Party Credit',
+        required=True, readonly=True)
+
+
+class PartyRiskAnalysisTable(ModelSQL, ModelView):
+    'Party Risk Analysis'
+    __name__ = 'party.risk.analysis.table'
     # TODO reuse rec_name of Account
     date = fields.Date('Date')
     party = fields.Many2One('party.party', 'Party',
@@ -256,10 +303,10 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
         return line.join(account, condition=account.id == line.account
             ).join(move, condition=move.id == line.move
             ).join(party_credit,
-                condition=party_credit.company == line.company
+                condition=party_credit.company == move.company
             ).select(*columns,
                 where=((line.party == party_credit.party)
-                    & (move.date >= party_credit.start_date)
+                    # & (move.date >= party_credit.start_date)
                     & (move.date <= party_credit.end_date)),
             group_by=(party_credit.party, move.date, line.debit, line.credit,
                 line.id, party_credit.id))

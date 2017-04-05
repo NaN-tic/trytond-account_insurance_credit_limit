@@ -9,6 +9,7 @@ def register():
         party.Party,
         party.PartyCredit,
         party.PartyRiskAnalysis,
+        party.PartyRiskAnalysisTable,
         module='account_insurance_credit_limit', type_='model')
     Pool.register(
         partyriskanalysis.PartyRiskAnalysisCalculate,
