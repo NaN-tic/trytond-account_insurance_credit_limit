@@ -140,7 +140,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         if not self.accounts:
             return 0
         balances = [a.balance for a in self.accounts
-            if a.date <= self.start_date]
+            if a.date >= self.start_date]
         if not balances:
             return 0
         return max(balances)
