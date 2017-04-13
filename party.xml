@@ -43,7 +43,7 @@
       <field name="act_window" ref="act_partycredit"/>
     </record>
 
-    <menuitem id="menu_party_credit_root" name="Parties Credits"
+    <menuitem id="menu_party_credit_root" name="Party Credits"
       parent="account.menu_account" sequence="70"/>
 
     <menuitem id="menu_party_credit" name="Party Credit"
