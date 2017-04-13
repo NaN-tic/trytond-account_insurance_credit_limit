@@ -139,8 +139,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def on_change_with_maximum_amount(self, name=None):
         if not self.accounts:
             return 0
-        return max([a.balance for a in self.accounts
-            if a.date <= self.start_date])
+        balances = [a.balance for a in self.accounts
+            if a.date <= self.start_date]
+        if not balances:
+            return 0
+        return max(balances)
 
     @fields.depends('accounts')
     def on_change_with_accounts_data(self, name):
