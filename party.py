@@ -135,11 +135,12 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def get_rec_name(self, name):
         return '%s - %s' % (self.party.rec_name, self.state)
 
-    @fields.depends('accounts')
+    @fields.depends('account')
     def on_change_with_maximum_amount(self, name=None):
         if not self.accounts:
             return 0
-        return max([a.balance for a in self.accounts])
+        return max([a.balance for a in self.accounts
+            if a.date <= self.start_date])
 
     @fields.depends('accounts')
     def on_change_with_accounts_data(self, name):
@@ -309,4 +310,5 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
                     # & (move.date >= party_credit.start_date)
                     & (move.date <= party_credit.end_date)),
             group_by=(party_credit.party, move.date, line.debit, line.credit,
-                line.id, party_credit.id))
+                line.id, party_credit.id),
+            order_by=move.date)
