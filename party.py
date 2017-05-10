@@ -7,6 +7,7 @@ from trytond.transaction import Transaction
 from sql import Null, Column, Null, Window, Literal
 from sql.aggregate import Sum, Max, Min
 from sql.conditionals import Coalesce, Case
+from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
     'PartyRiskAnalysisTable']
@@ -73,18 +74,20 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     ], 'State', required=True)
 
     # Returns the maximum risk amount registered for the given timeframe
-    maximum_registered_credit_amount = fields.Function(
-        fields.Numeric('Maximum Registered Credit Amount', digits=(16, 2)),
-        'on_change_with_maximum_amount')
+    maximum_registered = fields.Function(fields.Numeric(
+        'Maximum Registered Credit Amount', digits=(16, 2), readonly=True),
+        'get_max')
+
     company = fields.Many2One('company.company', 'Company', required=True,
         readonly=True)
-    # TODO: How to calculate maximum_registered_credit_amount?.
-    # Necesita el wizard de partyriskanalysis.py
+
     accounts = fields.One2Many('party.risk.analysis.table', 'party_credit',
             'Accounts', readonly=True)
-    accounts_data = fields.Function(fields.One2Many('party.risk.analysis',
-            'party_credit', 'Accounts', readonly=True),
-        'on_change_with_accounts_data')
+
+    # accounts_data = fields.Function(fields.One2Many('party.risk.analysis',
+    #        'party_credit', 'Accounts'), 'on_change_with_accounts_data')
+    accounts_data = fields.One2Many('party.risk.analysis',
+            'party_credit', 'Accounts')
 
     @classmethod
     def __setup__(cls):
@@ -129,39 +132,29 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return Date_.today()
 
     @staticmethod
+    def default_start_date():
+        Date_ = Pool().get('ir.date')
+        return Date_.today() - relativedelta(years=1)
+
+    @staticmethod
     def default_state():
         return 'requested'
 
     def get_rec_name(self, name):
         return '%s - %s' % (self.party.rec_name, self.state)
 
-    @fields.depends('account')
-    def on_change_with_maximum_amount(self, name=None):
-        if not self.accounts:
+    def get_max(self, name):
+        currency = self.company.currency
+        if not self.accounts_data:
             return 0
-        balances = [a.balance for a in self.accounts
-            if a.date >= self.start_date]
+        if not self.start_date:
+            balances = [a.balance for a in self.accounts_data]
+        if self.start_date:
+            balances = [a.balance for a in self.accounts_data
+                if a.date >= self.start_date]
         if not balances:
             return 0
-        return max(balances)
-
-    @fields.depends('accounts')
-    def on_change_with_accounts_data(self, name):
-        Pool().get('party.risk.analysis')
-        vlist = []
-        for account in self.accounts:
-            if account.date >= self.start_date:
-                vlist.append({
-                    'date': account.date,
-                    'party': account.party.id,
-                    'debit': account.debit,
-                    'credit': account.credit,
-                    'balance': account.balance,
-                    'description': account.description,
-                    'move': account.move.id,
-                    'party_credit': self.id,
-                    })
-        return vlist
+        return currency.round(max(balances))
 
     @classmethod
     @ModelView.button
@@ -217,19 +210,46 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def request(cls, party_credites):
         pass
 
+    @classmethod
+    def validate(cls, vlist):
 
-class PartyRiskAnalysis(ModelView):
+        PartyRisk = Pool().get('party.risk.analysis')
+
+        for value in vlist:
+            party_vlist = []
+
+            PartyRisk.delete(PartyRisk.search([
+                ('party_credit', '=', value.id)]))
+            for account in value.accounts:
+                if account.date >= value.start_date:
+                    if party_vlist and party_vlist[-1]['date'] == account.date:
+                        party_vlist[-1]['balance'] += account.balance
+                    else:
+                        party_vlist.append({
+                            'date': account.date,
+                            'party': account.party.id,
+                            'debit': account.debit,
+                            'credit': account.credit,
+                            'balance': account.balance,
+                            'description': account.description,
+                            'move': account.move.id,
+                            'party_credit': value.id,
+                            })
+            PartyRisk.create(party_vlist)
+        return super(PartyCredit, cls).validate(vlist)
+
+
+class PartyRiskAnalysis(ModelView, ModelSQL):
     'Party Risk Analysis'
     __name__ = 'party.risk.analysis'
-    # TODO reuse rec_name of Account
+
     date = fields.Date('Date')
     party = fields.Many2One('party.party', 'Party',
         states={
             'invisible': ~Eval('party_required', False),
             },
         depends=['party_required'])
-    # party_required = fields.Boolean('Party Required')
-    # company = fields.Many2One('company.company', 'Company')
+
     debit = fields.Numeric('Debit',
         digits=(16, Eval('currency_digits', 2)),
         depends=['currency_digits'])
@@ -266,6 +286,11 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
     move = fields.Many2One('account.move', 'Move')
     party_credit = fields.Many2One('party.credit', 'Party Credit',
         required=True, readonly=True)
+
+    @classmethod
+    def __setup__(cls):
+        super(PartyRiskAnalysisTable, cls).__setup__()
+        cls._order.insert(0, ('date', 'ASC'))
 
     @classmethod
     def table_query(cls):

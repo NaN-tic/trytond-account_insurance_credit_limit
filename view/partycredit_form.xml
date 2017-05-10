@@ -4,9 +4,12 @@
   <label name="party"/>
   <field name="party"/>
 
+  <label name="company"/>
+  <field name="company"/>
+
   <label name="date"/>
   <field name="date"/>
-
+  <newline/>
   <label name="start_date"/>
   <field name="start_date"/>
 
@@ -18,11 +21,12 @@
 
   <label name="approved_credit_limit"/>
   <field name="approved_credit_limit"/>
-
-  <label name="maximum_registered_credit_amount"/>
-  <field name="maximum_registered_credit_amount"/>
-  
-  <field name="accounts_data" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_list_view,account_insurance_credit_limit.partyriskanalysis_graph_view"/> 
+    
+  <label name="maximum_registered"/>
+  <field name="maximum_registered"/>
+   
+  <field name="accounts_data" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/> 
+    
 
   <label name="state" colspan="1"/>
   <field name="state" colspan="1"/>
