@@ -24,9 +24,10 @@
     
   <label name="maximum_registered"/>
   <field name="maximum_registered"/>
-   
+  
+
   <field name="accounts_data" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/> 
-    
+
 
   <label name="state" colspan="1"/>
   <field name="state" colspan="1"/>
