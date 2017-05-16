@@ -51,7 +51,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     party = fields.Many2One('party.party', 'Party', required=True)
     # date when the party requested the credit
-    date = fields.Date('Date', required=True)
+    date = fields.Date('Requested Date', required=True)
     # date when the requested credit was approved by the
     # insurance company. start_date is introduced manually.
     start_date = fields.Date('Start Date')
@@ -107,6 +107,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         cls._transitions = set((
             ('requested', 'approved'),
             ('approved', 'rejected'),
+            ('requested', 'rejected'),
             ('rejected', 'requested')
         ))
         # Buttons
@@ -115,7 +116,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                 'invisible': Eval('state').in_(['rejected', 'approved'])
             },
             'reject': {
-                'invisible': Eval('state').in_(['requested', 'rejected'])
+                'invisible': Eval('state').in_(['rejected'])
             },
             'request': {
                 'invisible': Eval('state').in_(['requested', 'approved'])
@@ -214,29 +215,46 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def validate(cls, vlist):
 
         PartyRisk = Pool().get('party.risk.analysis')
+        PartyRisk.delete(PartyRisk.search([
+            ('party_credit', 'in', [v.id for v in vlist])]))
 
         for value in vlist:
             party_vlist = []
-
-            PartyRisk.delete(PartyRisk.search([
-                ('party_credit', '=', value.id)]))
             for account in value.accounts:
                 if account.date >= value.start_date:
                     if party_vlist and party_vlist[-1]['date'] == account.date:
-                        party_vlist[-1]['balance'] += account.balance
+                        party_vlist[-1]['balance'] = account.balance
+                        party_vlist[-1]['credit'] = account.credit
+                        party_vlist[-1]['debit'] = account.debit
                     else:
                         party_vlist.append({
                             'date': account.date,
-                            'party': account.party.id,
                             'debit': account.debit,
                             'credit': account.credit,
                             'balance': account.balance,
                             'description': account.description,
-                            'move': account.move.id,
                             'party_credit': value.id,
                             })
             PartyRisk.create(party_vlist)
         return super(PartyCredit, cls).validate(vlist)
+
+    @classmethod
+    def copy(cls, records, default):
+
+        if not default:
+            default = {}
+        default = default.copy()
+        default['accounts_data'] = []
+        default['accounts'] = []
+
+        return super(PartyCredit, cls).copy(records, default)
+
+    @classmethod
+    def delete(cls, records):
+        PartyRisk = Pool().get('party.risk.analysis')
+        PartyRisk.delete(PartyRisk.search([
+                ('party_credit', 'in', [x.id for x in records])]))
+        super(PartyCredit, cls).delete(records)
 
 
 class PartyRiskAnalysis(ModelView, ModelSQL):
@@ -244,11 +262,6 @@ class PartyRiskAnalysis(ModelView, ModelSQL):
     __name__ = 'party.risk.analysis'
 
     date = fields.Date('Date')
-    party = fields.Many2One('party.party', 'Party',
-        states={
-            'invisible': ~Eval('party_required', False),
-            },
-        depends=['party_required'])
 
     debit = fields.Numeric('Debit',
         digits=(16, Eval('currency_digits', 2)),
@@ -258,7 +271,6 @@ class PartyRiskAnalysis(ModelView, ModelSQL):
     balance = fields.Numeric('Balance',
         digits=(16, Eval('currency_digits', 2)))
     description = fields.Char('Description')
-    move = fields.Many2One('account.move', 'Move')
     party_credit = fields.Many2One('party.credit', 'Party Credit',
         required=True, readonly=True)
 
@@ -310,12 +322,12 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
             if hasattr(field, 'set'):
                 continue
             if fname == 'balance':
-                w_columns = [line.account]
+                w_columns = [party_credit.id]
                 column = Sum(line.debit - line.credit,
                     window=Window(w_columns,
                         order_by=[move.date.asc, line.id])).as_('balance')
             elif fname == 'party_credit':
-                column = Column(party_credit, 'id').as_(fname)
+                column = Min(Column(party_credit, 'id')).as_(fname)
             elif fname == 'date':
                 column = Column(move, fname).as_(fname)
             elif fname in ['create_uid', 'write_uid',
@@ -323,7 +335,7 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
                 columns.append(Literal(None).as_(fname))
                 continue
             elif fname == 'id':
-                column = Min(Column(line, 'id')).as_('id')
+                column = (Column(line, 'id')).as_('id')
             else:
                 column = Column(line, fname).as_(fname)
             if column:
@@ -332,11 +344,10 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         return line.join(account, condition=account.id == line.account
             ).join(move, condition=move.id == line.move
             ).join(party_credit,
-                condition=party_credit.company == move.company
+                condition=((party_credit.company == move.company) &
+                    (line.party == party_credit.party))
             ).select(*columns,
-                where=((line.party == party_credit.party)
-                    # & (move.date >= party_credit.start_date)
-                    & (move.date <= party_credit.end_date)),
-            group_by=(party_credit.party, move.date, line.debit, line.credit,
-                line.id, party_credit.id),
-            order_by=move.date)
+                where=(move.date <= party_credit.end_date),
+                group_by=(party_credit.party, move.date, line.debit,
+                    line.credit, line.id, party_credit.id),
+                order_by=move.date)

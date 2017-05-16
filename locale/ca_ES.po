@@ -9,74 +9,62 @@ msgid ""
 "assigned to the same party: \"%(approved_party_credits)s\""
 msgstr ""
 
-#, fuzzy
 msgctxt "field:party.credit,accounts:"
 msgid "Accounts"
 msgstr "Comptes"
 
 msgctxt "field:party.credit,approved_credit_limit:"
 msgid "Approved Credit Limit"
-msgstr ""
+msgstr "Limit de crèdit aprovat"
 
-#, fuzzy
 msgctxt "field:party.credit,create_date:"
 msgid "Create Date"
 msgstr "Data de creació"
 
-#, fuzzy
 msgctxt "field:party.credit,create_uid:"
 msgid "Create User"
 msgstr "Usuari de creació"
 
-#, fuzzy
 msgctxt "field:party.credit,date:"
-msgid "Date"
+msgid "Requested Date"
 msgstr "Data"
 
-#, fuzzy
 msgctxt "field:party.credit,end_date:"
 msgid "End Date"
 msgstr "Data final"
 
-#, fuzzy
 msgctxt "field:party.credit,id:"
 msgid "ID"
 msgstr "Identificador"
 
 msgctxt "field:party.credit,maximum_registered_credit_amount:"
 msgid "Maximum Registered Credit Amount"
-msgstr ""
+msgstr "Crèdit màxim registrat"
 
-#, fuzzy
 msgctxt "field:party.credit,party:"
 msgid "Party"
 msgstr "Tercers"
 
-#, fuzzy
 msgctxt "field:party.credit,rec_name:"
 msgid "Name"
 msgstr "Nom"
 
 msgctxt "field:party.credit,requested_credit_limit:"
 msgid "Requested Credit Limit"
-msgstr ""
+msgstr "Limit de crèdit demanat"
 
-#, fuzzy
 msgctxt "field:party.credit,start_date:"
 msgid "Start Date"
 msgstr "Data inicial"
 
-#, fuzzy
 msgctxt "field:party.credit,state:"
 msgid "State"
 msgstr "Estat"
 
-#, fuzzy
 msgctxt "field:party.credit,write_date:"
 msgid "Write Date"
 msgstr "Usuari creació"
 
-#, fuzzy
 msgctxt "field:party.credit,write_uid:"
 msgid "Write User"
 msgstr "Usuari modificació"
@@ -149,50 +137,46 @@ msgctxt "model:ir.action,name:act_partycredit"
 msgid "Party Credit"
 msgstr ""
 
+msgctxt "model:ir.ui.menu,name:"
+msgid "Parties Credits"
+msgstr ""
+
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
 msgid "Party Credit"
 msgstr ""
 
-msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
-msgid "Parties Credits"
-msgstr ""
-
 msgctxt "model:party.credit,name:"
 msgid "Party Credit"
-msgstr ""
+msgstr "Crèdit del tercer"
 
 msgctxt "model:party.risk.analysis,name:"
 msgid "Party Risk Analysis"
 msgstr "Analisis del risc d'un tercer"
 
-#, fuzzy
 msgctxt "selection:party.credit,state:"
 msgid "Approved"
 msgstr "Aprovat"
 
 msgctxt "selection:party.credit,state:"
 msgid "Rejected"
-msgstr ""
+msgstr "Rebutjat"
 
-#, fuzzy
 msgctxt "selection:party.credit,state:"
 msgid "Requested"
 msgstr "Sol·licitat"
 
-#, fuzzy
 msgctxt "view:party.credit:"
 msgid "Approve"
 msgstr "Aprova"
 
 msgctxt "view:party.credit:"
 msgid "Party Credit"
-msgstr ""
+msgstr "Crèdit del tercer"
 
 msgctxt "view:party.credit:"
 msgid "Reject"
-msgstr ""
+msgstr "Rebutjar"
 
-#, fuzzy
 msgctxt "view:party.credit:"
 msgid "Request"
 msgstr "Sol·licitud"
