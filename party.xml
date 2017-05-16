@@ -45,9 +45,12 @@
       <field name="view" ref="partycredit_form_view"/>
       <field name="act_window" ref="act_partycredit"/>
     </record>
-
+  
+    <menuitem id="menu_party_credit_root" name="Credit Limits"
+      parent="account.menu_account" sequence="70"/>
+    
     <menuitem id="menu_party_credit" name="Credit Limits"
-      parent="account.menu_reporting" action="act_partycredit"
+      parent="menu_party_credit_root" action="act_partycredit"
       sequence="10" />
 
 
@@ -66,6 +69,20 @@
         <field name="model">party.risk.analysis</field>
         <field name="type">tree</field>
         <field name="name">partyriskanalysis_list</field>
+    </record>
+
+    <!--  Relate -->
+    <record model="ir.action.act_window" id="act_party_credit_limit">
+        <field name="name">Credit Limit</field>
+        <field name="res_model">party.credit</field>
+        <field name="domain" eval="[('party', '=', Eval('active_id'))]"
+              pyson="1"/>
+    </record>
+    <record model="ir.action.keyword"
+        id="act_party_credit_limit_keyword1">
+        <field name="keyword">form_relate</field>
+        <field name="model">party.party,-1</field>
+        <field name="action" ref="act_party_credit_limit"/>
     </record>
   </data>
 </tryton>

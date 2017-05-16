@@ -5,17 +5,24 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 msgctxt "error:party.credit:"
 msgid ""
 "It is only allowed an approved credit per party and the party credit "
-"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
-"assigned to the same party: \"%(approved_party_credits)s\""
-msgstr ""
+"\"%(rec_name)s\" you want to add exceeds this limit."
+msgstr "Solo puede haber un tercero aprobado dentro del mismo periodo "
 
 msgctxt "field:party.credit,accounts:"
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgctxt "field:party.credit,accounts_data:"
 msgid "Accounts"
 msgstr "Cuentas"
 
 msgctxt "field:party.credit,approved_credit_limit:"
 msgid "Approved Credit Limit"
 msgstr "Limite de crédito aprovado"
+
+msgctxt "field:party.credit,company:"
+msgid "Company"
+msgstr "Empresa"
 
 msgctxt "field:party.credit,create_date:"
 msgid "Create Date"
@@ -37,7 +44,7 @@ msgctxt "field:party.credit,id:"
 msgid "ID"
 msgstr "Identificador"
 
-msgctxt "field:party.credit,maximum_registered_credit_amount:"
+msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
 msgstr "Crédito máximo registrado"
 
@@ -71,11 +78,11 @@ msgstr "Usuario modificación"
 
 msgctxt "field:party.party,company_credit_limit:"
 msgid "Company Credit Limit"
-msgstr ""
+msgstr "Limite de crédito de la compañia"
 
 msgctxt "field:party.party,insurance_credit_limit:"
 msgid "Insurance credit limit"
-msgstr ""
+msgstr "Limite de crédito de la aseguradora"
 
 msgctxt "field:party.risk.analysis,balance:"
 msgid "Balance"
@@ -109,14 +116,6 @@ msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "Identificador"
 
-msgctxt "field:party.risk.analysis,move:"
-msgid "Move"
-msgstr "Asiento"
-
-msgctxt "field:party.risk.analysis,party:"
-msgid "Party"
-msgstr "Terceros"
-
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
 msgstr "Credito del tercero"
@@ -133,23 +132,95 @@ msgctxt "field:party.risk.analysis,write_uid:"
 msgid "Write User"
 msgstr "Usuario modificación"
 
+msgctxt "field:party.risk.analysis.table,balance:"
+msgid "Balance"
+msgstr "Saldo"
+
+msgctxt "field:party.risk.analysis.table,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:party.risk.analysis.table,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:party.risk.analysis.table,credit:"
+msgid "Credit"
+msgstr "Haber"
+
+msgctxt "field:party.risk.analysis.table,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:party.risk.analysis.table,debit:"
+msgid "Debit"
+msgstr "Debe"
+
+msgctxt "field:party.risk.analysis.table,description:"
+msgid "Description"
+msgstr "Descripción"
+
+msgctxt "field:party.risk.analysis.table,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.risk.analysis.table,move:"
+msgid "Move"
+msgstr "Asiento"
+
+msgctxt "field:party.risk.analysis.table,party:"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:party.risk.analysis.table,party_credit:"
+msgid "Party Credit"
+msgstr "Crédito del tercero"
+
+msgctxt "field:party.risk.analysis.table,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:party.risk.analysis.table,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:party.risk.analysis.table,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "model:ir.action,name:act_party_credit_limit"
+msgid "Credit Limit"
+msgstr "Límite de crédito"
+
 msgctxt "model:ir.action,name:act_partycredit"
 msgid "Party Credit"
+msgstr "Crédito del tercero"
+
+msgctxt "model:ir.action,name:act_partyrisk"
+msgid "Party Risk"
 msgstr ""
 
 msgctxt "model:ir.ui.menu,name:"
 msgid "Parties Credits"
-msgstr ""
+msgstr "Limte de crédito"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
 msgid "Party Credit"
-msgstr ""
+msgstr "Crédito del tercero"
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
+msgid "Credit Limits"
+msgstr "Limite de crédito"
 
 msgctxt "model:party.credit,name:"
 msgid "Party Credit"
 msgstr "Crédito del tercero"
 
 msgctxt "model:party.risk.analysis,name:"
+msgid "Party Risk Analysis"
+msgstr "Analisi de riesgo del tercero"
+
+msgctxt "model:party.risk.analysis.table,name:"
 msgid "Party Risk Analysis"
 msgstr "Analisi de riesgo del tercero"
 
@@ -184,11 +255,3 @@ msgstr "Solicitud"
 msgctxt "view:party.risk.analysis:"
 msgid "Party Risk Analysis"
 msgstr "Analisi de riesgo del tercero"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
-msgid "Calculate"
-msgstr "Calcular"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
-msgid "Cancel"
-msgstr "Cancel·lar"
