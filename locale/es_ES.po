@@ -2,92 +2,103 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "error:party.credit.duplicate:"
+msgid ""
+"The entered amount is a 50% bigger than the maximum registered amount from "
+"the previous period"
+msgstr ""
+"La cantidad entrada es un 50% más grande que la cantidad máxima registrada "
+"en el periodo anterior"
+
 msgctxt "error:party.credit:"
 msgid ""
 "It is only allowed an approved credit per party and the party credit "
-"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
-"assigned to the same party: \"%(approved_party_credits)s\""
+"\"%(rec_name)s\" you want to add exceeds this limit."
 msgstr ""
 
-#, fuzzy
 msgctxt "field:party.credit,accounts:"
+msgid "Accounts"
+msgstr "Cuentas"
+
+msgctxt "field:party.credit,accounts_data:"
 msgid "Accounts"
 msgstr "Cuentas"
 
 msgctxt "field:party.credit,approved_credit_limit:"
 msgid "Approved Credit Limit"
-msgstr ""
+msgstr "Límite de crédito aprobado"
 
-#, fuzzy
+msgctxt "field:party.credit,company:"
+msgid "Company"
+msgstr "Empresa"
+
 msgctxt "field:party.credit,create_date:"
 msgid "Create Date"
 msgstr "Fecha de creación"
 
-#, fuzzy
 msgctxt "field:party.credit,create_uid:"
 msgid "Create User"
 msgstr "Usuario de creación"
 
-#, fuzzy
 msgctxt "field:party.credit,date:"
-msgid "Date"
+msgid "Requested Date"
 msgstr "Fecha"
 
-#, fuzzy
 msgctxt "field:party.credit,end_date:"
 msgid "End Date"
 msgstr "Fecha final"
 
-#, fuzzy
 msgctxt "field:party.credit,id:"
 msgid "ID"
 msgstr "Identificador"
 
-msgctxt "field:party.credit,maximum_registered_credit_amount:"
+msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
-msgstr ""
+msgstr "Cantidad máxima registrada"
 
-#, fuzzy
 msgctxt "field:party.credit,party:"
 msgid "Party"
 msgstr "Terceros"
 
-#, fuzzy
 msgctxt "field:party.credit,rec_name:"
 msgid "Name"
 msgstr "Nombre"
 
 msgctxt "field:party.credit,requested_credit_limit:"
 msgid "Requested Credit Limit"
-msgstr ""
+msgstr "Límite de crédito pedido"
 
-#, fuzzy
 msgctxt "field:party.credit,start_date:"
 msgid "Start Date"
 msgstr "Fecha inicial"
 
-#, fuzzy
 msgctxt "field:party.credit,state:"
 msgid "State"
 msgstr "Estado"
 
-#, fuzzy
 msgctxt "field:party.credit,write_date:"
 msgid "Write Date"
 msgstr "Fecha modificación"
 
-#, fuzzy
 msgctxt "field:party.credit,write_uid:"
 msgid "Write User"
 msgstr "Usuario modificación"
 
+msgctxt "field:party.credit.duplicate.start,credit:"
+msgid "Credit Approved"
+msgstr "Credito Aprobado"
+
+msgctxt "field:party.credit.duplicate.start,id:"
+msgid "ID"
+msgstr "Identificador"
+
 msgctxt "field:party.party,company_credit_limit:"
 msgid "Company Credit Limit"
-msgstr ""
+msgstr "Límite de crédito de la compañia"
 
 msgctxt "field:party.party,insurance_credit_limit:"
 msgid "Insurance credit limit"
-msgstr ""
+msgstr "Límite de crédito de la aseguradora"
 
 msgctxt "field:party.risk.analysis,balance:"
 msgid "Balance"
@@ -121,14 +132,6 @@ msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "Identificador"
 
-msgctxt "field:party.risk.analysis,move:"
-msgid "Move"
-msgstr "Asiento"
-
-msgctxt "field:party.risk.analysis,party:"
-msgid "Party"
-msgstr "Terceros"
-
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
 msgstr "Credito del tercero"
@@ -145,54 +148,134 @@ msgctxt "field:party.risk.analysis,write_uid:"
 msgid "Write User"
 msgstr "Usuario modificación"
 
+msgctxt "field:party.risk.analysis.table,balance:"
+msgid "Balance"
+msgstr "Saldo"
+
+msgctxt "field:party.risk.analysis.table,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:party.risk.analysis.table,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:party.risk.analysis.table,credit:"
+msgid "Credit"
+msgstr "Haber"
+
+msgctxt "field:party.risk.analysis.table,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:party.risk.analysis.table,debit:"
+msgid "Debit"
+msgstr "Debe"
+
+msgctxt "field:party.risk.analysis.table,description:"
+msgid "Description"
+msgstr "Descripción"
+
+msgctxt "field:party.risk.analysis.table,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.risk.analysis.table,move:"
+msgid "Move"
+msgstr "Asiento"
+
+msgctxt "field:party.risk.analysis.table,party:"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:party.risk.analysis.table,party_credit:"
+msgid "Party Credit"
+msgstr "Límite de crédito"
+
+msgctxt "field:party.risk.analysis.table,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:party.risk.analysis.table,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:party.risk.analysis.table,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "model:ir.action,name:act_party_credit_limit"
+msgid "Credit Limit"
+msgstr "Límite de crédito"
+
 msgctxt "model:ir.action,name:act_partycredit"
 msgid "Party Credit"
+msgstr "Límite de crédito"
+
+msgctxt "model:ir.action,name:act_partyrisk"
+msgid "Party Risk"
 msgstr ""
+
+msgctxt "model:ir.action,name:wizard_duplicate_party_credit"
+msgid "Duplicate Party Credit"
+msgstr "Duplica el crédito del tercero"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
 msgid "Party Credit"
-msgstr ""
+msgstr "Límite de crédito"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
-msgid "Parties Credits"
-msgstr ""
+msgid "Credit Limits"
+msgstr "Límite de crédito"
 
 msgctxt "model:party.credit,name:"
 msgid "Party Credit"
+msgstr "Límite de crédito"
+
+msgctxt "model:party.credit.duplicate.start,name:"
+msgid "Initial view for the duplication of party credits wizard"
 msgstr ""
 
 msgctxt "model:party.risk.analysis,name:"
 msgid "Party Risk Analysis"
 msgstr "Analisi de riesgo del tercero"
 
-#, fuzzy
+msgctxt "model:party.risk.analysis.table,name:"
+msgid "Party Risk Analysis"
+msgstr "Analisi de riesgo del tercero"
+
 msgctxt "selection:party.credit,state:"
 msgid "Approved"
 msgstr "Aprobado"
 
 msgctxt "selection:party.credit,state:"
 msgid "Rejected"
-msgstr ""
+msgstr "Rechazado"
 
-#, fuzzy
 msgctxt "selection:party.credit,state:"
 msgid "Requested"
 msgstr "Solicitado"
 
-#, fuzzy
+msgctxt "view:party.credit.duplicate.start:"
+msgid "Duplicate Party Credit"
+msgstr ""
+
 msgctxt "view:party.credit:"
 msgid "Approve"
 msgstr "Aprobar"
 
 msgctxt "view:party.credit:"
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgctxt "view:party.credit:"
 msgid "Party Credit"
-msgstr ""
+msgstr "Límite de crédito"
 
 msgctxt "view:party.credit:"
 msgid "Reject"
-msgstr ""
+msgstr "Rechazar"
 
-#, fuzzy
 msgctxt "view:party.credit:"
 msgid "Request"
 msgstr "Solicitud"
@@ -201,10 +284,10 @@ msgctxt "view:party.risk.analysis:"
 msgid "Party Risk Analysis"
 msgstr "Analisi de riesgo del tercero"
 
-msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
-msgid "Calculate"
-msgstr "Calcular"
+msgctxt "wizard_button:party.credit.duplicate,start,duplicate:"
+msgid "Duplicate"
+msgstr "Duplicar"
 
-msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
+msgctxt "wizard_button:party.credit.duplicate,start,end:"
 msgid "Cancel"
 msgstr "Cancel·lar"

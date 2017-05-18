@@ -21,14 +21,29 @@ class Party:
     __name__ = 'party.party'
     __metaclass__ = PoolMeta
 
-    company_credit_limit = fields.Numeric('Company Credit Limit')
+    company_credit_limit = fields.Property(fields.Numeric(
+        'Company Credit Limit',
+        digits=(16, Eval('credit_limit_digits', 2)),
+        depends=['credit_limit_digits']))
     insurance_credit_limit = fields.Function(fields.Numeric(
         'Insurance credit limit', digits=(16, 2)),
         'get_insurance_credit_limit')
 
+    @classmethod
+    def __setup__(cls):
+        super(Party, cls).__setup__()
+        cls.credit_limit_amount = fields.Function(
+            fields.Numeric('Credit Limit Amount',
+                digits=(16, Eval('credit_limit_digits', 2)),
+                depends=['credit_limit_digits']),
+            'get_credit_limit')
+
     @staticmethod
     def default_company_credit_limit():
         return 0
+
+    def get_credit_limit(self, name):
+        return self.company_credit_limit + self.insurance_credit_limit
 
     def get_insurance_credit_limit(self, name):
         """ Get the value of the field approved_credit_limit of the model
@@ -191,46 +206,13 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                 cls.raise_user_error('approved_party_credit', {
                         'rec_name': party_credit.rec_name
                         })
-            if (party_credit.party.company_credit_limit is not None and
-            party_credit.approved_credit_limit is not None):
-
-                credit_limit_amount = (
-                    party_credit.party.company_credit_limit +
-                    party_credit.approved_credit_limit)
-            else:
-                credit_limit_amount = 0
-            to_write.extend(([party_credit.party],
-                {
-                    'credit_limit_amount': credit_limit_amount,
-                }))
         Party.write(*to_write)
 
     @classmethod
     @ModelView.button
     @Workflow.transition('rejected')
     def reject(cls, party_credits):
-        Party = Pool().get('party.party')
-        to_write = []
-        for party_credit in party_credits:
-
-            credit_limit_amount = party_credit.party.credit_limit_amount
-
-            if (party_credit.party.company_credit_limit is not None and
-            party_credit.party.insurance_credit_limit is not None):
-
-                credit_limit_amount -= (
-                    party_credit.party.company_credit_limit +
-                    party_credit.approved_credit_limit)
-
-                if not credit_limit_amount:
-                    credit_limit_amount = 0
-            else:
-                credit_limit_amount = 0
-            to_write.extend(([party_credit.party],
-                {
-                    'credit_limit_amount': credit_limit_amount
-                }))
-        Party.write(*to_write)
+        pass
 
     @classmethod
     @ModelView.button
