@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<form string="Duplicate Party Credit" col="4">
+  <label name="credit"/>
+  <field name="credit"/>
+
+</form>

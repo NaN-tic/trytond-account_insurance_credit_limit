@@ -2,15 +2,19 @@
 
 from trytond.pool import PoolMeta, Pool
 from trytond.model import ModelSQL, ModelView, fields, Workflow
+from trytond.wizard import Wizard, StateView, StateTransition, Button
 from trytond.pyson import Eval
 from trytond.transaction import Transaction
+
 from sql import Null, Column, Null, Window, Literal
 from sql.aggregate import Sum, Max, Min
 from sql.conditionals import Coalesce, Case
+
 from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
-    'PartyRiskAnalysisTable']
+    'PartyRiskAnalysisTable', 'PartyCreditDuplicateStart',
+    'PartyCreditDuplicate']
 
 
 class Party:
@@ -40,7 +44,7 @@ class Party:
         # There won't be two records of the model party.credit corresponding
         # to the same party with state=approved
         if (party_credits and
-        party_credits[0].approved_credit_limit is not None):
+                party_credits[0].approved_credit_limit is not None):
             return party_credits[0].approved_credit_limit
         return 0
 
@@ -131,6 +135,9 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             },
             'request': {
                 'invisible': Eval('state').in_(['requested', 'approved'])
+            },
+            'duplicate': {
+                'invisible': Eval('state') != 'approved'
             }
         })
 
@@ -228,7 +235,12 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @classmethod
     @ModelView.button
     @Workflow.transition('requested')
-    def request(cls, party_credites):
+    def request(cls, party_credits):
+        pass
+
+    @classmethod
+    @ModelView.button_action('account_insurance_credit_limit.wizard_duplicate_party_credit')
+    def duplicate(cls, party_credits):
         pass
 
     @classmethod
@@ -266,7 +278,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         default = default.copy()
         default['accounts_data'] = []
         default['accounts'] = []
-
         return super(PartyCredit, cls).copy(records, default)
 
     @classmethod
@@ -371,3 +382,66 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
                 group_by=(party_credit.party, move.date, line.debit,
                     line.credit, line.id, party_credit.id),
                 order_by=move.date)
+
+
+class PartyCreditDuplicateStart(ModelView):
+    'Initial view for the duplication of party credits wizard'
+    __name__ = 'party.credit.duplicate.start'
+
+    credit = fields.Numeric('Credit Approved', digits=(16, 2), required=True)
+
+
+class PartyCreditDuplicate(Wizard):
+    'Duplicates an exisitng credit limit'
+    __name__ = 'party.credit.duplicate'
+
+    start = StateView('party.credit.duplicate.start',
+        'account_insurance_credit_limit.party_credit_duplicate_view_form', [
+            Button('Cancel', 'end', 'tryton-cancel'),
+            Button('Duplicate', 'duplicate', 'tryton-ok', default=True),
+            ])
+    duplicate = StateTransition()
+
+    @classmethod
+    def __setup__(cls):
+        super(PartyCreditDuplicate, cls).__setup__()
+        cls._error_messages.update({
+            'big_amount': ('The entered amount is a 50% bigger '
+                'than the maximum registered amount from the previous period')
+            })
+
+    def default_start(self, fields):
+        pool = Pool()
+        PartyCredit = pool.get('party.credit')
+        party_credit = PartyCredit(Transaction().context['active_id'])
+        return {
+            'credit': party_credit.approved_credit_limit
+        }
+
+    def transition_duplicate(self):
+        pool = Pool()
+        PartyCredit = pool.get('party.credit')
+        Date_ = pool.get('ir.date')
+
+        party_credit = PartyCredit(Transaction().context['active_id'])
+
+        raise_flag_amount = ((party_credit.maximum_registered / 2)
+            + party_credit.maximum_registered)
+        if self.start.credit > raise_flag_amount:
+            self.raise_user_warning(str(party_credit), 'big_amount')
+
+        new_start_date = party_credit.end_date + relativedelta(days=1)
+
+        duplicated_party_credit = PartyCredit.create([{
+                        'date': Date_.today(),
+                        'start_date': new_start_date,
+                        'end_date': new_start_date + relativedelta(years=1),
+                        'requested_credit_limit': self.start.credit,
+                        'approved_credit_limit': self.start.credit,
+                        'party': party_credit.party.id,
+                        'company': party_credit.company.id,
+                        'state': 'requested'
+                        }])
+        PartyCredit.approve(duplicated_party_credit)
+
+        return 'end'
