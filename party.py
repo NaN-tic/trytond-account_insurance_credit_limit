@@ -36,13 +36,18 @@ class Party:
             fields.Numeric('Credit Limit Amount',
                 digits=(16, Eval('credit_limit_digits', 2)),
                 depends=['credit_limit_digits']),
-            'get_credit_limit')
+            'on_change_with_credit_limit_amount')
 
     @staticmethod
     def default_company_credit_limit():
         return 0
 
-    def get_credit_limit(self, name):
+    @fields.depends('insurance_credit_limit', 'company_credit_limit')
+    def on_change_with_credit_limit_amount(self, name):
+        if not self.insurance_credit_limit:
+            self.insurance_credit_limit = 0
+        if not self.company_credit_limit:
+            self.company_credit_limit = 0
         return self.company_credit_limit + self.insurance_credit_limit
 
     def get_insurance_credit_limit(self, name):
@@ -194,7 +199,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @ModelView.button
     @Workflow.transition('approved')
     def approve(cls, party_credits):
-        Party = Pool().get('party.party')
         to_write = []
         for party_credit in party_credits:
             duplicate = cls.search([
@@ -206,13 +210,24 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                 cls.raise_user_error('approved_party_credit', {
                         'rec_name': party_credit.rec_name
                         })
-        Party.write(*to_write)
+
+            to_write.extend(([party_credit], {
+                'approved_credit_limit': party_credit.requested_credit_limit
+                }))
+        if to_write:
+            cls.write(*to_write)
 
     @classmethod
     @ModelView.button
     @Workflow.transition('rejected')
     def reject(cls, party_credits):
-        pass
+        to_write = []
+        for party_credit in party_credits:
+            to_write.extend(([party_credit], {
+                'approved_credit_limit': 0
+                }))
+        if to_write:
+            cls.write(*to_write)
 
     @classmethod
     @ModelView.button

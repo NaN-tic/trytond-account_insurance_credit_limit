@@ -7,13 +7,19 @@ msgid ""
 "The entered amount is a 50% bigger than the maximum registered amount from "
 "the previous period"
 msgstr ""
-"La quantitat entrada és un 50% més gran que la quantitat màxima registrada "
-"en el periode anterior"
+"La quantiat entrada és superior al 50% de la màxima quantitat registrada"
 
 msgctxt "error:party.credit:"
 msgid ""
 "It is only allowed an approved credit per party and the party credit "
 "\"%(rec_name)s\" you want to add exceeds this limit."
+msgstr ""
+
+msgctxt "error:party.credit:"
+msgid ""
+"It is only allowed an approved credit per party and the party credit "
+"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
+"assigned to the same party: \"%(approved_party_credits)s\""
 msgstr ""
 
 msgctxt "field:party.credit,accounts:"
@@ -26,7 +32,7 @@ msgstr "Comptes"
 
 msgctxt "field:party.credit,approved_credit_limit:"
 msgid "Approved Credit Limit"
-msgstr "Límit de crèdit aprovat"
+msgstr "Límit de crédit aprovat"
 
 msgctxt "field:party.credit,company:"
 msgid "Company"
@@ -56,6 +62,10 @@ msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
 msgstr "Quantitat màxima registrada"
 
+msgctxt "field:party.credit,maximum_registered_credit_amount:"
+msgid "Maximum Registered Credit Amount"
+msgstr "Quantitat màxima registrada"
+
 msgctxt "field:party.credit,party:"
 msgid "Party"
 msgstr "Tercers"
@@ -66,7 +76,7 @@ msgstr "Nom"
 
 msgctxt "field:party.credit,requested_credit_limit:"
 msgid "Requested Credit Limit"
-msgstr "Límit de Crèdit demanat"
+msgstr "Límit de crèdit demanat"
 
 msgctxt "field:party.credit,start_date:"
 msgid "Start Date"
@@ -86,7 +96,7 @@ msgstr "Usuari modificació"
 
 msgctxt "field:party.credit.duplicate.start,credit:"
 msgid "Credit Approved"
-msgstr "Credit Aprovat"
+msgstr "Crèdit aprovat"
 
 msgctxt "field:party.credit.duplicate.start,id:"
 msgid "ID"
@@ -94,11 +104,11 @@ msgstr "Identificador"
 
 msgctxt "field:party.party,company_credit_limit:"
 msgid "Company Credit Limit"
-msgstr "Límit de Crèdit de la companyia"
+msgstr "Límit de crèdit de la companyia"
 
 msgctxt "field:party.party,insurance_credit_limit:"
 msgid "Insurance credit limit"
-msgstr "Límit de crèdit de l'assguradora"
+msgstr "Límit de crèdit de l'asseguradora"
 
 msgctxt "field:party.risk.analysis,balance:"
 msgid "Balance"
@@ -131,6 +141,14 @@ msgstr "Descripció"
 msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "Identificador"
+
+msgctxt "field:party.risk.analysis,move:"
+msgid "Move"
+msgstr "Assentament"
+
+msgctxt "field:party.risk.analysis,party:"
+msgid "Party"
+msgstr "Tercers"
 
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
@@ -190,7 +208,7 @@ msgstr "Tercers"
 
 msgctxt "field:party.risk.analysis.table,party_credit:"
 msgid "Party Credit"
-msgstr "Límit de crèdit"
+msgstr "Credit del tercer"
 
 msgctxt "field:party.risk.analysis.table,rec_name:"
 msgid "Name"
@@ -210,7 +228,7 @@ msgstr "Límit de crèdit"
 
 msgctxt "model:ir.action,name:act_partycredit"
 msgid "Party Credit"
-msgstr "Límit de crèdit"
+msgstr "Credit del tercer"
 
 msgctxt "model:ir.action,name:act_partyrisk"
 msgid "Party Risk"
@@ -218,11 +236,11 @@ msgstr ""
 
 msgctxt "model:ir.action,name:wizard_duplicate_party_credit"
 msgid "Duplicate Party Credit"
-msgstr "Duplica el crédit del tercer"
+msgstr "Duplicar Limit de Crèdit"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
 msgid "Party Credit"
-msgstr "Límit de crèdit"
+msgstr "Credit del tercer"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
 msgid "Credit Limits"
@@ -230,7 +248,7 @@ msgstr "Límit de crèdit"
 
 msgctxt "model:party.credit,name:"
 msgid "Party Credit"
-msgstr "Límit de crèdit"
+msgstr "Credit del tercer"
 
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
@@ -256,29 +274,21 @@ msgctxt "selection:party.credit,state:"
 msgid "Requested"
 msgstr "Sol·licitat"
 
-msgctxt "view:party.credit.duplicate.start:"
-msgid "Duplicate Party Credit"
-msgstr "Duplica el crédit del tercer"
-
 msgctxt "view:party.credit:"
 msgid "Approve"
 msgstr "Aprova"
 
 msgctxt "view:party.credit:"
-msgid "Duplicate"
-msgstr "Duplicar"
-
-msgctxt "view:party.credit:"
 msgid "Party Credit"
-msgstr "Límit de crèdit"
+msgstr "Credit del tercer"
 
 msgctxt "view:party.credit:"
 msgid "Reject"
-msgstr "Rebutjar"
+msgstr "Rebutja"
 
 msgctxt "view:party.credit:"
 msgid "Request"
-msgstr "Sol·licitar"
+msgstr "Sol·licitud"
 
 msgctxt "view:party.risk.analysis:"
 msgid "Party Risk Analysis"
@@ -289,5 +299,13 @@ msgid "Duplicate"
 msgstr "Duplicar"
 
 msgctxt "wizard_button:party.credit.duplicate,start,end:"
+msgid "Cancel"
+msgstr "Cancel·lat"
+
+msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
+msgid "Calculate"
+msgstr "Calcula"
+
+msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
 msgid "Cancel"
 msgstr "Cancel·lat"
