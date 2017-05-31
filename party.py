@@ -14,7 +14,7 @@ from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
     'PartyRiskAnalysisTable', 'PartyCreditDuplicateStart',
-    'PartyCreditDuplicate']
+    'PartyCreditDuplicate', 'PartyCreditAmount']
 
 
 class Party:
@@ -99,10 +99,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             'readonly': Eval('state') == 'approved'
         })
     # approved_credit_limit: amount of money granted by the insurance company
-    approved_credit_limit = fields.Numeric('Approved Credit Limit',
-        digits=(16, 2), states={
-            'readonly': Eval('state') == 'approved'
-        })
+    approved_credit_limit = fields.Function(
+        fields.Numeric('Approved Credit Limit',
+            digits=(16, 2), states={
+                'readonly': Eval('state') == 'approved'
+            }), 'on_change_with_approved_credit_limit', setter='set_credit')
     # invoice_line: Link to Credit and Suretyship supplier invoice line
     # invoice_line = fields.Many2One('account.invoice.line')
     state = fields.Selection([
@@ -112,6 +113,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     ], 'State', required=True, states={
             'readonly': Eval('state') == 'approved'
             })
+
+    cyc_num = fields.Char('CYC Number',
+        states={
+            'readonly': Eval('state') == 'approved'
+        })
 
     # Returns the maximum risk amount registered for the given timeframe
     maximum_registered = fields.Function(fields.Numeric(
@@ -124,10 +130,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     accounts = fields.One2Many('party.risk.analysis.table', 'party_credit',
             'Accounts', readonly=True)
 
-    # accounts_data = fields.Function(fields.One2Many('party.risk.analysis',
-    #        'party_credit', 'Accounts'), 'on_change_with_accounts_data')
     accounts_data = fields.One2Many('party.risk.analysis',
             'party_credit', 'Accounts', readonly=True)
+
+    party_credit_amounts = fields.One2Many('party.credit.amount',
+        'party_credit', 'Party Credit Amounts')
 
     @classmethod
     def __setup__(cls):
@@ -196,10 +203,26 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return currency.round(max(balances))
 
     @classmethod
+    def set_credit(cls, credits, name, value):
+        PartyCreditAmount = Pool().get('party.credit.amount')
+        for credit in credits:
+            PartyCreditAmount.delete(credit.party_credit_amounts)
+            new_amount = PartyCreditAmount()
+            new_amount.date = credit.start_date
+            new_amount.amount = value
+            new_amount.party_credit = credit.id
+            new_amount.save()
+
+    @fields.depends('party_credit_amounts')
+    def on_change_with_approved_credit_limit(self, name=None):
+        if not self.party_credit_amounts:
+            return 0
+        return self.party_credit_amounts[-1].amount
+
+    @classmethod
     @ModelView.button
     @Workflow.transition('approved')
     def approve(cls, party_credits):
-        to_write = []
         for party_credit in party_credits:
             duplicate = cls.search([
                 ('party', '=', party_credit.party.id),
@@ -211,23 +234,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                         'rec_name': party_credit.rec_name
                         })
 
-            to_write.extend(([party_credit], {
-                'approved_credit_limit': party_credit.requested_credit_limit
-                }))
-        if to_write:
-            cls.write(*to_write)
-
     @classmethod
     @ModelView.button
     @Workflow.transition('rejected')
     def reject(cls, party_credits):
-        to_write = []
-        for party_credit in party_credits:
-            to_write.extend(([party_credit], {
-                'approved_credit_limit': 0
-                }))
-        if to_write:
-            cls.write(*to_write)
+        pass
 
     @classmethod
     @ModelView.button
@@ -283,6 +294,37 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         PartyRisk.delete(PartyRisk.search([
                 ('party_credit', 'in', [x.id for x in records])]))
         super(PartyCredit, cls).delete(records)
+
+
+class PartyCreditAmount(ModelView, ModelSQL):
+    'Party Credit Conceded Amount'
+    __name__ = 'party.credit.amount'
+
+    date = fields.Date('Date', required=True)
+    amount = fields.Numeric('Conceded amount', required=True)
+    party_credit = fields.Many2One('party.credit', 'Party Credit',
+        required=True, states={
+            'invisible': True
+        })
+
+    @classmethod
+    def __setup__(cls):
+        super(PartyCreditAmount, cls).__setup__()
+
+        cls._error_messages.update({
+                'invalid_date': 'The entered date is outside the period'
+                })
+
+    @classmethod
+    def create(cls, vlist):
+        PartyCredit = Pool().get('party.credit')
+        for value in vlist:
+            party_credit = PartyCredit(value['party_credit'])
+            if (party_credit.start_date > value['date'] or
+                    value['date'] > party_credit.end_date):
+                cls.raise_user_error('invalid_date')
+
+        return super(PartyCreditAmount, cls).create(vlist)
 
 
 class PartyRiskAnalysis(ModelView, ModelSQL):

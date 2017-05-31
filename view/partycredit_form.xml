@@ -24,18 +24,20 @@
     
   <label name="maximum_registered"/>
   <field name="maximum_registered"/>
-  <!--
+
+  <label name="cyc_num"/>
+  <field name="cyc_num"/>
+
   <notebook>
-    <page id="accounts" string="Accounts">
-      <field name="accounts" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/> 
-    </page>
-    
     <page id="accounts_data" string="Accounts Data">
--->
       <field name="accounts_data" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/> 
-<!--    </page>
+    </page>
+    <page id="conceded_amounts" string="Party Credit Amounts">
+      <field name="party_credit_amounts" colspan="4"
+        view_ids="account_insurance_credit_limit.party_amount_view_tree"/>
+    </page>
   </notebook>
--->
+
   <label name="state" colspan="1"/>
   <field name="state" colspan="1"/>
   

@@ -11,6 +11,7 @@ def register():
         party.PartyRiskAnalysis,
         party.PartyRiskAnalysisTable,
         party.PartyCreditDuplicateStart,
+        party.PartyCreditAmount,
         module='account_insurance_credit_limit', type_='model')
 
     Pool.register(

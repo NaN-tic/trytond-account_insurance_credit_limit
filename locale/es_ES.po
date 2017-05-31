@@ -2,6 +2,10 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "error:party.credit.amount:"
+msgid "The entered date is outside the period"
+msgstr "La fecha entrada está fuera del periodo"
+
 msgctxt "error:party.credit.duplicate:"
 msgid ""
 "The entered amount is a 50% bigger than the maximum registered amount from "
@@ -14,13 +18,6 @@ msgctxt "error:party.credit:"
 msgid ""
 "It is only allowed an approved credit per party and the party credit "
 "\"%(rec_name)s\" you want to add exceeds this limit."
-msgstr ""
-
-msgctxt "error:party.credit:"
-msgid ""
-"It is only allowed an approved credit per party and the party credit "
-"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
-"assigned to the same party: \"%(approved_party_credits)s\""
 msgstr ""
 
 msgctxt "field:party.credit,accounts:"
@@ -47,6 +44,10 @@ msgctxt "field:party.credit,create_uid:"
 msgid "Create User"
 msgstr "Usuario de creación"
 
+msgctxt "field:party.credit,cyc_num:"
+msgid "CYC Number"
+msgstr "Número CYC"
+
 msgctxt "field:party.credit,date:"
 msgid "Requested Date"
 msgstr "Fecha"
@@ -61,15 +62,15 @@ msgstr "Identificador"
 
 msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
-msgstr "Cantidad màxima registrada"
-
-msgctxt "field:party.credit,maximum_registered_credit_amount:"
-msgid "Maximum Registered Credit Amount"
-msgstr "Cantidad màxima registrada"
+msgstr "Cantidad máxima registrada"
 
 msgctxt "field:party.credit,party:"
 msgid "Party"
 msgstr "Terceros"
+
+msgctxt "field:party.credit,party_credit_amounts:"
+msgid "Party Credit Amounts"
+msgstr "Crédito concedido"
 
 msgctxt "field:party.credit,rec_name:"
 msgid "Name"
@@ -92,6 +93,42 @@ msgid "Write Date"
 msgstr "Fecha modificación"
 
 msgctxt "field:party.credit,write_uid:"
+msgid "Write User"
+msgstr "Usuario modificación"
+
+msgctxt "field:party.credit.amount,amount:"
+msgid "Conceded amount"
+msgstr "Cantidad concedida"
+
+msgctxt "field:party.credit.amount,create_date:"
+msgid "Create Date"
+msgstr "Fecha de creación"
+
+msgctxt "field:party.credit.amount,create_uid:"
+msgid "Create User"
+msgstr "Usuario de creación"
+
+msgctxt "field:party.credit.amount,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:party.credit.amount,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.credit.amount,party_credit:"
+msgid "Party Credit"
+msgstr "Límite de Crédito"
+
+msgctxt "field:party.credit.amount,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:party.credit.amount,write_date:"
+msgid "Write Date"
+msgstr "Fecha modificación"
+
+msgctxt "field:party.credit.amount,write_uid:"
 msgid "Write User"
 msgstr "Usuario modificación"
 
@@ -142,14 +179,6 @@ msgstr "Descripción"
 msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "Identificador"
-
-msgctxt "field:party.risk.analysis,move:"
-msgid "Move"
-msgstr "Asiento"
-
-msgctxt "field:party.risk.analysis,party:"
-msgid "Party"
-msgstr "Terceros"
 
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
@@ -251,6 +280,10 @@ msgctxt "model:party.credit,name:"
 msgid "Party Credit"
 msgstr "Límite de Crédito"
 
+msgctxt "model:party.credit.amount,name:"
+msgid "Party Credit Conceded Amount"
+msgstr "Cantidad concedida para el tercero"
+
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
 msgstr ""
@@ -275,13 +308,33 @@ msgctxt "selection:party.credit,state:"
 msgid "Requested"
 msgstr "Solicitado"
 
+msgctxt "view:party.credit.amount:"
+msgid "Party Credit"
+msgstr "Límite de Crédito"
+
+msgctxt "view:party.credit.duplicate.start:"
+msgid "Duplicate Party Credit"
+msgstr "Duplica el crédito del tercero"
+
+msgctxt "view:party.credit:"
+msgid "Accounts Data"
+msgstr "Datos"
+
 msgctxt "view:party.credit:"
 msgid "Approve"
 msgstr "Aprobar"
 
 msgctxt "view:party.credit:"
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgctxt "view:party.credit:"
 msgid "Party Credit"
 msgstr "Límite de Crédito"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit Amounts"
+msgstr "Cantidad "
 
 msgctxt "view:party.credit:"
 msgid "Reject"
@@ -300,13 +353,5 @@ msgid "Duplicate"
 msgstr "Duplicar"
 
 msgctxt "wizard_button:party.credit.duplicate,start,end:"
-msgid "Cancel"
-msgstr "Cancel·lar"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
-msgid "Calculate"
-msgstr "Calcular"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
 msgid "Cancel"
 msgstr "Cancel·lar"

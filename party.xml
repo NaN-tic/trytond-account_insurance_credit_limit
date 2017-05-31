@@ -26,6 +26,13 @@
       <field name="name">partycredit_list</field>
     </record>
 
+    <record model="ir.ui.view" id="party_amount_view_tree">
+      <field name="model">party.credit.amount</field>
+      <field name="type">tree</field>
+      <field name="priority" eval="20"/>
+      <field name="name">party_amount_tree</field>
+    </record>
+
     <record model="ir.action.act_window" id="act_partycredit">
       <field name="name">Credit Limits</field>
       <field name="res_model">party.credit</field>

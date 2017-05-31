@@ -2,6 +2,10 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "error:party.credit.amount:"
+msgid "The entered date is outside the period"
+msgstr "La data entrada està fora del periode"
+
 msgctxt "error:party.credit.duplicate:"
 msgid ""
 "The entered amount is a 50% bigger than the maximum registered amount from "
@@ -14,13 +18,8 @@ msgid ""
 "It is only allowed an approved credit per party and the party credit "
 "\"%(rec_name)s\" you want to add exceeds this limit."
 msgstr ""
-
-msgctxt "error:party.credit:"
-msgid ""
-"It is only allowed an approved credit per party and the party credit "
-"\"%(rec_name)s\" you want to add exceeds this limit. Approved party credits "
-"assigned to the same party: \"%(approved_party_credits)s\""
-msgstr ""
+"Només s'accepta una crèdit de tercer aprovat per periode i el crèdit "
+"\"%(rec_name)s\" l'excedeix"
 
 msgctxt "field:party.credit,accounts:"
 msgid "Accounts"
@@ -46,6 +45,10 @@ msgctxt "field:party.credit,create_uid:"
 msgid "Create User"
 msgstr "Usuari de creació"
 
+msgctxt "field:party.credit,cyc_num:"
+msgid "CYC Number"
+msgstr "Número CYC"
+
 msgctxt "field:party.credit,date:"
 msgid "Requested Date"
 msgstr "Data"
@@ -62,13 +65,13 @@ msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
 msgstr "Quantitat màxima registrada"
 
-msgctxt "field:party.credit,maximum_registered_credit_amount:"
-msgid "Maximum Registered Credit Amount"
-msgstr "Quantitat màxima registrada"
-
 msgctxt "field:party.credit,party:"
 msgid "Party"
 msgstr "Tercers"
+
+msgctxt "field:party.credit,party_credit_amounts:"
+msgid "Party Credit Amounts"
+msgstr "Quanitat concedida"
 
 msgctxt "field:party.credit,rec_name:"
 msgid "Name"
@@ -91,6 +94,42 @@ msgid "Write Date"
 msgstr "Usuari creació"
 
 msgctxt "field:party.credit,write_uid:"
+msgid "Write User"
+msgstr "Usuari modificació"
+
+msgctxt "field:party.credit.amount,amount:"
+msgid "Conceded amount"
+msgstr "Quanitat concedida"
+
+msgctxt "field:party.credit.amount,create_date:"
+msgid "Create Date"
+msgstr "Data de creació"
+
+msgctxt "field:party.credit.amount,create_uid:"
+msgid "Create User"
+msgstr "Usuari de creació"
+
+msgctxt "field:party.credit.amount,date:"
+msgid "Date"
+msgstr "Data"
+
+msgctxt "field:party.credit.amount,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:party.credit.amount,party_credit:"
+msgid "Party Credit"
+msgstr "Credit del tercer"
+
+msgctxt "field:party.credit.amount,rec_name:"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "field:party.credit.amount,write_date:"
+msgid "Write Date"
+msgstr "Usuari creació"
+
+msgctxt "field:party.credit.amount,write_uid:"
 msgid "Write User"
 msgstr "Usuari modificació"
 
@@ -141,14 +180,6 @@ msgstr "Descripció"
 msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "Identificador"
-
-msgctxt "field:party.risk.analysis,move:"
-msgid "Move"
-msgstr "Assentament"
-
-msgctxt "field:party.risk.analysis,party:"
-msgid "Party"
-msgstr "Tercers"
 
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
@@ -250,6 +281,10 @@ msgctxt "model:party.credit,name:"
 msgid "Party Credit"
 msgstr "Credit del tercer"
 
+msgctxt "model:party.credit.amount,name:"
+msgid "Party Credit Conceded Amount"
+msgstr "Quanitat concedida"
+
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
 msgstr ""
@@ -274,13 +309,33 @@ msgctxt "selection:party.credit,state:"
 msgid "Requested"
 msgstr "Sol·licitat"
 
+msgctxt "view:party.credit.amount:"
+msgid "Party Credit"
+msgstr "Credit del tercer"
+
+msgctxt "view:party.credit.duplicate.start:"
+msgid "Duplicate Party Credit"
+msgstr "Duplicar Limit de Crèdit"
+
+msgctxt "view:party.credit:"
+msgid "Accounts Data"
+msgstr "Dades"
+
 msgctxt "view:party.credit:"
 msgid "Approve"
 msgstr "Aprova"
 
 msgctxt "view:party.credit:"
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgctxt "view:party.credit:"
 msgid "Party Credit"
 msgstr "Credit del tercer"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit Amounts"
+msgstr "Quanitat concedida"
 
 msgctxt "view:party.credit:"
 msgid "Reject"
@@ -299,13 +354,5 @@ msgid "Duplicate"
 msgstr "Duplicar"
 
 msgctxt "wizard_button:party.credit.duplicate,start,end:"
-msgid "Cancel"
-msgstr "Cancel·lat"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,calculate_risk:"
-msgid "Calculate"
-msgstr "Calcula"
-
-msgctxt "wizard_button:party.risk.analysis.calculate,start,end:"
 msgid "Cancel"
 msgstr "Cancel·lat"
