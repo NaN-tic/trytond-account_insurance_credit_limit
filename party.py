@@ -2,8 +2,8 @@
 
 from trytond.pool import PoolMeta, Pool
 from trytond.model import ModelSQL, ModelView, fields, Workflow
-from trytond.wizard import Wizard, StateView, StateTransition, Button
-from trytond.pyson import Eval
+from trytond.wizard import Wizard, StateView, StateAction, Button
+from trytond.pyson import Eval, PYSONEncoder
 from trytond.transaction import Transaction
 
 from sql import Null, Column, Null, Window, Literal
@@ -439,7 +439,7 @@ class PartyCreditDuplicate(Wizard):
             Button('Cancel', 'end', 'tryton-cancel'),
             Button('Duplicate', 'duplicate', 'tryton-ok', default=True),
             ])
-    duplicate = StateTransition()
+    duplicate = StateAction('account_insurance_credit_limit.act_partycredit')
 
     @classmethod
     def __setup__(cls):
@@ -457,7 +457,7 @@ class PartyCreditDuplicate(Wizard):
             'credit': party_credit.approved_credit_limit
         }
 
-    def transition_duplicate(self):
+    def do_duplicate(self, action):
         pool = Pool()
         PartyCredit = pool.get('party.credit')
         Date_ = pool.get('ir.date')
@@ -470,11 +470,13 @@ class PartyCreditDuplicate(Wizard):
             self.raise_user_warning(str(party_credit), 'big_amount')
 
         new_start_date = party_credit.end_date + relativedelta(days=1)
+        new_end_date = ((party_credit.end_date + relativedelta(years=1)) -
+            relativedelta(days=1))
 
         duplicated_party_credit = PartyCredit.create([{
                         'date': Date_.today(),
                         'start_date': new_start_date,
-                        'end_date': new_start_date + relativedelta(years=1),
+                        'end_date': new_end_date,
                         'requested_credit_limit': self.start.credit,
                         'approved_credit_limit': self.start.credit,
                         'party': party_credit.party.id,
@@ -483,4 +485,7 @@ class PartyCreditDuplicate(Wizard):
                         }])
         PartyCredit.approve(duplicated_party_credit)
 
-        return 'end'
+        action['pyson_domain'] = PYSONEncoder().encode([
+                ('party', '=', party_credit.party.id),
+                ])
+        return action, {}

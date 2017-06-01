@@ -66,7 +66,7 @@ msgstr "Cantidad máxima registrada"
 
 msgctxt "field:party.credit,party:"
 msgid "Party"
-msgstr "Terceros"
+msgstr "Tercero"
 
 msgctxt "field:party.credit,party_credit_amounts:"
 msgid "Party Credit Amounts"
@@ -325,10 +325,6 @@ msgid "Approve"
 msgstr "Aprobar"
 
 msgctxt "view:party.credit:"
-msgid "Duplicate"
-msgstr "Duplicar"
-
-msgctxt "view:party.credit:"
 msgid "Party Credit"
 msgstr "Límite de Crédito"
 
@@ -339,6 +335,10 @@ msgstr "Cantidad "
 msgctxt "view:party.credit:"
 msgid "Reject"
 msgstr "Rechazar"
+
+msgctxt "view:party.credit:"
+msgid "Renew"
+msgstr "Renovar"
 
 msgctxt "view:party.credit:"
 msgid "Request"

@@ -7,5 +7,7 @@
   <field name="end_date"/>
   <field name="requested_credit_limit"/>
   <field name="approved_credit_limit"/>
+  <field name="maximum_registered"/>
+  <button string="Renew" name="duplicate"/>
   <field name="state"/>
 </tree>
