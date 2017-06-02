@@ -305,7 +305,7 @@ class PartyCreditAmount(ModelView, ModelSQL):
     party_credit = fields.Many2One('party.credit', 'Party Credit',
         required=True, states={
             'invisible': True
-        })
+        }, ondelete='CASCADE')
 
     @classmethod
     def __setup__(cls):
@@ -342,7 +342,7 @@ class PartyRiskAnalysis(ModelView, ModelSQL):
         digits=(16, Eval('currency_digits', 2)))
     description = fields.Char('Description')
     party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, readonly=True)
+        required=True, readonly=True, ondelete='CASCADE')
 
 
 class PartyRiskAnalysisTable(ModelSQL, ModelView):
@@ -367,7 +367,7 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
     description = fields.Char('Description')
     move = fields.Many2One('account.move', 'Move')
     party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, readonly=True)
+        required=True, readonly=True,)
 
     @classmethod
     def __setup__(cls):
