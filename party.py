@@ -101,9 +101,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     # approved_credit_limit: amount of money granted by the insurance company
     approved_credit_limit = fields.Function(
         fields.Numeric('Approved Credit Limit',
-            digits=(16, 2), states={
-                'readonly': Eval('state') == 'approved'
-            }), 'on_change_with_approved_credit_limit', setter='set_credit')
+            digits=(16, 2)), 'get_credit_limit',
+        setter='set_credit')
     # invoice_line: Link to Credit and Suretyship supplier invoice line
     # invoice_line = fields.Many2One('account.invoice.line')
     state = fields.Selection([
@@ -206,15 +205,18 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def set_credit(cls, credits, name, value):
         PartyCreditAmount = Pool().get('party.credit.amount')
         for credit in credits:
-            PartyCreditAmount.delete(credit.party_credit_amounts)
             new_amount = PartyCreditAmount()
             new_amount.date = credit.start_date
-            new_amount.amount = value
+            new_amount.amount = value or 0
             new_amount.party_credit = credit.id
             new_amount.save()
 
     @fields.depends('party_credit_amounts')
-    def on_change_with_approved_credit_limit(self, name=None):
+    def on_change_party_credit_limit(self, name=None):
+        if self.party_credit_amounts:
+            self.approved_credit_limit = self.party_credit_amounts[-1].amount
+
+    def get_credit_limit(self, name=None):
         if not self.party_credit_amounts:
             return 0
         return self.party_credit_amounts[-1].amount
@@ -253,7 +255,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     @classmethod
     def validate(cls, vlist):
-
         PartyRisk = Pool().get('party.risk.analysis')
         PartyRisk.delete(PartyRisk.search([
             ('party_credit', 'in', [v.id for v in vlist])]))
@@ -303,9 +304,7 @@ class PartyCreditAmount(ModelView, ModelSQL):
     date = fields.Date('Date', required=True)
     amount = fields.Numeric('Conceded amount', required=True)
     party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, states={
-            'invisible': True
-        }, ondelete='CASCADE')
+        required=True, ondelete='CASCADE', select=True)
 
     @classmethod
     def __setup__(cls):
@@ -470,8 +469,7 @@ class PartyCreditDuplicate(Wizard):
             self.raise_user_warning(str(party_credit), 'big_amount')
 
         new_start_date = party_credit.end_date + relativedelta(days=1)
-        new_end_date = ((party_credit.end_date + relativedelta(years=1)) -
-            relativedelta(days=1))
+        new_end_date = party_credit.end_date + relativedelta(years=1)
 
         duplicated_party_credit = PartyCredit.create([{
                         'date': Date_.today(),
