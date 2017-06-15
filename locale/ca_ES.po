@@ -71,7 +71,7 @@ msgstr "Tercer"
 
 msgctxt "field:party.credit,party_credit_amounts:"
 msgid "Party Credit Amounts"
-msgstr "Quanitat concedida"
+msgstr "Import concedit"
 
 msgctxt "field:party.credit,rec_name:"
 msgid "Name"
@@ -99,7 +99,7 @@ msgstr "Usuari modificació"
 
 msgctxt "field:party.credit.amount,amount:"
 msgid "Conceded amount"
-msgstr "Quanitat concedida"
+msgstr "Import concedit"
 
 msgctxt "field:party.credit.amount,create_date:"
 msgid "Create Date"
@@ -283,7 +283,7 @@ msgstr "Credit del tercer"
 
 msgctxt "model:party.credit.amount,name:"
 msgid "Party Credit Conceded Amount"
-msgstr "Quanitat concedida"
+msgstr "Import concedit"
 
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
@@ -331,7 +331,7 @@ msgstr "Credit del tercer"
 
 msgctxt "view:party.credit:"
 msgid "Party Credit Amounts"
-msgstr "Quanitat concedida"
+msgstr "Import concedit"
 
 msgctxt "view:party.credit:"
 msgid "Reject"

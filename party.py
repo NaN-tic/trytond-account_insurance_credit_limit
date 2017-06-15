@@ -3,7 +3,7 @@
 from trytond.pool import PoolMeta, Pool
 from trytond.model import ModelSQL, ModelView, fields, Workflow
 from trytond.wizard import Wizard, StateView, StateAction, Button
-from trytond.pyson import Eval, PYSONEncoder
+from trytond.pyson import Eval, PYSONEncoder, Bool
 from trytond.transaction import Transaction
 
 from sql import Null, Column, Null, Window, Literal
@@ -101,8 +101,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     # approved_credit_limit: amount of money granted by the insurance company
     approved_credit_limit = fields.Function(
         fields.Numeric('Approved Credit Limit',
-            digits=(16, 2)), 'get_credit_limit',
-        setter='set_credit')
+            digits=(16, 2)), 'get_credit_limit')
     # invoice_line: Link to Credit and Suretyship supplier invoice line
     # invoice_line = fields.Many2One('account.invoice.line')
     state = fields.Selection([
@@ -134,6 +133,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     party_credit_amounts = fields.One2Many('party.credit.amount',
         'party_credit', 'Party Credit Amounts')
+
+    number_of_days = fields.Char('Number of days')
 
     @classmethod
     def __setup__(cls):
@@ -201,16 +202,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             return 0
         return currency.round(max(balances))
 
-    @classmethod
-    def set_credit(cls, credits, name, value):
-        PartyCreditAmount = Pool().get('party.credit.amount')
-        for credit in credits:
-            new_amount = PartyCreditAmount()
-            new_amount.date = credit.start_date
-            new_amount.amount = value or 0
-            new_amount.party_credit = credit.id
-            new_amount.save()
-
     @fields.depends('party_credit_amounts')
     def on_change_party_credit_limit(self, name=None):
         if self.party_credit_amounts:
@@ -225,16 +216,27 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @ModelView.button
     @Workflow.transition('approved')
     def approve(cls, party_credits):
+        CreditAmount = Pool().get('party.credit.amount')
+        to_create = []
+
         for party_credit in party_credits:
             duplicate = cls.search([
                 ('party', '=', party_credit.party.id),
                 ('start_date', '<=', party_credit.start_date),
                 ('end_date', '>=', party_credit.start_date),
-                ('state', '=', 'approved')], limit=1)
+                ('state', '=', 'approved'),
+                ('company', '=', party_credit.company)], limit=1)
             if duplicate:
                 cls.raise_user_error('approved_party_credit', {
                         'rec_name': party_credit.rec_name
                         })
+            credit_amount = CreditAmount()
+            credit_amount.date = party_credit.start_date
+            credit_amount.amount = party_credit.requested_credit_limit
+            credit_amount.party_credit = party_credit.id
+            to_create.append(credit_amount)
+        if to_create:
+            CreditAmount.create([x._save_values for x in to_create])
 
     @classmethod
     @ModelView.button
@@ -287,6 +289,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         default = default.copy()
         default['accounts_data'] = []
         default['accounts'] = []
+        default['number_of_days'] = ''
+        default['party_credit_amounts'] = []
         return super(PartyCredit, cls).copy(records, default)
 
     @classmethod
@@ -301,15 +305,21 @@ class PartyCreditAmount(ModelView, ModelSQL):
     'Party Credit Conceded Amount'
     __name__ = 'party.credit.amount'
 
-    date = fields.Date('Date', required=True)
-    amount = fields.Numeric('Conceded amount', required=True)
+    date = fields.Date('Date', required=True, states={
+            'readonly': Eval('initial_value', False)
+            })
+    amount = fields.Numeric('Conceded amount', required=True, states={
+            'readonly': Eval('initial_value', False)
+            })
     party_credit = fields.Many2One('party.credit', 'Party Credit',
         required=True, ondelete='CASCADE', select=True)
+    initial_value = fields.Function(fields.Boolean('Is initial value'),
+        'get_initial_value')
 
     @classmethod
     def __setup__(cls):
         super(PartyCreditAmount, cls).__setup__()
-
+        cls._order.insert(0, ('date', 'ASC'))
         cls._error_messages.update({
                 'invalid_date': 'The entered date is outside the period'
                 })
@@ -324,6 +334,18 @@ class PartyCreditAmount(ModelView, ModelSQL):
                 cls.raise_user_error('invalid_date')
 
         return super(PartyCreditAmount, cls).create(vlist)
+
+    def get_initial_value(self, name=None):
+        return self.party_credit.party_credit_amounts[0] == self
+
+    @classmethod
+    def delete(cls, records):
+        to_delete = []
+        for record in records:
+            if len(record.party_credit.party_credit_amounts) == 1:
+                continue
+            to_delete.append(record)
+        super(PartyCreditAmount, cls).delete(to_delete)
 
 
 class PartyRiskAnalysis(ModelView, ModelSQL):
@@ -426,7 +448,14 @@ class PartyCreditDuplicateStart(ModelView):
     'Initial view for the duplication of party credits wizard'
     __name__ = 'party.credit.duplicate.start'
 
-    credit = fields.Numeric('Credit Approved', digits=(16, 2), required=True)
+    credit = fields.Numeric('Credit Approved', digits=(16, 2), required=True,
+        states={
+            'invisible': Eval('multiple_ids', False)
+        })
+
+    multiple_ids = fields.Boolean('Multiple Active IDS', states={
+            'invisible': True
+            })
 
 
 class PartyCreditDuplicate(Wizard):
@@ -453,7 +482,8 @@ class PartyCreditDuplicate(Wizard):
         PartyCredit = pool.get('party.credit')
         party_credit = PartyCredit(Transaction().context['active_id'])
         return {
-            'credit': party_credit.approved_credit_limit
+            'credit': party_credit.approved_credit_limit,
+            'multiple_ids': len(Transaction().context.get('active_ids')) > 1
         }
 
     def do_duplicate(self, action):

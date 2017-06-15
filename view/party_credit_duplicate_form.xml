@@ -4,4 +4,7 @@
   <label name="credit"/>
   <field name="credit"/>
 
+  <label name="multiple_ids"/>
+  <field name="multiple_ids"/>
+
 </form>

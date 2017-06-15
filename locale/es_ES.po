@@ -62,7 +62,7 @@ msgstr "Identificador"
 
 msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
-msgstr "Cantidad máxima registrada"
+msgstr "Importe máximo registrado"
 
 msgctxt "field:party.credit,party:"
 msgid "Party"
@@ -98,7 +98,7 @@ msgstr "Usuario modificación"
 
 msgctxt "field:party.credit.amount,amount:"
 msgid "Conceded amount"
-msgstr "Cantidad concedida"
+msgstr "Importe concedido"
 
 msgctxt "field:party.credit.amount,create_date:"
 msgid "Create Date"
@@ -282,7 +282,7 @@ msgstr "Límite de Crédito"
 
 msgctxt "model:party.credit.amount,name:"
 msgid "Party Credit Conceded Amount"
-msgstr "Cantidad concedida para el tercero"
+msgstr "Importe concedido para el tercero"
 
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
@@ -330,7 +330,7 @@ msgstr "Límite de Crédito"
 
 msgctxt "view:party.credit:"
 msgid "Party Credit Amounts"
-msgstr "Cantidad "
+msgstr "Importe "
 
 msgctxt "view:party.credit:"
 msgid "Reject"
