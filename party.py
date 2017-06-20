@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
-
+# The COPYRIGHT file at the top level of this repository contains the full
+# copyright notices and license terms.
 from trytond.pool import PoolMeta, Pool
 from trytond.model import ModelSQL, ModelView, fields, Workflow
 from trytond.wizard import Wizard, StateView, StateAction, Button
-from trytond.pyson import Eval, PYSONEncoder, Bool
+from trytond.pyson import Eval, PYSONEncoder
 from trytond.transaction import Transaction
 
-from sql import Null, Column, Null, Window, Literal
-from sql.aggregate import Sum, Max, Min
-from sql.conditionals import Coalesce, Case
+from sql import Column, Window, Literal
+from sql.aggregate import Sum, Min
 
 from dateutil.relativedelta import relativedelta
 
