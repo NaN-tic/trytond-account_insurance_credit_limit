@@ -1,13 +1,9 @@
 <?xml version="1.0"?>
-
 <graph string="Party Risk Analysis" type="line">
-
-	<x>
-		<field name="date"/>
-	</x>
-
-	<y>
-		<field name="balance" empty="0" interpolation="constant-left" fill="1"/>
-	</y>
-
+  <x>
+    <field name="date"/>
+  </x>
+  <y>
+    <field name="balance" empty="0" interpolation="constant-left" fill="1"/>
+  </y>
 </graph>
