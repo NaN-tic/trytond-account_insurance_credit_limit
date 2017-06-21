@@ -59,11 +59,15 @@ msgstr "Data final"
 
 msgctxt "field:party.credit,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
 msgstr "Quantitat màxima registrada"
+
+msgctxt "field:party.credit,number_of_days:"
+msgid "Number of days"
+msgstr "Número de dies"
 
 msgctxt "field:party.credit,party:"
 msgid "Party"
@@ -91,11 +95,11 @@ msgstr "Estat"
 
 msgctxt "field:party.credit,write_date:"
 msgid "Write Date"
-msgstr "Usuari creació"
+msgstr "Usuari de creació"
 
 msgctxt "field:party.credit,write_uid:"
 msgid "Write User"
-msgstr "Usuari modificació"
+msgstr "Usuari de modificació"
 
 msgctxt "field:party.credit.amount,amount:"
 msgid "Conceded amount"
@@ -115,7 +119,11 @@ msgstr "Data"
 
 msgctxt "field:party.credit.amount,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
+
+msgctxt "field:party.credit.amount,initial_value:"
+msgid "Is initial value"
+msgstr "És un valor inicial"
 
 msgctxt "field:party.credit.amount,party_credit:"
 msgid "Party Credit"
@@ -127,11 +135,11 @@ msgstr "Nom"
 
 msgctxt "field:party.credit.amount,write_date:"
 msgid "Write Date"
-msgstr "Usuari creació"
+msgstr "Usuari de creació"
 
 msgctxt "field:party.credit.amount,write_uid:"
 msgid "Write User"
-msgstr "Usuari modificació"
+msgstr "Usuari de modificació"
 
 msgctxt "field:party.credit.duplicate.start,credit:"
 msgid "Credit Approved"
@@ -139,7 +147,11 @@ msgstr "Crèdit aprovat"
 
 msgctxt "field:party.credit.duplicate.start,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
+
+msgctxt "field:party.credit.duplicate.start,multiple_ids:"
+msgid "Multiple Active IDS"
+msgstr "Activar multiples IDS"
 
 msgctxt "field:party.party,company_credit_limit:"
 msgid "Company Credit Limit"
@@ -179,7 +191,7 @@ msgstr "Descripció"
 
 msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
@@ -191,11 +203,11 @@ msgstr "Nom"
 
 msgctxt "field:party.risk.analysis,write_date:"
 msgid "Write Date"
-msgstr "Usuari creació"
+msgstr "Usuari de creació"
 
 msgctxt "field:party.risk.analysis,write_uid:"
 msgid "Write User"
-msgstr "Usuari modificació"
+msgstr "Usuari de modificació"
 
 msgctxt "field:party.risk.analysis.table,balance:"
 msgid "Balance"
@@ -227,7 +239,7 @@ msgstr "Descripció"
 
 msgctxt "field:party.risk.analysis.table,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.risk.analysis.table,move:"
 msgid "Move"
@@ -235,7 +247,7 @@ msgstr "Moviment"
 
 msgctxt "field:party.risk.analysis.table,party:"
 msgid "Party"
-msgstr "Tercers"
+msgstr "Tercer"
 
 msgctxt "field:party.risk.analysis.table,party_credit:"
 msgid "Party Credit"
@@ -247,30 +259,30 @@ msgstr "Nom"
 
 msgctxt "field:party.risk.analysis.table,write_date:"
 msgid "Write Date"
-msgstr "Usuari creació"
+msgstr "Usuari de creació"
 
 msgctxt "field:party.risk.analysis.table,write_uid:"
 msgid "Write User"
-msgstr "Usuari modificació"
+msgstr "Usuari de modificació"
 
 msgctxt "model:ir.action,name:act_party_credit_limit"
 msgid "Credit Limit"
 msgstr "Límit de crèdit"
 
 msgctxt "model:ir.action,name:act_partycredit"
-msgid "Party Credit"
+msgid "Credit Limits"
 msgstr "Credit del tercer"
 
 msgctxt "model:ir.action,name:act_partyrisk"
-msgid "Party Risk"
-msgstr ""
+msgid "Credit Limit"
+msgstr "Límit de crèdit"
 
 msgctxt "model:ir.action,name:wizard_duplicate_party_credit"
 msgid "Duplicate Party Credit"
 msgstr "Duplicar Limit de Crèdit"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
-msgid "Party Credit"
+msgid "Credit Limits"
 msgstr "Credit del tercer"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
@@ -287,7 +299,7 @@ msgstr "Import concedit"
 
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
-msgstr ""
+msgstr "Asistent per duplicar crédits del tercer"
 
 msgctxt "model:party.risk.analysis,name:"
 msgid "Party Risk Analysis"
