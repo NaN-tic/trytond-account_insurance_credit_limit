@@ -216,24 +216,36 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @Workflow.transition('approved')
     def approve(cls, party_credits):
         CreditAmount = Pool().get('party.credit.amount')
-        to_create = []
 
+        parties = set()
         for party_credit in party_credits:
-            duplicate = cls.search([
-                ('party', '=', party_credit.party.id),
-                ('start_date', '<=', party_credit.start_date),
-                ('end_date', '>=', party_credit.start_date),
+            parties.add(party_credit.party.id)
+
+        credit_approved = []
+        for pcredit in cls.search([
+                ('party', 'in', list(parties)),
                 ('state', '=', 'approved'),
-                ('company', '=', party_credit.company)], limit=1)
-            if duplicate:
+                ]):
+            key = (pcredit.party.id, pcredit.start_date, pcredit.end_date)
+            credit_approved.append(key)
+
+        to_create = []
+        for party_credit in party_credits:
+            key = (party_credit.party.id, party_credit.start_date, party_credit.end_date)
+            if key in credit_approved:
                 cls.raise_user_error('approved_party_credit', {
                         'rec_name': party_credit.rec_name
                         })
+
+            if party_credit.party_credit_amounts:
+                continue
+
             credit_amount = CreditAmount()
             credit_amount.date = party_credit.start_date
             credit_amount.amount = party_credit.requested_credit_limit
             credit_amount.party_credit = party_credit.id
             to_create.append(credit_amount)
+
         if to_create:
             CreditAmount.create([x._save_values for x in to_create])
 
