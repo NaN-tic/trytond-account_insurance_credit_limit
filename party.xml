@@ -35,9 +35,6 @@
     <record model="ir.action.act_window" id="act_partycredit">
       <field name="name">Credit Limits</field>
       <field name="res_model">party.credit</field>
-      <field name="domain"
-          eval="[('company', '=', Eval('context', {}).get('company', -1))]"
-          pyson="1"/>
     </record>
 
     <record model="ir.action.act_window.view" id="act_partycredit_view1">
@@ -58,7 +55,6 @@
     <menuitem id="menu_party_credit" name="Credit Limits"
       parent="menu_party_credit_root" action="act_partycredit"
       sequence="10" />
-
 
     <record model="ir.action.act_window" id="act_partyrisk">
       <field name="name">Credit Limit</field>
@@ -102,6 +98,18 @@
         <field name="model">party.credit.duplicate.start</field>
         <field name="type">form</field>
         <field name="name">party_credit_duplicate_form</field>
+    </record>
+
+    <!-- Rules -->
+    <record model="ir.rule.group" id="rule_group_party_credit">
+        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="global_p" eval="True"/>
+    </record>
+    <record model="ir.rule" id="rule_party_credit1">
+        <field name="domain"
+            eval="[('company', '=', Eval('user', {}).get('company', None))]"
+            pyson="1"/>
+        <field name="rule_group" ref="rule_group_party_credit"/>
     </record>
   </data>
 </tryton>
