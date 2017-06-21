@@ -19,6 +19,8 @@ msgid ""
 "It is only allowed an approved credit per party and the party credit "
 "\"%(rec_name)s\" you want to add exceeds this limit."
 msgstr ""
+"Sólo está permitido aprobar el crédito por tercero y crédito del tercero "
+"\"%(rec_name)s\" cuando se necesita añadir más execeso en este límite."
 
 msgctxt "field:party.credit,accounts:"
 msgid "Accounts"
@@ -58,11 +60,15 @@ msgstr "Fecha final"
 
 msgctxt "field:party.credit,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.credit,maximum_registered:"
 msgid "Maximum Registered Credit Amount"
 msgstr "Importe máximo registrado"
+
+msgctxt "field:party.credit,number_of_days:"
+msgid "Number of days"
+msgstr "Número de días"
 
 msgctxt "field:party.credit,party:"
 msgid "Party"
@@ -90,11 +96,11 @@ msgstr "Estado"
 
 msgctxt "field:party.credit,write_date:"
 msgid "Write Date"
-msgstr "Fecha modificación"
+msgstr "Fecha de modificación"
 
 msgctxt "field:party.credit,write_uid:"
 msgid "Write User"
-msgstr "Usuario modificación"
+msgstr "Usuario de modificación"
 
 msgctxt "field:party.credit.amount,amount:"
 msgid "Conceded amount"
@@ -114,11 +120,15 @@ msgstr "Fecha"
 
 msgctxt "field:party.credit.amount,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
+
+msgctxt "field:party.credit.amount,initial_value:"
+msgid "Is initial value"
+msgstr "Es un valor incial"
 
 msgctxt "field:party.credit.amount,party_credit:"
 msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgstr "Crédito del tercero"
 
 msgctxt "field:party.credit.amount,rec_name:"
 msgid "Name"
@@ -126,11 +136,11 @@ msgstr "Nombre"
 
 msgctxt "field:party.credit.amount,write_date:"
 msgid "Write Date"
-msgstr "Fecha modificación"
+msgstr "Fecha de modificación"
 
 msgctxt "field:party.credit.amount,write_uid:"
 msgid "Write User"
-msgstr "Usuario modificación"
+msgstr "Usuario de modificación"
 
 msgctxt "field:party.credit.duplicate.start,credit:"
 msgid "Credit Approved"
@@ -138,15 +148,19 @@ msgstr "Crédito aprobado"
 
 msgctxt "field:party.credit.duplicate.start,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
+
+msgctxt "field:party.credit.duplicate.start,multiple_ids:"
+msgid "Multiple Active IDS"
+msgstr "Activar múltiple IDS"
 
 msgctxt "field:party.party,company_credit_limit:"
 msgid "Company Credit Limit"
-msgstr ""
+msgstr "Empresa crédito límite"
 
 msgctxt "field:party.party,insurance_credit_limit:"
 msgid "Insurance credit limit"
-msgstr ""
+msgstr "Seguro límite crédito"
 
 msgctxt "field:party.risk.analysis,balance:"
 msgid "Balance"
@@ -178,11 +192,11 @@ msgstr "Descripción"
 
 msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
-msgstr "Credito del tercero"
+msgstr "Crédito del tercero"
 
 msgctxt "field:party.risk.analysis,rec_name:"
 msgid "Name"
@@ -190,11 +204,11 @@ msgstr "Nombre"
 
 msgctxt "field:party.risk.analysis,write_date:"
 msgid "Write Date"
-msgstr "Fecha modificación"
+msgstr "Fecha de modificación"
 
 msgctxt "field:party.risk.analysis,write_uid:"
 msgid "Write User"
-msgstr "Usuario modificación"
+msgstr "Usuario de modificación"
 
 msgctxt "field:party.risk.analysis.table,balance:"
 msgid "Balance"
@@ -226,7 +240,7 @@ msgstr "Descripción"
 
 msgctxt "field:party.risk.analysis.table,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:party.risk.analysis.table,move:"
 msgid "Move"
@@ -234,11 +248,11 @@ msgstr "Asiento"
 
 msgctxt "field:party.risk.analysis.table,party:"
 msgid "Party"
-msgstr "Terceros"
+msgstr "Tercero"
 
 msgctxt "field:party.risk.analysis.table,party_credit:"
 msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgstr "Crédito del tercero"
 
 msgctxt "field:party.risk.analysis.table,rec_name:"
 msgid "Name"
@@ -246,31 +260,31 @@ msgstr "Nombre"
 
 msgctxt "field:party.risk.analysis.table,write_date:"
 msgid "Write Date"
-msgstr "Fecha modificación"
+msgstr "Fecha de modificación"
 
 msgctxt "field:party.risk.analysis.table,write_uid:"
 msgid "Write User"
-msgstr "Usuario modificación"
+msgstr "Usuario de modificación"
 
 msgctxt "model:ir.action,name:act_party_credit_limit"
 msgid "Credit Limit"
 msgstr "Límite de crédito"
 
 msgctxt "model:ir.action,name:act_partycredit"
-msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgid "Credit Limits"
+msgstr "Límite de crédito"
 
 msgctxt "model:ir.action,name:act_partyrisk"
-msgid "Party Risk"
-msgstr ""
+msgid "Credit Limit"
+msgstr "Límite de crédito"
 
 msgctxt "model:ir.action,name:wizard_duplicate_party_credit"
 msgid "Duplicate Party Credit"
 msgstr "Duplica el crédito del tercero"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit"
-msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgid "Credit Limits"
+msgstr "Límite de crédito"
 
 msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
 msgid "Credit Limits"
@@ -278,7 +292,7 @@ msgstr "Límite de crédito"
 
 msgctxt "model:party.credit,name:"
 msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgstr "Crédito del tercero"
 
 msgctxt "model:party.credit.amount,name:"
 msgid "Party Credit Conceded Amount"
@@ -286,7 +300,7 @@ msgstr "Importe concedido para el tercero"
 
 msgctxt "model:party.credit.duplicate.start,name:"
 msgid "Initial view for the duplication of party credits wizard"
-msgstr ""
+msgstr "Asistente para la duplicación de los créditos del tercero"
 
 msgctxt "model:party.risk.analysis,name:"
 msgid "Party Risk Analysis"
@@ -310,7 +324,7 @@ msgstr "Solicitado"
 
 msgctxt "view:party.credit.amount:"
 msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgstr "Crédito del tercero"
 
 msgctxt "view:party.credit.duplicate.start:"
 msgid "Duplicate Party Credit"
@@ -326,7 +340,7 @@ msgstr "Aprobar"
 
 msgctxt "view:party.credit:"
 msgid "Party Credit"
-msgstr "Límite de Crédito"
+msgstr "Crédito del tercero"
 
 msgctxt "view:party.credit:"
 msgid "Party Credit Amounts"
@@ -354,4 +368,4 @@ msgstr "Duplicar"
 
 msgctxt "wizard_button:party.credit.duplicate,start,end:"
 msgid "Cancel"
-msgstr "Cancel·lar"
+msgstr "Cancelar"
