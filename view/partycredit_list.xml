@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
-
 <tree string="Party Credit">
-  <field name="party"/>
-  <field name="date"/>
-  <field name="start_date"/>
-  <field name="end_date"/>
-  <field name="requested_credit_limit"/>
-  <field name="approved_credit_limit"/>
-  <field name="maximum_registered"/>
-  <button string="Renew" name="duplicate"/>
-  <field name="state"/>
+    <field name="party"/>
+    <field name="date"/>
+    <field name="start_date"/>
+    <field name="end_date"/>
+    <field name="requested_credit_limit"/>
+    <field name="approved_credit_limit"/>
+    <field name="maximum_registered"/>
+    <field name="state"/>
+    <button name="duplicate" string="Renew"/>
+    <button name="request" string="Request" tree_invisible="1"/>
+    <button name="reject" string="Reject" tree_invisible="1"/>
+    <button name="approve" string="Approve" tree_invisible="1"/>
 </tree>

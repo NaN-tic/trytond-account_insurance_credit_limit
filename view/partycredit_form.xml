@@ -1,51 +1,40 @@
 <?xml version="1.0"?>
-
 <form string="Party Credit" col="4">
-  <label name="party"/>
-  <field name="party"/>
-
-  <label name="company"/>
-  <field name="company"/>
-
-  <label name="date"/>
-  <field name="date"/>
-  <newline/>
-  <label name="start_date"/>
-  <field name="start_date"/>
-
-  <label name="end_date"/>
-  <field name="end_date"/>
-
-  <label name="requested_credit_limit"/>
-  <field name="requested_credit_limit"/>
-
-  <label name="approved_credit_limit"/>
-  <field name="approved_credit_limit"/>
-    
-  <label name="maximum_registered"/>
-  <field name="maximum_registered"/>
-
-  <label name="cyc_num"/>
-  <field name="cyc_num"/>
-
-  <notebook>
-    <page id="accounts_data" string="Accounts Data">
-      <field name="accounts_data" colspan="4"  view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/> 
-    </page>
-    <page id="conceded_amounts" string="Party Credit Amounts">
-      <field name="party_credit_amounts" colspan="4"
-        view_ids="account_insurance_credit_limit.party_amount_view_tree"/>
-    </page>
-  </notebook>
-
-  <label name="state" colspan="1"/>
-  <field name="state" colspan="1"/>
-  
-  <group id="approve-buttons" colspan="2" col="4">
-    <button name="request" string="Request" icon="tryton-go-next" colspan="1"/>
-    <button name="reject" string="Reject" icon="tryton-dialog-error" colspan="1"/>
-    <button name="duplicate" string="Renew" colspan="1"/>
-    <button name="approve" string="Approve" icon="tryton-go-next" colspan="1"/>
-  </group>
-
+    <label name="party"/>
+    <field name="party"/>
+    <label name="company"/>
+    <field name="company"/>
+    <label name="date"/>
+    <field name="date"/>
+    <newline/>
+    <label name="start_date"/>
+    <field name="start_date"/>
+    <label name="end_date"/>
+    <field name="end_date"/>
+    <label name="requested_credit_limit"/>
+    <field name="requested_credit_limit"/>
+    <label name="approved_credit_limit"/>
+    <field name="approved_credit_limit"/>
+    <label name="maximum_registered"/>
+    <field name="maximum_registered"/>
+    <label name="cyc_num"/>
+    <field name="cyc_num"/>
+    <notebook>
+      <page id="accounts_data" string="Accounts Data">
+          <field name="accounts_data" colspan="4"
+              view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/>
+      </page>
+      <page id="conceded_amounts" string="Party Credit Amounts">
+        <field name="party_credit_amounts" colspan="4"
+            view_ids="account_insurance_credit_limit.party_amount_view_tree"/>
+      </page>
+    </notebook>
+    <label name="state" colspan="1"/>
+    <field name="state" colspan="1"/>
+    <group id="approve-buttons" colspan="2" col="4">
+        <button name="request" string="Request" icon="tryton-go-next" colspan="1"/>
+        <button name="reject" string="Reject" icon="tryton-dialog-error" colspan="1"/>
+        <button name="duplicate" string="Renew" colspan="1"/>
+        <button name="approve" string="Approve" icon="tryton-go-next" colspan="1"/>
+    </group>
 </form>
