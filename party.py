@@ -175,12 +175,12 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @staticmethod
     def default_end_date():
         Date_ = Pool().get('ir.date')
-        return Date_.today()
+        return Date_.today() + relativedelta(years=1, days=-1)
 
     @staticmethod
     def default_start_date():
         Date_ = Pool().get('ir.date')
-        return Date_.today() - relativedelta(years=1)
+        return Date_.today()
 
     @staticmethod
     def default_state():
