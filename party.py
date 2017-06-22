@@ -222,10 +222,10 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         for party_credit in party_credits:
             duplicate = cls.search([
                     ('party', '=', party_credit.party.id),
-                    ('start_date', '<=', party_credit.start_date),
-                    ('end_date', '>=', party_credit.start_date),
                     ('state', '=', 'approved'),
                     ('company', '=', party_credit.company),
+                    ('start_date', '<=', party_credit.end_date),
+                    ('end_date', '>=', party_credit.start_date),
                     ], limit=1)
             if duplicate:
                  cls.raise_user_error('approved_party_credit', {
