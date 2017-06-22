@@ -58,8 +58,9 @@ class Party:
         PartyCredit = pool.get('party.credit')
         party_credits = PartyCredit.search([
             ('party', '=', self),
-            ('state', '=', 'approved')
-        ], limit=1)
+            ('state', '=', 'approved'),
+            ('company', '=', Transaction().context.get('company')),
+            ], limit=1)
         # There won't be two records of the model party.credit corresponding
         # to the same party with state=approved
         if (party_credits and
