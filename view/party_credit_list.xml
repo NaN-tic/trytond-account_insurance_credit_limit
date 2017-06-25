@@ -8,7 +8,7 @@
     <field name="approved_credit_limit"/>
     <field name="maximum_registered"/>
     <field name="state"/>
-    <button name="duplicate" string="Renew"/>
+    <button name="renew" string="Renew"/>
     <button name="request" string="Request" tree_invisible="1"/>
     <button name="reject" string="Reject" tree_invisible="1"/>
     <button name="approve" string="Approve" tree_invisible="1"/>
