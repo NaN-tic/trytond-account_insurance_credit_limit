@@ -13,16 +13,16 @@
       <field name="name">party_tree</field>
     </record>
 
-    <record model="ir.ui.view" id="partycredit_form_view">
+    <record model="ir.ui.view" id="party_credit_form_view">
       <field name="model">party.credit</field>
       <field name="type">form</field>
-      <field name="name">partycredit_form</field>
+      <field name="name">party_credit_form</field>
     </record>
 
-    <record model="ir.ui.view" id="partycredit_list_view">
+    <record model="ir.ui.view" id="party_credit_list_view">
       <field name="model">party.credit</field>
       <field name="type">tree</field>
-      <field name="name">partycredit_list</field>
+      <field name="name">party_credit_list</field>
     </record>
 
     <record model="ir.ui.view" id="party_amount_view_tree">
@@ -32,28 +32,28 @@
       <field name="name">party_amount_tree</field>
     </record>
 
-    <record model="ir.action.act_window" id="act_partycredit">
+    <record model="ir.action.act_window" id="act_party_credit">
       <field name="name">Credit Limits</field>
       <field name="res_model">party.credit</field>
     </record>
 
-    <record model="ir.action.act_window.view" id="act_partycredit_view1">
+    <record model="ir.action.act_window.view" id="act_party_credit_view1">
       <field name="sequence" eval="10"/>
-      <field name="view" ref="partycredit_list_view"/>
-      <field name="act_window" ref="act_partycredit"/>
+      <field name="view" ref="party_credit_list_view"/>
+      <field name="act_window" ref="act_party_credit"/>
     </record>
 
-    <record model="ir.action.act_window.view" id="act_partycredit_view2">
+    <record model="ir.action.act_window.view" id="act_party_credit_view2">
       <field name="sequence" eval="20"/>
-      <field name="view" ref="partycredit_form_view"/>
-      <field name="act_window" ref="act_partycredit"/>
+      <field name="view" ref="party_credit_form_view"/>
+      <field name="act_window" ref="act_party_credit"/>
     </record>
 
     <menuitem id="menu_party_credit_root" name="Credit Limits"
       parent="account.menu_account" sequence="70"/>
 
     <menuitem id="menu_party_credit" name="Credit Limits"
-      parent="menu_party_credit_root" action="act_partycredit"
+      parent="menu_party_credit_root" action="act_party_credit"
       sequence="10" />
 
     <record model="ir.action.act_window" id="act_partyrisk">
@@ -88,16 +88,16 @@
     </record>
 
     <!-- Wizard -->
-    <record model="ir.action.wizard" id="wizard_duplicate_party_credit">
-        <field name="name">Duplicate Party Credit</field>
-        <field name="wiz_name">party.credit.duplicate</field>
+    <record model="ir.action.wizard" id="wizard_renew_party_credit">
+        <field name="name">Renew Party Credit</field>
+        <field name="wiz_name">party.credit.renew</field>
         <field name="model">party.credit</field>
     </record>
 
-    <record model="ir.ui.view" id="party_credit_duplicate_view_form">
-        <field name="model">party.credit.duplicate.start</field>
+    <record model="ir.ui.view" id="party_credit_renew_view_form">
+        <field name="model">party.credit.renew.start</field>
         <field name="type">form</field>
-        <field name="name">party_credit_duplicate_form</field>
+        <field name="name">party_credit_renew_form</field>
     </record>
 
     <!-- Rules -->

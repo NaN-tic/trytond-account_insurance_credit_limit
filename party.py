@@ -12,8 +12,8 @@ from sql.aggregate import Sum, Min
 from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
-    'PartyRiskAnalysisTable', 'PartyCreditDuplicateStart',
-    'PartyCreditDuplicate', 'PartyCreditAmount']
+    'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
+    'PartyCreditRenew', 'PartyCreditAmount']
 
 
 class Party:
@@ -163,7 +163,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             'request': {
                 'invisible': Eval('state').in_(['requested', 'approved'])
             },
-            'duplicate': {
+            'renew': {
                 'invisible': Eval('state') != 'approved'
             }
         })
@@ -257,8 +257,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    @ModelView.button_action('account_insurance_credit_limit.wizard_duplicate_party_credit')
-    def duplicate(cls, party_credits):
+    @ModelView.button_action('account_insurance_credit_limit.wizard_renew_party_credit')
+    def renew(cls, party_credits):
         pass
 
     @classmethod
@@ -450,34 +450,32 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
                 order_by=move.date)
 
 
-class PartyCreditDuplicateStart(ModelView):
-    'Initial view for the duplication of party credits wizard'
-    __name__ = 'party.credit.duplicate.start'
-
+class PartyCreditRenewStart(ModelView):
+    'Party Credit Limit Renew Start'
+    __name__ = 'party.credit.renew.start'
     credit = fields.Numeric('Credit Approved', digits=(16, 2), required=True,
         states={
             'invisible': Eval('multiple_ids', False)
         })
-
     multiple_ids = fields.Boolean('Multiple Active IDS', states={
             'invisible': True
             })
 
 
-class PartyCreditDuplicate(Wizard):
-    'Duplicates an exisitng credit limit'
-    __name__ = 'party.credit.duplicate'
+class PartyCreditRenew(Wizard):
+    'Party Credit Renew Wizard'
+    __name__ = 'party.credit.renew'
 
-    start = StateView('party.credit.duplicate.start',
-        'account_insurance_credit_limit.party_credit_duplicate_view_form', [
+    start = StateView('party.credit.renew.start',
+        'account_insurance_credit_limit.party_credit_renew_view_form', [
             Button('Cancel', 'end', 'tryton-cancel'),
-            Button('Duplicate', 'duplicate', 'tryton-ok', default=True),
+            Button('Renew', 'renew', 'tryton-ok', default=True),
             ])
-    duplicate = StateAction('account_insurance_credit_limit.act_partycredit')
+    renew = StateAction('account_insurance_credit_limit.act_party_credit')
 
     @classmethod
     def __setup__(cls):
-        super(PartyCreditDuplicate, cls).__setup__()
+        super(PartyCreditRenew, cls).__setup__()
         cls._error_messages.update({
             'big_amount': ('The entered amount is a 50% bigger '
                 'than the maximum registered amount from the previous period')
@@ -492,32 +490,39 @@ class PartyCreditDuplicate(Wizard):
             'multiple_ids': len(Transaction().context.get('active_ids')) > 1
         }
 
-    def do_duplicate(self, action):
+    def do_renew(self, action):
         pool = Pool()
         PartyCredit = pool.get('party.credit')
         Date = pool.get('ir.date')
 
-        party_credit = PartyCredit(Transaction().context['active_id'])
+        to_create = []
+        active_ids = Transaction().context['active_ids']
+        for credit in PartyCredit.browse(active_ids):
 
-        raise_flag_amount = ((party_credit.maximum_registered / 2)
-            + party_credit.maximum_registered)
-        if self.start.credit > raise_flag_amount:
-            self.raise_user_warning(str(party_credit), 'big_amount')
+            if len(active_ids) == 1:
+                raise_flag_amount = ((credit.maximum_registered / 2)
+                    + credit.maximum_registered)
+                if self.start.credit > raise_flag_amount:
+                    self.raise_user_warning(str(credit), 'big_amount')
+                limit = self.start.credit
+            else:
+                limit = credit.approved_credit_limit
 
-        new_start_date = party_credit.end_date + relativedelta(days=1)
-        new_end_date = party_credit.end_date + relativedelta(years=1)
+            start_date = credit.end_date + relativedelta(days=1)
+            end_date = credit.end_date + relativedelta(years=1)
+            to_create.append({
+                    'date': Date.today(),
+                    'start_date': start_date,
+                    'end_date': end_date,
+                    'requested_credit_limit': limit,
+                    'approved_credit_limit': limit,
+                    'party': credit.party.id,
+                    'company': credit.company.id,
+                    'state': 'requested',
+                    })
 
-        duplicated_party_credit = PartyCredit.create([{
-                        'date': Date_.today(),
-                        'start_date': new_start_date,
-                        'end_date': new_end_date,
-                        'requested_credit_limit': self.start.credit,
-                        'approved_credit_limit': self.start.credit,
-                        'party': party_credit.party.id,
-                        'company': party_credit.company.id,
-                        'state': 'requested'
-                        }])
-        PartyCredit.approve(duplicated_party_credit)
+        credits = PartyCredit.create(to_create)
+        PartyCredit.approve(credits)
 
         action['pyson_domain'] = PYSONEncoder().encode([
                 ('id', 'in', [x.id for x in credits]),
