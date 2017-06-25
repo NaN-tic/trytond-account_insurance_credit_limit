@@ -36,13 +36,14 @@ class Party:
                 digits=(16, Eval('credit_limit_digits', 2)),
                 depends=['credit_limit_digits']),
             'on_change_with_credit_limit_amount')
+        cls.credit_limit_amount.on_change_with = ['insurance_credit_limit', 'company_credit_limit']
 
     @staticmethod
     def default_company_credit_limit():
         return 0
 
     @fields.depends('insurance_credit_limit', 'company_credit_limit')
-    def on_change_with_credit_limit_amount(self, name):
+    def on_change_with_credit_limit_amount(self, name=None):
         if not self.insurance_credit_limit:
             self.insurance_credit_limit = 0
         if not self.company_credit_limit:
