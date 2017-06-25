@@ -187,7 +187,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return 'requested'
 
     def get_rec_name(self, name):
-        return '%s - %s' % (self.party.rec_name, self.state)
+        return '%s - %s' % (self.party.rec_name, self.date)
 
     def get_max(self, name):
         currency = self.company.currency
