@@ -18,7 +18,7 @@ msgid ""
 "It is only allowed an approved credit per party and the party credit "
 "\"%(rec_name)s\" you want to add exceeds this limit."
 msgstr ""
-"Només s'accepta una crèdit de tercer aprovat per periode i el crèdit "
+"Només s'accepta un crèdit de tercer aprovat per periode i el crèdit "
 "\"%(rec_name)s\" l'excedeix"
 
 msgctxt "field:party.credit,accounts:"
