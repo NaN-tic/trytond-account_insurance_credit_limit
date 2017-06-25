@@ -141,10 +141,10 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         super(PartyCredit, cls).__setup__()
         # Error messages
         cls._error_messages.update({
-            'approved_party_credit': ('It is only allowed an approved credit '
-                'per party and the party credit "%(rec_name)s" you want to '
-                'add exceeds this limit.')
-        })
+                'duplicate_party_credit': ('Existing credit limit "%(duplicate)s" '
+                    'overlaps with record "%(current)s" that you are trying '
+                    'to approve.'),
+                })
         # Workflow transitions
         cls._transitions = set((
             ('requested', 'approved'),
@@ -228,8 +228,9 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                     ('end_date', '>=', party_credit.start_date),
                     ], limit=1)
             if duplicate:
-                 cls.raise_user_error('approved_party_credit', {
-                         'rec_name': party_credit.rec_name
+                 cls.raise_user_error('duplicate_party_credit', {
+                         'duplicate': duplicate.rec_name,
+                         'current': party_credit.rec_name,
                          })
             if party_credit.party_credit_amounts:
                 continue
