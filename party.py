@@ -229,7 +229,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                     ], limit=1)
             if duplicate:
                  cls.raise_user_error('duplicate_party_credit', {
-                         'duplicate': duplicate.rec_name,
+                         'duplicate': duplicate[0].rec_name,
                          'current': party_credit.rec_name,
                          })
             if party_credit.party_credit_amounts:
