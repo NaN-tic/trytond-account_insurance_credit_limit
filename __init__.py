@@ -10,9 +10,9 @@ def register():
         party.PartyCredit,
         party.PartyRiskAnalysis,
         party.PartyRiskAnalysisTable,
-        party.PartyCreditDuplicateStart,
+        party.PartyCreditRenewStart,
         party.PartyCreditAmount,
         module='account_insurance_credit_limit', type_='model')
     Pool.register(
-        party.PartyCreditDuplicate,
+        party.PartyCreditRenew,
         module='account_insurance_credit_limit', type_='wizard')
