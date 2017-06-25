@@ -51,22 +51,26 @@ class Party:
         return self.company_credit_limit + self.insurance_credit_limit
 
     def get_insurance_credit_limit(self, name):
-        """ Get the value of the field approved_credit_limit of the model
-            party.credit which belongs to this party instance whose
-            state=approved.
+        """
+        Get the value of the field approved_credit_limit of the model
+        party.credit which belongs to this party instance whose
+        state==approved.
         """
         pool = Pool()
         PartyCredit = pool.get('party.credit')
-        party_credits = PartyCredit.search([
-            ('party', '=', self),
-            ('state', '=', 'approved'),
-            ('company', '=', Transaction().context.get('company')),
-            ], limit=1)
-        # There won't be two records of the model party.credit corresponding
-        # to the same party with state=approved
-        if (party_credits and
-                party_credits[0].approved_credit_limit is not None):
-            return party_credits[0].approved_credit_limit
+        Date = pool.get('ir.date')
+        credits = PartyCredit.search([
+                ('party', '=', self),
+                ('start_date', '<=', Date.today()),
+                ('end_date', '>=', Date.today()),
+                ('company', '=', Transaction().context.get('company')),
+                ], limit=1)
+        if not credits:
+            # If no credit has been requested, return None
+            return None
+        for credit in credits:
+            if credit.state == 'approved':
+                return credit.approved_credit_limit
         return 0
 
 
