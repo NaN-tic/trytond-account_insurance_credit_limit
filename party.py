@@ -174,13 +174,13 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     @staticmethod
     def default_end_date():
-        Date_ = Pool().get('ir.date')
-        return Date_.today() + relativedelta(years=1, days=-1)
+        Date = Pool().get('ir.date')
+        return Date.today() + relativedelta(years=1, days=-1)
 
     @staticmethod
     def default_start_date():
-        Date_ = Pool().get('ir.date')
-        return Date_.today()
+        Date = Pool().get('ir.date')
+        return Date.today()
 
     @staticmethod
     def default_state():
@@ -495,7 +495,7 @@ class PartyCreditDuplicate(Wizard):
     def do_duplicate(self, action):
         pool = Pool()
         PartyCredit = pool.get('party.credit')
-        Date_ = pool.get('ir.date')
+        Date = pool.get('ir.date')
 
         party_credit = PartyCredit(Transaction().context['active_id'])
 
@@ -520,6 +520,6 @@ class PartyCreditDuplicate(Wizard):
         PartyCredit.approve(duplicated_party_credit)
 
         action['pyson_domain'] = PYSONEncoder().encode([
-                ('party', '=', party_credit.party.id),
+                ('id', 'in', [x.id for x in credits]),
                 ])
         return action, {}
