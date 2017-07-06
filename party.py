@@ -117,7 +117,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             'readonly': Eval('state') == 'approved'
             })
 
-    cyc_num = fields.Char('CYC Number',
+    reference = fields.Char('Reference',
         states={
             'readonly': Eval('state') == 'approved'
         })
