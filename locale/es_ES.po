@@ -46,9 +46,9 @@ msgctxt "field:party.credit,create_uid:"
 msgid "Create User"
 msgstr "Usuario de creación"
 
-msgctxt "field:party.credit,cyc_num:"
-msgid "CYC Number"
-msgstr "Número CYC"
+msgctxt "field:party.credit,reference:"
+msgid "Reference"
+msgstr "Referencia"
 
 msgctxt "field:party.credit,date:"
 msgid "Requested Date"
