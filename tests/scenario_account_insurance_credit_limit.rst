@@ -103,6 +103,7 @@ Create Account Insurance Credit::
     >>> ins_credit.party = customer
     >>> ins_credit.date = today
     >>> ins_credit.requested_credit_limit = Decimal('20.00')
+    >>> ins_credit.first_approved_credit_limit = Decimal('20.00')
     >>> ins_credit.save()
     >>> bool(ins_credit.accounts_data)
     True
@@ -118,6 +119,7 @@ Duplicate same insurance credit::
     >>> ins_credit.party = customer
     >>> ins_credit.date = today
     >>> ins_credit.requested_credit_limit = Decimal('20.00')
+    >>> ins_credit.first_approved_credit_limit = Decimal('20.00')
     >>> ins_credit.save()
     >>> ins_credit.click('approve')
     Traceback (most recent call last):

@@ -13,8 +13,12 @@
     <field name="end_date"/>
     <label name="requested_credit_limit"/>
     <field name="requested_credit_limit"/>
-    <label name="approved_credit_limit"/>
-    <field name="approved_credit_limit"/>
+    <group id="approved" col="4" colspan="2">
+        <label name="first_approved_credit_limit"/>
+        <field name="first_approved_credit_limit"/>
+        <label name="approved_credit_limit"/>
+        <field name="approved_credit_limit"/>
+    </group>
     <label name="maximum_registered"/>
     <field name="maximum_registered"/>
     <label name="reference"/>

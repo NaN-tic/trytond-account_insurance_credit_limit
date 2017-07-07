@@ -77,6 +77,7 @@ class Party:
 class PartyCredit(Workflow, ModelSQL, ModelView):
     'Party Credit'
     __name__ = 'party.credit'
+    _rec_name = 'party'
 
     party = fields.Many2One('party.party', 'Party', required=True,
         states={
@@ -101,26 +102,30 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     # insurance company
     requested_credit_limit = fields.Numeric('Requested Credit Limit',
         digits=(16, 2), required=True, states={
-            'readonly': Eval('state') == 'approved'
-        })
+            'readonly': Eval('state') == 'approved',
+            })
+    first_approved_credit_limit = fields.Numeric('First Approved Credit Limit',
+        digits=(16, 2), required=True, states={
+            'invisible': Eval('state') != 'requested',
+            'readonly': Eval('state') == 'approved',
+            })
     # approved_credit_limit: amount of money granted by the insurance company
     approved_credit_limit = fields.Function(
         fields.Numeric('Approved Credit Limit',
-            digits=(16, 2)), 'get_credit_limit')
+            digits=(16, 2), states={
+                'invisible': Eval('state') == 'requested',
+                }), 'get_credit_limit')
     # invoice_line: Link to Credit and Suretyship supplier invoice line
     # invoice_line = fields.Many2One('account.invoice.line')
     state = fields.Selection([
-        ('requested', 'Requested'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
-    ], 'State', required=True, states={
-            'readonly': Eval('state') == 'approved'
-            })
-
+            ('requested', 'Requested'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ], 'State', required=True, readonly=True)
     reference = fields.Char('Reference',
         states={
             'readonly': Eval('state') == 'approved'
-        })
+            })
 
     # Returns the maximum risk amount registered for the given timeframe
     maximum_registered = fields.Function(fields.Numeric(
@@ -183,6 +188,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return Date.today() + relativedelta(years=1, days=-1)
 
     @staticmethod
+    def default_date():
+        Date = Pool().get('ir.date')
+        return Date.today()
+
+    @staticmethod
     def default_start_date():
         Date = Pool().get('ir.date')
         return Date.today()
@@ -214,7 +224,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     def get_credit_limit(self, name=None):
         if not self.party_credit_amounts:
-            return 0
+            return self.first_approved_credit_limit
         return self.party_credit_amounts[-1].amount
 
     @classmethod
@@ -242,7 +252,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
             credit_amount = CreditAmount()
             credit_amount.date = party_credit.start_date
-            credit_amount.amount = party_credit.requested_credit_limit
+            credit_amount.amount = party_credit.first_approved_credit_limit
             credit_amount.party_credit = party_credit.id
             to_create.append(credit_amount)
 
@@ -267,30 +277,31 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    def validate(cls, vlist):
+    def validate33(cls, records):
         PartyRisk = Pool().get('party.risk.analysis')
         PartyRisk.delete(PartyRisk.search([
-            ('party_credit', 'in', [v.id for v in vlist])]))
+                    ('party_credit', 'in', [v.id for v in records])
+                    ]))
 
-        for value in vlist:
-            party_vlist = []
-            for account in value.accounts:
-                if account.date >= value.start_date:
-                    if party_vlist and party_vlist[-1]['date'] == account.date:
-                        party_vlist[-1]['balance'] = account.balance
-                        party_vlist[-1]['credit'] = account.credit
-                        party_vlist[-1]['debit'] = account.debit
+        for record in records:
+            to_create = []
+            for account in record.accounts:
+                if account.date >= record.start_date:
+                    if to_create and to_create[-1]['date'] == account.date:
+                        to_create[-1]['balance'] = account.balance
+                        to_create[-1]['credit'] = account.credit
+                        to_create[-1]['debit'] = account.debit
                     else:
-                        party_vlist.append({
-                            'date': account.date,
-                            'debit': account.debit,
-                            'credit': account.credit,
-                            'balance': account.balance,
-                            'description': account.description,
-                            'party_credit': value.id,
-                            })
-            PartyRisk.create(party_vlist)
-        return super(PartyCredit, cls).validate(vlist)
+                        to_create.append({
+                                'date': account.date,
+                                'debit': account.debit,
+                                'credit': account.credit,
+                                'balance': account.balance,
+                                'description': account.description,
+                                'party_credit': record.id,
+                                })
+            PartyRisk.create(to_create)
+        return super(PartyCredit, cls).validate(records)
 
     @classmethod
     def copy(cls, records, default):
@@ -493,7 +504,7 @@ class PartyCreditRenew(Wizard):
         return {
             'credit': party_credit.approved_credit_limit,
             'multiple_ids': len(Transaction().context.get('active_ids')) > 1
-        }
+            }
 
     def do_renew(self, action):
         pool = Pool()

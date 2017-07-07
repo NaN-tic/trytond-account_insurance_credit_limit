@@ -84,7 +84,7 @@ msgstr "Nombre"
 
 msgctxt "field:party.credit,requested_credit_limit:"
 msgid "Requested Credit Limit"
-msgstr "Límite de crédito pedido"
+msgstr "Límite de crédito solicitado"
 
 msgctxt "field:party.credit,start_date:"
 msgid "Start Date"
