@@ -60,11 +60,11 @@ class Party:
         PartyCredit = pool.get('party.credit')
         Date = pool.get('ir.date')
         credits = PartyCredit.search([
-                ('party', '=', self),
+                ('party', '=', self.id),
                 ('start_date', '<=', Date.today()),
                 ('end_date', '>=', Date.today()),
                 ('company', '=', Transaction().context.get('company')),
-                ], limit=1)
+                ])
         if not credits:
             # If no credit has been requested, return None
             return None
