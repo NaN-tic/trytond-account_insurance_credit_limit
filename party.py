@@ -277,33 +277,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    def validate33(cls, records):
-        PartyRisk = Pool().get('party.risk.analysis')
-        PartyRisk.delete(PartyRisk.search([
-                    ('party_credit', 'in', [v.id for v in records])
-                    ]))
-
-        for record in records:
-            to_create = []
-            for account in record.accounts:
-                if account.date >= record.start_date:
-                    if to_create and to_create[-1]['date'] == account.date:
-                        to_create[-1]['balance'] = account.balance
-                        to_create[-1]['credit'] = account.credit
-                        to_create[-1]['debit'] = account.debit
-                    else:
-                        to_create.append({
-                                'date': account.date,
-                                'debit': account.debit,
-                                'credit': account.credit,
-                                'balance': account.balance,
-                                'description': account.description,
-                                'party_credit': record.id,
-                                })
-            PartyRisk.create(to_create)
-        return super(PartyCredit, cls).validate(records)
-
-    @classmethod
     def copy(cls, records, default):
 
         if not default:
