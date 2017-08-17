@@ -36,7 +36,8 @@ class Party:
                 digits=(16, Eval('credit_limit_digits', 2)),
                 depends=['credit_limit_digits']),
             'on_change_with_credit_limit_amount')
-        cls.credit_limit_amount.on_change_with = ['insurance_credit_limit', 'company_credit_limit']
+        cls.credit_limit_amount.on_change_with = ['insurance_credit_limit',
+            'company_credit_limit']
 
     @staticmethod
     def default_company_credit_limit():
@@ -151,7 +152,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         super(PartyCredit, cls).__setup__()
         # Error messages
         cls._error_messages.update({
-                'duplicate_party_credit': ('Existing credit limit "%(duplicate)s" '
+                'duplicate_party_credit': (
+                    'Existing credit limit "%(duplicate)s" '
                     'overlaps with record "%(current)s" that you are trying '
                     'to approve.'),
                 })
@@ -272,7 +274,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    @ModelView.button_action('account_insurance_credit_limit.wizard_renew_party_credit')
+    @ModelView.button_action(
+        'account_insurance_credit_limit.wizard_renew_party_credit')
     def renew(cls, party_credits):
         pass
 
