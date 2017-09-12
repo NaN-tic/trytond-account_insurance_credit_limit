@@ -300,6 +300,9 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             if party_credit.party_credit_amounts:
                 continue
 
+            if not party_credit.start_date:
+                party_credit.start_date = cls.default_start_date()
+                party_credit.save()
             credit_amount = CreditAmount()
             credit_amount.date = party_credit.start_date
             credit_amount.amount = party_credit.first_approved_credit_limit
