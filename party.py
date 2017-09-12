@@ -219,11 +219,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             return 0
         return currency.round(max(balances))
 
-    @fields.depends('party_credit_amounts')
-    def on_change_party_credit_limit(self, name=None):
-        if self.party_credit_amounts:
-            self.approved_credit_limit = self.party_credit_amounts[-1].amount
-
     def get_credit_limit(self, name=None):
         if not self.party_credit_amounts:
             return self.first_approved_credit_limit
