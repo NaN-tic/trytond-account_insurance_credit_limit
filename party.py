@@ -507,7 +507,7 @@ class PartyCreditRenew(Wizard):
                     'start_date': start_date,
                     'end_date': end_date,
                     'requested_credit_limit': limit,
-                    'approved_credit_limit': limit,
+                    'first_approved_credit_limit': limit,
                     'party': credit.party.id,
                     'company': credit.company.id,
                     'state': 'requested',
