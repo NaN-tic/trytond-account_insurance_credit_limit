@@ -24,8 +24,8 @@
     <label name="reference"/>
     <field name="reference"/>
     <notebook>
-      <page id="accounts_data" string="Accounts Data">
-          <field name="accounts_data" colspan="4"
+      <page id="accounts" string="Accounts">
+          <field name="accounts" colspan="4"
               view_ids="account_insurance_credit_limit.partyriskanalysis_graph_view,account_insurance_credit_limit.partyriskanalysis_list_view"/>
       </page>
       <page id="conceded_amounts" string="Party Credit Amounts">

@@ -135,16 +135,10 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     company = fields.Many2One('company.company', 'Company', required=True,
         readonly=True)
-
-    accounts = fields.One2Many('party.risk.analysis.table', 'party_credit',
-            'Accounts', readonly=True)
-
-    accounts_data = fields.One2Many('party.risk.analysis',
-            'party_credit', 'Accounts', readonly=True)
-
+    accounts = fields.Function(fields.One2Many('party.risk.analysis.table',
+            None, 'Accounts'), 'get_accounts')
     party_credit_amounts = fields.One2Many('party.credit.amount',
         'party_credit', 'Party Credit Amounts')
-
     number_of_days = fields.Char('Number of days')
 
     @classmethod
@@ -206,15 +200,21 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     def get_rec_name(self, name):
         return '%s - %s' % (self.party.rec_name, self.date)
 
+    def get_accounts(self, name):
+        PartyRiskAnalysisTable = Pool().get('party.risk.analysis.table')
+        party_risk_analysis_tables = PartyRiskAnalysisTable.search([
+                ('company', '=', self.company),
+                ('party', '=', self.party.id),
+                ('date', '>=', self.start_date),
+                ('date', '<=', self.end_date),
+                ])
+        return [prat.id for prat in party_risk_analysis_tables]
+
     def get_max(self, name):
         currency = self.company.currency
-        if not self.accounts_data:
+        if not self.accounts:
             return 0
-        if not self.start_date:
-            balances = [a.balance for a in self.accounts_data]
-        if self.start_date:
-            balances = [a.balance for a in self.accounts_data
-                if a.date >= self.start_date]
+        balances = [account.balance for account in self.accounts]
         if not balances:
             return 0
         return currency.round(max(balances))
@@ -283,7 +283,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         if not default:
             default = {}
         default = default.copy()
-        default['accounts_data'] = []
         default['accounts'] = []
         default['number_of_days'] = ''
         default['party_credit_amounts'] = []
@@ -367,13 +366,11 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
     __name__ = 'party.risk.analysis.table'
     # TODO reuse rec_name of Account
     date = fields.Date('Date')
-    party = fields.Many2One('party.party', 'Party',
-        states={
+    company = fields.Many2One('company.company','Company')
+    party = fields.Many2One('party.party', 'Party', states={
             'invisible': ~Eval('party_required', False),
-            },
-        depends=['party_required'])
-    # party_required = fields.Boolean('Party Required')
-    # company = fields.Many2One('company.company', 'Company')
+            }, depends=['party_required'])
+    party_required = fields.Boolean('Party Required')
     debit = fields.Numeric('Debit',
         digits=(16, Eval('currency_digits', 2)),
         depends=['currency_digits'])
@@ -381,10 +378,6 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         digits=(16, Eval('currency_digits', 2)))
     balance = fields.Numeric('Balance',
         digits=(16, Eval('currency_digits', 2)))
-    description = fields.Char('Description')
-    move = fields.Many2One('account.move', 'Move')
-    party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, readonly=True,)
 
     @classmethod
     def __setup__(cls):
@@ -397,47 +390,42 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         Line = pool.get('account.move.line')
         Move = pool.get('account.move')
         Account = pool.get('account.account')
-        PartyCredit = pool.get('party.credit')
 
         line = Line.__table__()
         move = Move.__table__()
         account = Account.__table__()
-        party_credit = PartyCredit.__table__()
         columns = []
         for fname, field in cls._fields.iteritems():
             column = None
             if hasattr(field, 'set'):
                 continue
             if fname == 'balance':
-                w_columns = [party_credit.id]
-                column = Sum(line.debit - line.credit,
-                    window=Window(w_columns,
-                        order_by=[move.date.asc, line.id])).as_('balance')
-            elif fname == 'party_credit':
-                column = Min(Column(party_credit, 'id')).as_(fname)
+                w_columns = [account.company, line.party]
+                order_by = [move.date.asc, Min(line.id)]
+                window = Window(w_columns, order_by=order_by)
+                balance = Sum(line.debit) - Sum(line.credit)
+                column = Sum(balance, window=window).as_('balance')
+            elif fname in ('party_required', 'company'):
+                column = Column(account, fname).as_(fname)
             elif fname == 'date':
                 column = Column(move, fname).as_(fname)
             elif fname in ['create_uid', 'write_uid',
                     'create_date', 'write_date']:
-                columns.append(Literal(None).as_(fname))
-                continue
+                column = Literal(None).as_(fname)
             elif fname == 'id':
-                column = (Column(line, 'id')).as_('id')
+                column = Min(Column(line, fname)).as_(fname)
+            elif fname in ('debit', 'credit'):
+                column = Sum(Column(line, fname)).as_(fname)
             else:
                 column = Column(line, fname).as_(fname)
             if column:
                 columns.append(column)
 
-        return line.join(account, condition=account.id == line.account
-            ).join(move, condition=move.id == line.move
-            ).join(party_credit,
-                condition=((party_credit.company == move.company) &
-                    (line.party == party_credit.party))
-            ).select(*columns,
-                where=(move.date <= party_credit.end_date),
-                group_by=(party_credit.party, move.date, line.debit,
-                    line.credit, line.id, party_credit.id),
-                order_by=move.date)
+        group_by = (account.company, line.party, move.date,
+            account.party_required)
+        return line.join(account, condition=account.id == line.account).join(
+            move, condition=move.id == line.move).select(*columns,
+                group_by=group_by, order_by=move.date).select()
 
 
 class PartyCreditRenewStart(ModelView):
