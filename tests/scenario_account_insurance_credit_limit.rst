@@ -64,7 +64,9 @@ Create Move to cancel::
     >>> move.period = period
     >>> move.company = company
     >>> move.journal = journal_revenue
-    >>> move.date = today - relativedelta(months=2)
+    >>> move.date = period.start_date + relativedelta(days=1)
+    >>> move.date == period.start_date + relativedelta(days=1)
+    True
     >>> line = move.lines.new()
     >>> line.account = revenue
     >>> line.credit = Decimal(0)
@@ -78,7 +80,9 @@ Create Move to cancel::
     >>> move2.period = period
     >>> move2.journal = journal_revenue
     >>> move2.company = company
-    >>> move2.date = today - relativedelta(months=1)
+    >>> move2.date = period.start_date + relativedelta(days=2)
+    >>> move2.date == period.start_date + relativedelta(days=2)
+    True
     >>> line = move2.lines.new()
     >>> line.account = revenue
     >>> line.credit = Decimal(20)
