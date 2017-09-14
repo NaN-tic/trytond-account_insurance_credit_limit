@@ -181,6 +181,23 @@ Create Account Insurance Credit::
     >>> ins_credit.maximum_registered == 42
     True
 
+Renew Account Insurance Credit::
+
+    >>> party_credit_renew = Wizard('party.credit.renew', models=[ins_credit])
+    >>> party_credit_renew.form.credit
+    Decimal('20.00')
+    >>> party_credit_renew.form.credit = Decimal('64.00')
+    >>> party_credit_renew.execute('renew')
+    Traceback (most recent call last):
+        ...
+    UserWarning: ('UserWarning', ('party.credit,1', 'The entered amount is a 50% bigger than the maximum registered amount from the previous period', ''))
+    >>> party_credit_renew.form.credit = Decimal('50.00')
+    >>> party_credit_renew.execute('renew')
+    >>> party_credit = InsuranceCredit().find([('start_date', '=',
+    ...             period.end_date + relativedelta(days=1))])
+    >>> party_credit[0].approved_credit_limit
+    Decimal('50.00')
+
 Duplicate same insurance credit::
 
     >>> ins_credit = InsuranceCredit()
