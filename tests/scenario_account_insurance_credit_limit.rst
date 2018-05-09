@@ -14,19 +14,9 @@ Imports::
     >>> from trytond.modules.account_invoice.tests.tools import set_fiscalyear_invoice_sequences
     >>> today = datetime.date.today()
 
-Create database::
+Install product_cost_plan Module::
 
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
-
-Install account::
-
-    >>> Module = Model.get('ir.module')
-    >>> module, = Module.find([
-    ...         ('name', '=', 'account_insurance_credit_limit'),
-    ...         ])
-    >>> module.click('install')
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
+    >>> config = activate_modules('account_insurance_credit_limit')
 
 Create company::
 

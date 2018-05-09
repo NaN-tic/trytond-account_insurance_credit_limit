@@ -1,11 +1,12 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
 from trytond.pool import PoolMeta, Pool
-from trytond.model import ModelSQL, ModelView, fields, Workflow
+from trytond.model import (ModelSQL, ModelView, fields, Workflow,
+    MultiValueMixin, ValueMixin)
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.pyson import Eval, PYSONEncoder
 from trytond.transaction import Transaction
-
+from trytond.tools.multivalue import migrate_property
 from sql import Column, Window, Literal
 from sql.aggregate import Sum, Min
 
@@ -20,10 +21,10 @@ class Party:
     __name__ = 'party.party'
     __metaclass__ = PoolMeta
 
-    company_credit_limit = fields.Property(fields.Numeric(
-        'Company Credit Limit',
-        digits=(16, Eval('credit_limit_digits', 2)),
-        depends=['credit_limit_digits']))
+    company_credit_limit = fields.MultiValue(
+        fields.Numeric('Company Credit Limit',
+            digits=(16, Eval('credit_limit_digits', 2)),
+            depends=['credit_limit_digits']))
     insurance_credit_limit = fields.Function(fields.Numeric(
         'Insurance credit limit', digits=(16, 2)),
         'get_insurance_credit_limit')

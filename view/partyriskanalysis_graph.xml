@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<graph string="Party Risk Analysis" type="line">
+<graph type="line">
   <x>
     <field name="date"/>
   </x>

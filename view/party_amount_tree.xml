@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tree string="Party Credit" editable="bottom">
+<tree editable="bottom">
     <field name="date"/>
     <field name="amount"/>
     <field name="initial_value" tree_invisible="1"/>
