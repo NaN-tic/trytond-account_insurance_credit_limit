@@ -1,30 +1,33 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
+from dateutil.relativedelta import relativedelta
+from sql import Column, Window, Literal
+from sql.aggregate import Sum, Min
 from trytond.pool import PoolMeta, Pool
-from trytond.model import (ModelSQL, ModelView, fields, Workflow,
-    MultiValueMixin, ValueMixin)
+from trytond.model import ModelSQL, ModelView, fields, Workflow
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.pyson import Eval, PYSONEncoder
 from trytond.transaction import Transaction
 from trytond.tools.multivalue import migrate_property
-from sql import Column, Window, Literal
-from sql.aggregate import Sum, Min
+from trytond import backend
+from trytond.modules.company.model import (
+    CompanyMultiValueMixin, CompanyValueMixin)
 
-from dateutil.relativedelta import relativedelta
 
-__all__ = ['Party', 'PartyCredit', 'PartyRiskAnalysis',
-    'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
+__all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
+    'PartyRiskAnalysis', 'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
     'PartyCreditRenew', 'PartyCreditAmount']
 
 
-class Party:
+class Party(CompanyMultiValueMixin):
     __name__ = 'party.party'
     __metaclass__ = PoolMeta
-
-    company_credit_limit = fields.MultiValue(
-        fields.Numeric('Company Credit Limit',
-            digits=(16, Eval('credit_limit_digits', 2)),
-            depends=['credit_limit_digits']))
+    company_credit_limits = fields.One2Many('party.party.company_credit_limit',
+        'party', 'Company Credit Limits')
+    company_credit_limit = fields.MultiValue(fields.Numeric(
+        'Company Credit Limit',
+        digits=(16, Eval('credit_limit_digits', 2)),
+        depends=['credit_limit_digits']))
     insurance_credit_limit = fields.Function(fields.Numeric(
         'Insurance credit limit', digits=(16, 2)),
         'get_insurance_credit_limit')
@@ -40,9 +43,16 @@ class Party:
         cls.credit_limit_amount.on_change_with = ['insurance_credit_limit',
             'company_credit_limit']
 
-    @staticmethod
-    def default_company_credit_limit():
+    @classmethod
+    def default_account_payable(cls, **pattern):
         return 0
+
+    @classmethod
+    def multivalue_model(cls, field):
+        pool = Pool()
+        if field == 'company_credit_limit':
+            return pool.get('party.party.company_credit_limit')
+        return super(Party, cls).multivalue_model(field)
 
     @fields.depends('insurance_credit_limit', 'company_credit_limit')
     def on_change_with_credit_limit_amount(self, name=None):
@@ -76,10 +86,49 @@ class Party:
         return 0
 
 
+class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
+    "Party Company Credit Limit"
+    __name__ = 'party.party.company_credit_limit'
+    party = fields.Many2One('party.party', "Party", ondelete='CASCADE',
+        select=True)
+    company_credit_limit = fields.Numeric('Company Credit Limit',
+        digits=(16, Eval('credit_limit_digits', 2)),
+        depends=['credit_limit_digits'])
+
+    @classmethod
+    def __register__(cls, module_name):
+        pool = Pool()
+        Party = pool.get('party.party')
+        TableHandler = backend.get('TableHandler')
+        cursor = Transaction().connection.cursor()
+        exist = TableHandler.table_exist(cls._table)
+        table = cls.__table__()
+        party = Party.__table__()
+        super(PartyCompanyCreditLimit, cls).__register__(module_name)
+
+        if not exist:
+            party_h = TableHandler(Party, module_name)
+            if party_h.column_exist('company_credit_limit'):
+                query = table.insert(
+                    [table.party, table.company_credit_limit],
+                    party.select(party.id, party.company_credit_limit))
+                cursor.execute(*query)
+                party_h.drop_column('company_credit_limit')
+            else:
+                cls._migrate_property([], [], [])
+
+    @classmethod
+    def _migrate_property(cls, field_names, value_names, fields):
+        field_names.append('company_credit_limit')
+        value_names.append('company_credit_limit')
+        fields.append('company')
+        migrate_property('party.party', field_names, cls, value_names,
+            parent='party', fields=fields)
+
+
 class PartyCredit(Workflow, ModelSQL, ModelView):
     'Party Credit'
     __name__ = 'party.credit'
-
     party = fields.Many2One('party.party', 'Party', required=True,
         states={
             'readonly': Eval('state') == 'approved'
@@ -319,7 +368,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 class PartyCreditAmount(ModelView, ModelSQL):
     'Party Credit Conceded Amount'
     __name__ = 'party.credit.amount'
-
     date = fields.Date('Date', required=True, states={
             'readonly': Eval('initial_value', False)
             })
@@ -366,7 +414,6 @@ class PartyCreditAmount(ModelView, ModelSQL):
 class PartyRiskAnalysis(ModelView, ModelSQL):
     'Party Risk Analysis'
     __name__ = 'party.risk.analysis'
-
     date = fields.Date('Date')
 
     debit = fields.Numeric('Debit',
@@ -474,7 +521,6 @@ class PartyCreditRenewStart(ModelView):
 class PartyCreditRenew(Wizard):
     'Party Credit Renew Wizard'
     __name__ = 'party.credit.renew'
-
     start = StateView('party.credit.renew.start',
         'account_insurance_credit_limit.party_credit_renew_view_form', [
             Button('Cancel', 'end', 'tryton-cancel'),

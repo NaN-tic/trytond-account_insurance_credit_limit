@@ -7,6 +7,7 @@ from . import party
 def register():
     Pool.register(
         party.Party,
+        party.PartyCompanyCreditLimit,
         party.PartyCredit,
         party.PartyRiskAnalysis,
         party.PartyRiskAnalysisTable,
