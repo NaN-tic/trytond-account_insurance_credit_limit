@@ -44,7 +44,7 @@ class Party(CompanyMultiValueMixin):
             'company_credit_limit']
 
     @classmethod
-    def default_account_payable(cls, **pattern):
+    def default_company_credit_limit(cls, **pattern):
         return 0
 
     @classmethod
