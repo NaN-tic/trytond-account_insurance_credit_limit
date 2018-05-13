@@ -13,6 +13,10 @@ from trytond import backend
 from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
 
+from sql import Column, Window, Literal
+from sql.aggregate import Sum, Min
+
+from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
@@ -76,7 +80,7 @@ class Party(CompanyMultiValueMixin):
                 ('start_date', '<=', Date.today()),
                 ('end_date', '>=', Date.today()),
                 ('company', '=', Transaction().context.get('company')),
-                ], limit=1)
+                ])
         if not credits:
             # If no credit has been requested, return None
             return None
@@ -152,26 +156,30 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     # insurance company
     requested_credit_limit = fields.Numeric('Requested Credit Limit',
         digits=(16, 2), required=True, states={
-            'readonly': Eval('state') == 'approved'
-        })
+            'readonly': Eval('state') == 'approved',
+            })
+    first_approved_credit_limit = fields.Numeric('First Approved Credit Limit',
+        digits=(16, 2), required=True, states={
+            'invisible': Eval('state') != 'requested',
+            'readonly': Eval('state') == 'approved',
+            })
     # approved_credit_limit: amount of money granted by the insurance company
     approved_credit_limit = fields.Function(
         fields.Numeric('Approved Credit Limit',
-            digits=(16, 2)), 'get_credit_limit')
+            digits=(16, 2), states={
+                'invisible': Eval('state') == 'requested',
+                }), 'get_credit_limit')
     # invoice_line: Link to Credit and Suretyship supplier invoice line
     # invoice_line = fields.Many2One('account.invoice.line')
     state = fields.Selection([
-        ('requested', 'Requested'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
-    ], 'State', required=True, states={
-            'readonly': Eval('state') == 'approved'
-            })
-
+            ('requested', 'Requested'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ], 'State', required=True, readonly=True)
     reference = fields.Char('Reference',
         states={
             'readonly': Eval('state') == 'approved'
-        })
+            })
 
     # Returns the maximum risk amount registered for the given timeframe
     maximum_registered = fields.Function(fields.Numeric(
@@ -235,6 +243,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return Date.today() + relativedelta(years=1, days=-1)
 
     @staticmethod
+    def default_date():
+        Date = Pool().get('ir.date')
+        return Date.today()
+
+    @staticmethod
     def default_start_date():
         Date = Pool().get('ir.date')
         return Date.today()
@@ -266,7 +279,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     def get_credit_limit(self, name=None):
         if not self.party_credit_amounts:
-            return 0
+            return self.first_approved_credit_limit
         return self.party_credit_amounts[-1].amount
 
     @classmethod
@@ -294,7 +307,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
             credit_amount = CreditAmount()
             credit_amount.date = party_credit.start_date
-            credit_amount.amount = party_credit.requested_credit_limit
+            credit_amount.amount = party_credit.first_approved_credit_limit
             credit_amount.party_credit = party_credit.id
             to_create.append(credit_amount)
 
@@ -543,7 +556,7 @@ class PartyCreditRenew(Wizard):
         return {
             'credit': party_credit.approved_credit_limit,
             'multiple_ids': len(Transaction().context.get('active_ids')) > 1
-        }
+            }
 
     def do_renew(self, action):
         pool = Pool()

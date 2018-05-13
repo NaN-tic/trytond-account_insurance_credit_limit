@@ -11,7 +11,9 @@ Imports::
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, create_chart, get_accounts
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.account_invoice.tests.tools import set_fiscalyear_invoice_sequences
+    >>> from trytond.tests.tools import activate_modules
     >>> today = datetime.date.today()
 
 Install product_cost_plan Module::
@@ -93,6 +95,7 @@ Create Account Insurance Credit::
     >>> ins_credit.party = customer
     >>> ins_credit.date = today
     >>> ins_credit.requested_credit_limit = Decimal('20.00')
+    >>> ins_credit.first_approved_credit_limit = Decimal('20.00')
     >>> ins_credit.save()
     >>> ins_credit.click('approve')
     >>> ins_credit.state
@@ -104,6 +107,7 @@ Duplicate same insurance credit::
     >>> ins_credit.party = customer
     >>> ins_credit.date = today
     >>> ins_credit.requested_credit_limit = Decimal('20.00')
+    >>> ins_credit.first_approved_credit_limit = Decimal('20.00')
     >>> ins_credit.save()
     >>> ins_credit.click('approve')  # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
