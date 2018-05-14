@@ -179,10 +179,10 @@ Renew Account Insurance Credit::
     >>> party_credit_renew.form.credit
     Decimal('20.00')
     >>> party_credit_renew.form.credit = Decimal('64.00')
-    >>> party_credit_renew.execute('renew')
+    >>> party_credit_renew.execute('renew') # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         ...
-    UserWarning: ('UserWarning', ('party.credit,1', 'The entered amount is a 50% bigger than the maximum registered amount from the previous period', ''))
+    UserWarning: The entered amount is a 50% bigger than the maximum registered amount from the previous period -
     >>> party_credit_renew.form.credit = Decimal('50.00')
     >>> party_credit_renew.execute('renew')
     >>> party_credit = InsuranceCredit().find([('start_date', '=',
