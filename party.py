@@ -360,7 +360,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                             'debit': account.debit,
                             'credit': account.credit,
                             'balance': account.balance,
-                            'description': account.description,
                             'party_credit': value.id,
                             })
             PartyRisk.create(party_vlist)
