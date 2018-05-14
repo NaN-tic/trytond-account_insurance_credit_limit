@@ -116,5 +116,29 @@
             pyson="1"/>
         <field name="rule_group" ref="rule_group_party_credit"/>
     </record>
+    <record model="ir.model.button" id="party_credit_request_button">
+        <field name="name">request</field>
+        <field name="string">Request</field>
+        <field name="model"
+            search="[('model', '=', 'party.credit')]"/>
+    </record>
+    <record model="ir.model.button" id="party_credit_approve_button">
+        <field name="name">approve</field>
+        <field name="string">Approve</field>
+        <field name="model"
+            search="[('model', '=', 'party.credit')]"/>
+    </record>
+    <record model="ir.model.button" id="party_credit_renew_button">
+        <field name="name">renew</field>
+        <field name="string">Renew</field>
+        <field name="model"
+            search="[('model', '=', 'party.credit')]"/>
+    </record>
+    <record model="ir.model.button" id="party_credit_reject_button">
+        <field name="name">reject</field>
+        <field name="string">Reject</field>
+        <field name="model"
+            search="[('model', '=', 'party.credit')]"/>
+    </record>
   </data>
 </tryton>
