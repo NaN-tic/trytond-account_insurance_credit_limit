@@ -28,10 +28,6 @@ class Party(CompanyMultiValueMixin):
     __metaclass__ = PoolMeta
     company_credit_limits = fields.One2Many('party.party.company_credit_limit',
         'party', 'Company Credit Limits')
-    company_credit_limit = fields.MultiValue(fields.Numeric(
-        'Company Credit Limit',
-        digits=(16, Eval('credit_limit_digits', 2)),
-        depends=['credit_limit_digits']))
     insurance_credit_limit = fields.Function(fields.Numeric(
         'Insurance credit limit', digits=(16, 2)),
         'get_insurance_credit_limit')
@@ -46,6 +42,10 @@ class Party(CompanyMultiValueMixin):
             'on_change_with_credit_limit_amount')
         cls.credit_limit_amount.on_change_with = ['insurance_credit_limit',
             'company_credit_limit']
+        cls.company_credit_limit = fields.MultiValue(
+            fields.Numeric('Company Credit Limit',
+                digits=(16, Eval('credit_limit_digits', 2)),
+                depends=['credit_limit_digits']))
 
     @classmethod
     def default_company_credit_limit(cls, **pattern):
@@ -98,6 +98,8 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
     company_credit_limit = fields.Numeric('Company Credit Limit',
         digits=(16, Eval('credit_limit_digits', 2)),
         depends=['credit_limit_digits'])
+    credit_limit_digits = fields.Function(fields.Integer('Currency Digits'),
+        'get_credit_limit_digits')
 
     @classmethod
     def __register__(cls, module_name):
@@ -128,6 +130,14 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
         fields.append('company')
         migrate_property('party.party', field_names, cls, value_names,
             parent='party', fields=fields)
+
+    def get_credit_limit_digits(self, name):
+        pool = Pool()
+        Company = pool.get('company.company')
+        company_id = Transaction().context.get('company')
+        if company_id:
+            company = Company(company_id)
+            return company.currency.digits
 
 
 class PartyCredit(Workflow, ModelSQL, ModelView):
@@ -430,12 +440,24 @@ class PartyRiskAnalysis(ModelView, ModelSQL):
         digits=(16, Eval('currency_digits', 2)),
         depends=['currency_digits'])
     credit = fields.Numeric('Credit',
-        digits=(16, Eval('currency_digits', 2)))
+        digits=(16, Eval('currency_digits', 2)),
+        depends=['currency_digits'])
     balance = fields.Numeric('Balance',
-        digits=(16, Eval('currency_digits', 2)))
+        digits=(16, Eval('currency_digits', 2)),
+        depends=['currency_digits'])
     description = fields.Char('Description')
     party_credit = fields.Many2One('party.credit', 'Party Credit',
         required=True, readonly=True, ondelete='CASCADE')
+    currency_digits = fields.Function(fields.Integer('Currency Digits'),
+        'get_currency_digits')
+
+    def get_currency_digits(self, name):
+        pool = Pool()
+        Company = pool.get('company.company')
+        company_id = Transaction().context.get('company')
+        if company_id:
+            company = Company(company_id)
+            return company.currency.digits
 
 
 class PartyRiskAnalysisTable(ModelSQL, ModelView):
@@ -452,9 +474,13 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         digits=(16, Eval('currency_digits', 2)),
         depends=['currency_digits'])
     credit = fields.Numeric('Credit',
-        digits=(16, Eval('currency_digits', 2)))
+        digits=(16, Eval('currency_digits', 2)),
+        depends=['currency_digits'])
     balance = fields.Numeric('Balance',
-        digits=(16, Eval('currency_digits', 2)))
+        digits=(16, Eval('currency_digits', 2)),
+        depends=['currency_digits'])
+    currency_digits = fields.Function(fields.Integer('Currency Digits'),
+        'get_currency_digits')
 
     @classmethod
     def __setup__(cls):
@@ -503,6 +529,14 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         return line.join(account, condition=account.id == line.account).join(
             move, condition=move.id == line.move).select(*columns,
                 group_by=group_by, order_by=move.date).select()
+
+    def get_currency_digits(self, name):
+        pool = Pool()
+        Company = pool.get('company.company')
+        company_id = Transaction().context.get('company')
+        if company_id:
+            company = Company(company_id)
+            return company.currency.digits
 
 
 class PartyCreditRenewStart(ModelView):
