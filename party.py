@@ -13,19 +13,13 @@ from trytond import backend
 from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
 
-from sql import Column, Window, Literal
-from sql.aggregate import Sum, Min
-
-from dateutil.relativedelta import relativedelta
-
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
     'PartyCreditRenew', 'PartyCreditAmount']
 
 
-class Party(CompanyMultiValueMixin):
+class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
     __name__ = 'party.party'
-    __metaclass__ = PoolMeta
     company_credit_limits = fields.One2Many('party.party.company_credit_limit',
         'party', 'Company Credit Limits')
     insurance_credit_limit = fields.Function(fields.Numeric(
@@ -497,7 +491,7 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
         move = Move.__table__()
         account = Account.__table__()
         columns = []
-        for fname, field in cls._fields.iteritems():
+        for fname, field in cls._fields.items():
             column = None
             if hasattr(field, 'set'):
                 continue

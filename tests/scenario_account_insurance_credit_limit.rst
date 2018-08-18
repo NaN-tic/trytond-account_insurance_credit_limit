@@ -159,7 +159,7 @@ Create Account Insurance Credit::
     >>> ins_credit.save()
     >>> ins_credit.click('approve')
     >>> ins_credit.state
-    u'approved'
+    'approved'
     >>> ins_credit.approved_credit_limit
     Decimal('20.00')
     >>> ins_credit.accounts[0].balance == 42
@@ -202,4 +202,4 @@ Duplicate same insurance credit::
     >>> ins_credit.click('approve')  # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         ...
-    UserError: ('UserError', (u'It is only allowed an approved credit per party and the party credit "Customer - requested" you want to add exceeds this limit.', ''))
+    UserError: ('UserError', ('It is only allowed an approved credit per party and the party credit "Customer - requested" you want to add exceeds this limit.', ''))
