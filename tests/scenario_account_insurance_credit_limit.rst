@@ -168,7 +168,7 @@ Create Account Insurance Credit::
     True
     >>> ins_credit.accounts[1].debit == 30
     True
-    >>> ins_credit.accounts[1].balance == 10
+    >>> ins_credit.accounts[1].balance == 10 or ins_credit.accounts[1].balance == 20 # 10 ==> When if window functions available (PostgreSQL), 20 ==> Without window functions (SQLite)
     True
     >>> ins_credit.maximum_registered == 42
     True

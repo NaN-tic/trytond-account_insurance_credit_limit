@@ -431,6 +431,9 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
         Move = pool.get('account.move')
         Account = pool.get('account.account')
 
+        transaction = Transaction()
+        database = transaction.database
+
         line = Line.__table__()
         move = Move.__table__()
         account = Account.__table__()
@@ -440,11 +443,14 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
             if hasattr(field, 'set'):
                 continue
             if fname == 'balance':
-                w_columns = [account.company, line.party]
-                order_by = [move.date.asc, Min(line.id)]
-                window = Window(w_columns, order_by=order_by)
-                balance = Sum(line.debit) - Sum(line.credit)
-                column = Sum(balance, window=window).as_('balance')
+                if database.has_window_functions():
+                    w_columns = [account.company, line.party]
+                    order_by = [move.date.asc, Min(line.id)]
+                    window = Window(w_columns, order_by=order_by)
+                    balance = Sum(line.debit) - Sum(line.credit)
+                    column = Sum(balance, window=window).as_('balance')
+                else:
+                    column = (line.debit - line.credit).as_('balance')
             elif fname in ('party_required', 'company'):
                 column = Column(account, fname).as_(fname)
             elif fname == 'date':
