@@ -194,6 +194,14 @@ msgctxt "field:party.risk.analysis,id:"
 msgid "ID"
 msgstr "ID"
 
+msgctxt "field:party.risk.analysis,move:"
+msgid "Move"
+msgstr "Asiento"
+
+msgctxt "field:party.risk.analysis,party:"
+msgid "Party"
+msgstr "Tercero"
+
 msgctxt "field:party.risk.analysis,party_credit:"
 msgid "Party Credit"
 msgstr "Crédito del tercero"
@@ -207,62 +215,6 @@ msgid "Write Date"
 msgstr "Fecha de modificación"
 
 msgctxt "field:party.risk.analysis,write_uid:"
-msgid "Write User"
-msgstr "Usuario de modificación"
-
-msgctxt "field:party.risk.analysis.table,balance:"
-msgid "Balance"
-msgstr "Saldo"
-
-msgctxt "field:party.risk.analysis.table,create_date:"
-msgid "Create Date"
-msgstr "Fecha de creación"
-
-msgctxt "field:party.risk.analysis.table,create_uid:"
-msgid "Create User"
-msgstr "Usuario de creación"
-
-msgctxt "field:party.risk.analysis.table,credit:"
-msgid "Credit"
-msgstr "Haber"
-
-msgctxt "field:party.risk.analysis.table,date:"
-msgid "Date"
-msgstr "Fecha"
-
-msgctxt "field:party.risk.analysis.table,debit:"
-msgid "Debit"
-msgstr "Debe"
-
-msgctxt "field:party.risk.analysis.table,description:"
-msgid "Description"
-msgstr "Descripción"
-
-msgctxt "field:party.risk.analysis.table,id:"
-msgid "ID"
-msgstr "ID"
-
-msgctxt "field:party.risk.analysis.table,move:"
-msgid "Move"
-msgstr "Asiento"
-
-msgctxt "field:party.risk.analysis.table,party:"
-msgid "Party"
-msgstr "Tercero"
-
-msgctxt "field:party.risk.analysis.table,party_credit:"
-msgid "Party Credit"
-msgstr "Crédito del tercero"
-
-msgctxt "field:party.risk.analysis.table,rec_name:"
-msgid "Name"
-msgstr "Nombre"
-
-msgctxt "field:party.risk.analysis.table,write_date:"
-msgid "Write Date"
-msgstr "Fecha de modificación"
-
-msgctxt "field:party.risk.analysis.table,write_uid:"
 msgid "Write User"
 msgstr "Usuario de modificación"
 
@@ -303,10 +255,6 @@ msgid "Initial view for the duplication of party credits wizard"
 msgstr "Asistente para la duplicación de los créditos del tercero"
 
 msgctxt "model:party.risk.analysis,name:"
-msgid "Party Risk Analysis"
-msgstr "Analisi de riesgo del tercero"
-
-msgctxt "model:party.risk.analysis.table,name:"
 msgid "Party Risk Analysis"
 msgstr "Analisi de riesgo del tercero"
 

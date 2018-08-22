@@ -10,7 +10,6 @@ def register():
         party.PartyCompanyCreditLimit,
         party.PartyCredit,
         party.PartyRiskAnalysis,
-        party.PartyRiskAnalysisTable,
         party.PartyCreditRenewStart,
         party.PartyCreditAmount,
         module='account_insurance_credit_limit', type_='model')

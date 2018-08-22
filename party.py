@@ -14,8 +14,8 @@ from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
-    'PartyRiskAnalysis', 'PartyRiskAnalysisTable', 'PartyCreditRenewStart',
-    'PartyCreditRenew', 'PartyCreditAmount']
+    'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
+    'PartyCreditAmount']
 
 
 class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
@@ -192,8 +192,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     company = fields.Many2One('company.company', 'Company', required=True,
         readonly=True)
-    accounts = fields.Function(fields.One2Many('party.risk.analysis.table',
-            None, 'Accounts'), 'get_accounts')
+    accounts = fields.Function(fields.One2Many('party.risk.analysis', None,
+            'Accounts'), 'get_accounts')
     party_credit_amounts = fields.One2Many('party.credit.amount',
         'party_credit', 'Party Credit Amounts')
     number_of_days = fields.Char('Number of days')
@@ -258,14 +258,14 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         return '%s - %s' % (self.party.rec_name, self.date)
 
     def get_accounts(self, name):
-        PartyRiskAnalysisTable = Pool().get('party.risk.analysis.table')
-        party_risk_analysis_tables = PartyRiskAnalysisTable.search([
+        PartyRiskAnalysis = Pool().get('party.risk.analysis')
+        party_risk_analysis = PartyRiskAnalysis.search([
                 ('company', '=', self.company),
                 ('party', '=', self.party.id),
                 ('date', '>=', self.start_date),
                 ('date', '<=', self.end_date),
                 ])
-        return [prat.id for prat in party_risk_analysis_tables]
+        return [x.id for x in party_risk_analysis]
 
     def get_max(self, name):
         currency = self.company.currency
@@ -392,39 +392,9 @@ class PartyCreditAmount(ModelView, ModelSQL):
         super(PartyCreditAmount, cls).delete(to_delete)
 
 
-class PartyRiskAnalysis(ModelView, ModelSQL):
+class PartyRiskAnalysis(ModelSQL, ModelView):
     'Party Risk Analysis'
     __name__ = 'party.risk.analysis'
-    date = fields.Date('Date')
-
-    debit = fields.Numeric('Debit',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    credit = fields.Numeric('Credit',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    balance = fields.Numeric('Balance',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    description = fields.Char('Description')
-    party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, readonly=True, ondelete='CASCADE')
-    currency_digits = fields.Function(fields.Integer('Currency Digits'),
-        'get_currency_digits')
-
-    def get_currency_digits(self, name):
-        pool = Pool()
-        Company = pool.get('company.company')
-        company_id = Transaction().context.get('company')
-        if company_id:
-            company = Company(company_id)
-            return company.currency.digits
-
-
-class PartyRiskAnalysisTable(ModelSQL, ModelView):
-    'Party Risk Analysis'
-    __name__ = 'party.risk.analysis.table'
-    # TODO reuse rec_name of Account
     date = fields.Date('Date')
     company = fields.Many2One('company.company','Company')
     party = fields.Many2One('party.party', 'Party', states={
@@ -445,7 +415,7 @@ class PartyRiskAnalysisTable(ModelSQL, ModelView):
 
     @classmethod
     def __setup__(cls):
-        super(PartyRiskAnalysisTable, cls).__setup__()
+        super(PartyRiskAnalysis, cls).__setup__()
         cls._order.insert(0, ('date', 'ASC'))
 
     @classmethod
