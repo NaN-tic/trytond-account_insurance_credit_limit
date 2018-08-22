@@ -335,31 +335,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    def validate(cls, vlist):
-        PartyRisk = Pool().get('party.risk.analysis')
-        PartyRisk.delete(PartyRisk.search([
-            ('party_credit', 'in', [v.id for v in vlist])]))
-
-        for value in vlist:
-            party_vlist = []
-            for account in value.accounts:
-                if account.date >= value.start_date:
-                    if party_vlist and party_vlist[-1]['date'] == account.date:
-                        party_vlist[-1]['balance'] = account.balance
-                        party_vlist[-1]['credit'] = account.credit
-                        party_vlist[-1]['debit'] = account.debit
-                    else:
-                        party_vlist.append({
-                            'date': account.date,
-                            'debit': account.debit,
-                            'credit': account.credit,
-                            'balance': account.balance,
-                            'party_credit': value.id,
-                            })
-            PartyRisk.create(party_vlist)
-        return super(PartyCredit, cls).validate(vlist)
-
-    @classmethod
     def copy(cls, records, default):
 
         if not default:
@@ -369,13 +344,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         default['number_of_days'] = ''
         default['party_credit_amounts'] = []
         return super(PartyCredit, cls).copy(records, default)
-
-    @classmethod
-    def delete(cls, records):
-        PartyRisk = Pool().get('party.risk.analysis')
-        PartyRisk.delete(PartyRisk.search([
-                ('party_credit', 'in', [x.id for x in records])]))
-        super(PartyCredit, cls).delete(records)
 
 
 class PartyCreditAmount(ModelView, ModelSQL):
