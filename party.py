@@ -289,13 +289,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         default['party_credit_amounts'] = []
         return super(PartyCredit, cls).copy(records, default)
 
-    @classmethod
-    def delete(cls, records):
-        PartyRisk = Pool().get('party.risk.analysis')
-        PartyRisk.delete(PartyRisk.search([
-                ('party_credit', 'in', [x.id for x in records])]))
-        super(PartyCredit, cls).delete(records)
-
 
 class PartyCreditAmount(ModelView, ModelSQL):
     'Party Credit Conceded Amount'
