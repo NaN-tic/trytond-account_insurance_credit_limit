@@ -12,6 +12,8 @@ from trytond.tools.multivalue import migrate_property
 from trytond import backend
 from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
+from trytond.i18n import gettext
+from trytond.exceptions import UserError, UserWarning
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
@@ -201,13 +203,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     @classmethod
     def __setup__(cls):
         super(PartyCredit, cls).__setup__()
-        # Error messages
-        cls._error_messages.update({
-                'duplicate_party_credit': (
-                    'Existing credit limit "%(duplicate)s" '
-                    'overlaps with record "%(current)s" that you are trying '
-                    'to approve.'),
-                })
         # Workflow transitions
         cls._transitions = set((
             ('requested', 'approved'),
@@ -297,10 +292,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
                     ('end_date', '>=', party_credit.start_date),
                     ], limit=1)
             if duplicate:
-                 cls.raise_user_error('duplicate_party_credit', {
-                         'duplicate': duplicate[0].rec_name,
-                         'current': party_credit.rec_name,
-                         })
+                 raise UserError(gettext(
+                    'account_insurance_credit_limit.duplicate_party_credit',
+                         duplicate=duplicate[0].rec_name,
+                         current=party_credit.rec_name))
+
             if party_credit.party_credit_amounts:
                 continue
 
@@ -364,9 +360,6 @@ class PartyCreditAmount(ModelView, ModelSQL):
     def __setup__(cls):
         super(PartyCreditAmount, cls).__setup__()
         cls._order.insert(0, ('date', 'ASC'))
-        cls._error_messages.update({
-                'invalid_date': 'The entered date is outside the period'
-                })
 
     @classmethod
     def create(cls, vlist):
@@ -375,7 +368,8 @@ class PartyCreditAmount(ModelView, ModelSQL):
             party_credit = PartyCredit(value['party_credit'])
             if (party_credit.start_date > value['date'] or
                     value['date'] > party_credit.end_date):
-                cls.raise_user_error('invalid_date')
+                raise UserError(gettext(
+                    'account_insurance_credit_limit.invalid_date'))
 
         return super(PartyCreditAmount, cls).create(vlist)
 
@@ -498,14 +492,6 @@ class PartyCreditRenew(Wizard):
             ])
     renew = StateAction('account_insurance_credit_limit.act_party_credit')
 
-    @classmethod
-    def __setup__(cls):
-        super(PartyCreditRenew, cls).__setup__()
-        cls._error_messages.update({
-            'big_amount': ('The entered amount is a 50% bigger '
-                'than the maximum registered amount from the previous period')
-            })
-
     def default_start(self, fields):
         pool = Pool()
         PartyCredit = pool.get('party.credit')
@@ -528,7 +514,8 @@ class PartyCreditRenew(Wizard):
                 raise_flag_amount = ((credit.maximum_registered / 2)
                     + credit.maximum_registered)
                 if self.start.credit > raise_flag_amount:
-                    self.raise_user_warning(str(credit), 'big_amount')
+                    raise UserWarning(str(credit), gettext(
+                        'account_insurance_credit_limit.big_amount'))
                 limit = self.start.credit
             else:
                 limit = credit.approved_credit_limit
