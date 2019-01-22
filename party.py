@@ -17,7 +17,7 @@ from trytond.exceptions import UserError, UserWarning
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
-    'PartyCreditAmount']
+    'PartyCreditAmount', 'PartyReplace', 'PartyErase']
 
 
 class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
@@ -540,3 +540,35 @@ class PartyCreditRenew(Wizard):
                 ('id', 'in', [x.id for x in credits]),
                 ])
         return action, {}
+
+
+class PartyReplace(metaclass=PoolMeta):
+    __metaclass__ = PoolMeta
+    __name__ = 'party.replace'
+
+    @classmethod
+    def fields_to_replace(cls):
+        return super(PartyReplace, cls).fields_to_replace() + [
+            ('party.party.company_credit_limit', 'party'),
+            ('party.credit', 'party'),
+            ]
+
+
+class PartyErase(metaclass=PoolMeta):
+    __metaclass__ = PoolMeta
+    __name__ = 'party.erase'
+
+    def check_erase_company(self, party, company):
+        pool = Pool()
+        Credits = pool.get('party.credit')
+        super(PartyErase, self).check_erase_company(party, company)
+
+        credits = Credits.search([
+                ('party', '=', party.id),
+                ('state', 'in', ['requested']),
+                ])
+        if credits:
+            self.raise_user_error('requested_credits', {
+                    'party': party.rec_name,
+                    'company': company.rec_name,
+                    })

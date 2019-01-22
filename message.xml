@@ -12,5 +12,8 @@ this repository contains the full copyright notices and license terms. -->
       <record model="ir.message" id="big_amount">
           <field name="text">The entered amount is a 50% bigger than the maximum registered amount from the previous period.</field>
       </record>
+      <record model="ir.message" id="requested_credits">
+          <field name="text">The party "%(party)s" can not be erased because he has requested credit limit for the company "%(company)s".</field>
+      </record>
     </data>
 </tryton>

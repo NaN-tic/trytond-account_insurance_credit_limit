@@ -15,4 +15,6 @@ def register():
         module='account_insurance_credit_limit', type_='model')
     Pool.register(
         party.PartyCreditRenew,
+        party.PartyReplace,
+        party.PartyErase,
         module='account_insurance_credit_limit', type_='wizard')
