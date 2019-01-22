@@ -20,7 +20,7 @@ from dateutil.relativedelta import relativedelta
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
-    'PartyCreditAmount']
+    'PartyCreditAmount', 'PartyReplace', 'PartyErase']
 
 
 class Party(CompanyMultiValueMixin):
@@ -559,3 +559,45 @@ class PartyCreditRenew(Wizard):
                 ('id', 'in', [x.id for x in credits]),
                 ])
         return action, {}
+
+
+class PartyReplace:
+    __metaclass__ = PoolMeta
+    __name__ = 'party.replace'
+
+    @classmethod
+    def fields_to_replace(cls):
+        return super(PartyReplace, cls).fields_to_replace() + [
+            ('party.party.company_credit_limit', 'party'),
+            ('party.credit', 'party'),
+            ]
+
+
+class PartyErase:
+    __metaclass__ = PoolMeta
+    __name__ = 'party.erase'
+
+    @classmethod
+    def __setup__(cls):
+        super(PartyErase, cls).__setup__()
+        cls._error_messages.update({
+                'requested_credits': (
+                    'The party "%(party)s" can not be erased '
+                    'because he has requested credit limit '
+                    'for the company "%(company)s".'),
+                })
+
+    def check_erase_company(self, party, company):
+        pool = Pool()
+        Credits = pool.get('party.credit')
+        super(PartyErase, self).check_erase_company(party, company)
+
+        credits = Credits.search([
+                ('party', '=', party.id),
+                ('state', 'in', ['requested']),
+                ])
+        if credits:
+            self.raise_user_error('requested_credits', {
+                    'party': party.rec_name,
+                    'company': company.rec_name,
+                    })
