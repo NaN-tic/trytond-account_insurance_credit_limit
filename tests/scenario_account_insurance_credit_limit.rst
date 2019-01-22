@@ -25,11 +25,6 @@ Create company::
     >>> _ = create_company()
     >>> company = get_company()
 
-Reload the context::
-
-    >>> User = Model.get('res.user')
-    >>> config._context = User.get_preferences(True, config.context)
-
 Create fiscal year::
 
     >>> fiscalyear = set_fiscalyear_invoice_sequences(
@@ -202,4 +197,4 @@ Duplicate same insurance credit::
     >>> ins_credit.click('approve')  # doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         ...
-    UserError: ('UserError', ('It is only allowed an approved credit per party and the party credit "Customer - requested" you want to add exceeds this limit.', ''))
+    UserError: ...
