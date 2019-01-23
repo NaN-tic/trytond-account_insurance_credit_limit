@@ -8,12 +8,11 @@ Imports::
     >>> from dateutil.relativedelta import relativedelta
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.company.tests.tools import create_company, \
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, create_chart, get_accounts
-    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.account_invoice.tests.tools import set_fiscalyear_invoice_sequences
-    >>> from trytond.tests.tools import activate_modules
     >>> today = datetime.date.today()
 
 Install product_cost_plan Module::
