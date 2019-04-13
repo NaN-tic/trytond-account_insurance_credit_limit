@@ -107,6 +107,7 @@
 
     <!-- Rules -->
     <record model="ir.rule.group" id="rule_group_party_credit">
+        <field name="name">Party Credit Rule</field>
         <field name="model" search="[('model', '=', 'party.credit')]"/>
         <field name="global_p" eval="True"/>
     </record>
