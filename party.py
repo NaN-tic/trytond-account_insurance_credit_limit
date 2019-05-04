@@ -505,6 +505,7 @@ class PartyCreditRenew(Wizard):
         pool = Pool()
         PartyCredit = pool.get('party.credit')
         Date = pool.get('ir.date')
+        Warning = pool.get('res.user.warning')
 
         to_create = []
         active_ids = Transaction().context['active_ids']
@@ -514,8 +515,9 @@ class PartyCreditRenew(Wizard):
                 raise_flag_amount = ((credit.maximum_registered / 2)
                     + credit.maximum_registered)
                 if self.start.credit > raise_flag_amount:
-                    raise UserWarning(str(credit), gettext(
-                        'account_insurance_credit_limit.big_amount'))
+                    if Warning.check(credit):
+                        raise UserWarning(str(credit), gettext(
+                            'account_insurance_credit_limit.big_amount'))
                 limit = self.start.credit
             else:
                 limit = credit.approved_credit_limit
