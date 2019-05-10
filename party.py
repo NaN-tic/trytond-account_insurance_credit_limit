@@ -570,7 +570,7 @@ class PartyErase(metaclass=PoolMeta):
                 ('state', 'in', ['requested']),
                 ])
         if credits:
-            self.raise_user_error('requested_credits', {
-                    'party': party.rec_name,
-                    'company': company.rec_name,
-                    })
+            raise UserError(gettext(
+                'account_insurance_credit_limit.requested_credits',
+                party=party.rec_name,
+                company=company.rec_name))
