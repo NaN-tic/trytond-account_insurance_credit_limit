@@ -226,7 +226,7 @@ msgstr ""
 "La cantidad entrada es un 50% más grande que la cantidad máxima registrada "
 "en el periodo anterior"
 
-msgctxt "model:ir.message,text:party_erase"
+msgctxt "model:ir.message,text:requested_credits"
 msgid ""
 "The party \"%(party)s\" can not be erased because he has requested credit "
 "limit for the company \"%(company)s\"."
