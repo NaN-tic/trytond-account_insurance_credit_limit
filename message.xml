@@ -2,7 +2,7 @@
 <!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
 this repository contains the full copyright notices and license terms. -->
 <tryton>
-    <data group="1">
+    <data grouped="1">
       <record model="ir.message" id="duplicate_party_credit">
           <field name="text">Existing credit limit "%(duplicate)s" overlaps with record "%(current)s" that you are trying to approve.</field>
       </record>
