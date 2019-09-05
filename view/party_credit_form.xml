@@ -36,9 +36,9 @@
     <label name="state" colspan="1"/>
     <field name="state" colspan="1"/>
     <group id="approve-buttons" colspan="2" col="4">
-        <button name="request" icon="tryton-go-next" colspan="1"/>
-        <button name="reject" icon="tryton-dialog-error" colspan="1"/>
+        <button name="request" icon="tryton-forward" colspan="1"/>
+        <button name="reject" icon="tryton-error" colspan="1"/>
         <button name="renew" colspan="1"/>
-        <button name="approve" icon="tryton-go-next" colspan="1"/>
+        <button name="approve" icon="tryton-forward" colspan="1"/>
     </group>
 </form>
