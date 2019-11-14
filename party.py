@@ -205,26 +205,29 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         super(PartyCredit, cls).__setup__()
         # Workflow transitions
         cls._transitions = set((
-            ('requested', 'approved'),
-            ('approved', 'rejected'),
-            ('requested', 'rejected'),
-            ('rejected', 'requested')
-        ))
+                ('requested', 'approved'),
+                ('approved', 'rejected'),
+                ('requested', 'rejected'),
+                ('rejected', 'requested')
+                ))
         # Buttons
         cls._buttons.update({
-            'approve': {
-                'invisible': Eval('state').in_(['rejected', 'approved'])
-            },
-            'reject': {
-                'invisible': Eval('state').in_(['rejected'])
-            },
-            'request': {
-                'invisible': Eval('state').in_(['requested', 'approved'])
-            },
-            'renew': {
-                'invisible': Eval('state') != 'approved'
-            }
-        })
+                'approve': {
+                    'invisible': Eval('state').in_(['rejected', 'approved']),
+                    'icon': 'tryton-forward',
+                },
+                'reject': {
+                    'invisible': Eval('state').in_(['rejected']),
+                    'icon': 'tryton-error',
+                },
+                'request': {
+                    'invisible': Eval('state').in_(['requested', 'approved']),
+                    'icon': 'tryton-forward',
+                },
+                'renew': {
+                    'invisible': Eval('state') != 'approved',
+                },
+                })
 
     @staticmethod
     def default_company():
