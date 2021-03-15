@@ -366,7 +366,9 @@ class PartyCreditAmount(ModelView, ModelSQL):
         PartyCredit = Pool().get('party.credit')
         for value in vlist:
             party_credit = PartyCredit(value['party_credit'])
-            if (party_credit.start_date > value['date'] or
+            if (party_credit.start_date and
+                    party_credit.start_date > value['date'] or
+                    party_credit.end_date and
                     value['date'] > party_credit.end_date):
                 raise UserError(gettext(
                     'account_insurance_credit_limit.invalid_date'))
