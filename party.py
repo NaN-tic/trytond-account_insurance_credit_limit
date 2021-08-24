@@ -14,6 +14,7 @@ from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
 from trytond.i18n import gettext
 from trytond.exceptions import UserError, UserWarning
+from trytond.modules.currency.fields import Monetary
 
 __all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
     'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
@@ -399,17 +400,11 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
             'invisible': ~Eval('party_required', False),
             }, depends=['party_required'])
     party_required = fields.Boolean('Party Required')
-    debit = fields.Numeric('Debit',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    credit = fields.Numeric('Credit',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    balance = fields.Numeric('Balance',
-        digits=(16, Eval('currency_digits', 2)),
-        depends=['currency_digits'])
-    currency_digits = fields.Function(fields.Integer('Currency Digits'),
-        'get_currency_digits')
+    debit = Monetary('Debit', digits='currency', currency='currency')
+    credit = Monetary('Credit', digits='currency', currency='currency')
+    balance = Monetary('Balance', digits='currency', currency='currency')
+    currency = fields.Function(fields.Many2One('currency.currency', 'Currency'),
+        'on_change_with_currency')
 
     @classmethod
     def __setup__(cls):
@@ -465,13 +460,10 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
             move, condition=move.id == line.move).select(*columns,
                 group_by=group_by, order_by=move.date).select()
 
-    def get_currency_digits(self, name):
-        pool = Pool()
-        Company = pool.get('company.company')
-        company_id = Transaction().context.get('company')
-        if company_id:
-            company = Company(company_id)
-            return company.currency.digits
+    @fields.depends('company')
+    def on_change_with_currency(self, name=None):
+        if self.company:
+            return self.company.currency.id
 
 
 class PartyCreditRenewStart(ModelView):
