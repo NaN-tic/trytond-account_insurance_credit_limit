@@ -91,7 +91,11 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
     "Party Company Credit Limit"
     __name__ = 'party.party.company_credit_limit'
     party = fields.Many2One('party.party', "Party", ondelete='CASCADE',
-        select=True)
+        select=True,
+        context={
+            'company': Eval('company'),
+            },
+        depends=['company'])
     company_credit_limit = fields.Numeric('Company Credit Limit',
         digits=(16, Eval('credit_limit_digits', 2)),
         depends=['credit_limit_digits'])
@@ -142,7 +146,11 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
     party = fields.Many2One('party.party', 'Party', required=True,
         states={
             'readonly': Eval('state') == 'approved'
-        })
+        },
+        context={
+            'company': Eval('company'),
+            },
+        depends=['company'])
     # date when the party requested the credit
     date = fields.Date('Requested Date', required=True,
         states={
@@ -396,9 +404,14 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
     __name__ = 'party.risk.analysis'
     date = fields.Date('Date')
     company = fields.Many2One('company.company','Company')
-    party = fields.Many2One('party.party', 'Party', states={
+    party = fields.Many2One('party.party', 'Party',
+        states={
             'invisible': ~Eval('party_required', False),
-            }, depends=['party_required'])
+        },
+        context={
+            'company': Eval('company'),
+            },
+        depends=['company', 'party_required'])
     party_required = fields.Boolean('Party Required')
     debit = Monetary('Debit', digits='currency', currency='currency')
     credit = Monetary('Credit', digits='currency', currency='currency')
