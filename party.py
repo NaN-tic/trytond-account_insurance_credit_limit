@@ -532,8 +532,9 @@ class PartyCreditRenew(Wizard):
                 raise_flag_amount = ((credit.maximum_registered / 2)
                     + credit.maximum_registered)
                 if self.start.credit > raise_flag_amount:
-                    if Warning.check(credit):
-                        raise UserWarning(str(credit), gettext(
+                    key = str(credit)
+                    if Warning.check(key):
+                        raise UserWarning(key, gettext(
                             'account_insurance_credit_limit.big_amount'))
                 limit = self.start.credit
             else:
