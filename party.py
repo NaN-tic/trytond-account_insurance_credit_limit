@@ -155,7 +155,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             })
     # end_date: date when the approved credit expires.
     # end_date is introduced manually.
-    end_date = fields.Date('End Date', states={
+    end_date = fields.Date('End Date', required=True,
+        states={
             'readonly': Eval('state') == 'approved'
             })
     # requested_credit_limit: amount of money requested by the party to the
