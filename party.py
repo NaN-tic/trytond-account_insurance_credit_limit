@@ -91,7 +91,6 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
     "Party Company Credit Limit"
     __name__ = 'party.party.company_credit_limit'
     party = fields.Many2One('party.party', "Party", ondelete='CASCADE',
-        select=True,
         context={
             'company': Eval('company'),
             },
@@ -364,7 +363,7 @@ class PartyCreditAmount(ModelView, ModelSQL):
             'readonly': Eval('initial_value', False)
             })
     party_credit = fields.Many2One('party.credit', 'Party Credit',
-        required=True, ondelete='CASCADE', select=True)
+        required=True, ondelete='CASCADE')
     initial_value = fields.Function(fields.Boolean('Is initial value'),
         'get_initial_value')
 
