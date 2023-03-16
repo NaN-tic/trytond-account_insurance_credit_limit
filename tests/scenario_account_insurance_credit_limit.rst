@@ -14,7 +14,6 @@ Imports::
     >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.account_invoice.tests.tools import set_fiscalyear_invoice_sequences
     >>> from trytond.tests.tools import activate_modules
-    >>> today = datetime.date.today()
 
 Install product_cost_plan Module::
 
@@ -138,6 +137,7 @@ Create Moves::
 
 Create Account Insurance Credit::
 
+    >>> today = datetime.date.today()
     >>> InsuranceCredit = Model.get('party.credit')
     >>> ins_credit = InsuranceCredit()
     >>> ins_credit.party = customer

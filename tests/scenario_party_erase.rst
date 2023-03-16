@@ -14,7 +14,6 @@ Imports::
     ...     create_chart, get_accounts, create_tax
     >>> from trytond.modules.account_invoice.tests.tools import \
     ...     set_fiscalyear_invoice_sequences, create_payment_term
-    >>> today = datetime.date(2015, 1, 1)
 
 Install contract::
 
@@ -27,6 +26,7 @@ Create company::
 
 Create fiscal year::
 
+    >>> today = datetime.date(2015, 1, 1)
     >>> fiscalyear = set_fiscalyear_invoice_sequences(
     ...     create_fiscalyear(company, today))
     >>> fiscalyear.click('create_period')
