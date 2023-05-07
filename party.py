@@ -8,7 +8,6 @@ from trytond.model import ModelSQL, ModelView, fields, Workflow
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.pyson import Eval, PYSONEncoder
 from trytond.transaction import Transaction
-from trytond.tools.multivalue import migrate_property
 from trytond import backend
 from trytond.modules.company.model import (
     CompanyMultiValueMixin, CompanyValueMixin)
@@ -100,35 +99,6 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
         depends=['credit_limit_digits'])
     credit_limit_digits = fields.Function(fields.Integer('Currency Digits'),
         'get_credit_limit_digits')
-
-    @classmethod
-    def __register__(cls, module_name):
-        pool = Pool()
-        Party = pool.get('party.party')
-        cursor = Transaction().connection.cursor()
-        exist = backend.TableHandler.table_exist(cls._table)
-        table = cls.__table__()
-        party = Party.__table__()
-        super(PartyCompanyCreditLimit, cls).__register__(module_name)
-
-        if not exist:
-            party_h = backend.TableHandler(Party, module_name)
-            if party_h.column_exist('company_credit_limit'):
-                query = table.insert(
-                    [table.party, table.company_credit_limit],
-                    party.select(party.id, party.company_credit_limit))
-                cursor.execute(*query)
-                party_h.drop_column('company_credit_limit')
-            else:
-                cls._migrate_property([], [], [])
-
-    @classmethod
-    def _migrate_property(cls, field_names, value_names, fields):
-        field_names.append('company_credit_limit')
-        value_names.append('company_credit_limit')
-        fields.append('company')
-        migrate_property('party.party', field_names, cls, value_names,
-            parent='party', fields=fields)
 
     def get_credit_limit_digits(self, name):
         pool = Pool()
