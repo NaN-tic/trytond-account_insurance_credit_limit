@@ -90,7 +90,7 @@ class PartyCompanyCreditLimit(ModelSQL, CompanyValueMixin):
     __name__ = 'party.party.company_credit_limit'
     party = fields.Many2One('party.party', "Party", ondelete='CASCADE',
         context={
-            'company': Eval('company'),
+            'company': Eval('company', -1),
             },
         depends=['company'])
     company_credit_limit = fields.Numeric('Company Credit Limit',
@@ -116,7 +116,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             'readonly': Eval('state') == 'approved'
         },
         context={
-            'company': Eval('company'),
+            'company': Eval('company', -1),
             },
         depends=['company'])
     # date when the party requested the credit
@@ -378,7 +378,7 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
             'invisible': ~Eval('party_required', False),
         },
         context={
-            'company': Eval('company'),
+            'company': Eval('company', -1),
             },
         depends=['company', 'party_required'])
     party_required = fields.Boolean('Party Required')
