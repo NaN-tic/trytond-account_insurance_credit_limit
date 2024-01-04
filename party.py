@@ -344,6 +344,7 @@ class PartyCreditAmount(ModelView, ModelSQL):
     @classmethod
     def create(cls, vlist):
         PartyCredit = Pool().get('party.credit')
+        vlist = [x.copy() for x in vlist]
         for value in vlist:
             party_credit = PartyCredit(value['party_credit'])
             if (party_credit.start_date and
