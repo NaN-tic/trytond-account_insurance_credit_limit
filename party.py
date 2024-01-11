@@ -381,7 +381,7 @@ class PartyRiskAnalysis(ModelSQL, ModelView):
         context={
             'company': Eval('company', -1),
             },
-        depends=['company', 'party_required'])
+        depends=['company'])
     party_required = fields.Boolean('Party Required')
     debit = Monetary('Debit', digits='currency', currency='currency')
     credit = Monetary('Credit', digits='currency', currency='currency')
