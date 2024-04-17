@@ -108,7 +108,7 @@
     <!-- Rules -->
     <record model="ir.rule.group" id="rule_group_party_credit">
         <field name="name">Party Credit Rule</field>
-        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="model">party.credit</field>
         <field name="global_p" eval="True"/>
     </record>
     <record model="ir.rule" id="rule_party_credit1">
@@ -120,7 +120,7 @@
 
     <record model="ir.rule.group" id="rule_group_party_risk_analysis">
         <field name="name">Party Risk Analysis Rule</field>
-        <field name="model" search="[('model', '=', 'party.risk.analysis')]"/>
+        <field name="model">party.risk.analysis</field>
         <field name="global_p" eval="True"/>
     </record>
     <record model="ir.rule" id="rule_party_risk_analysis1">
@@ -134,22 +134,22 @@
     <record model="ir.model.button" id="party_credit_request_button">
         <field name="name">request</field>
         <field name="string">Request</field>
-        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="model">party.credit</field>
     </record>
     <record model="ir.model.button" id="party_credit_approve_button">
         <field name="name">approve</field>
         <field name="string">Approve</field>
-        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="model">party.credit</field>
     </record>
     <record model="ir.model.button" id="party_credit_renew_button">
         <field name="name">renew</field>
         <field name="string">Renew</field>
-        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="model">party.credit</field>
     </record>
     <record model="ir.model.button" id="party_credit_reject_button">
         <field name="name">reject</field>
         <field name="string">Reject</field>
-        <field name="model" search="[('model', '=', 'party.credit')]"/>
+        <field name="model">party.credit</field>
     </record>
   </data>
 </tryton>
