@@ -343,14 +343,14 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
         pass
 
     @classmethod
-    def copy(cls, records, default):
-
-        if not default:
+    def copy(cls, records, default=None):
+        if default is None:
             default = {}
-        default = default.copy()
-        default['accounts'] = []
-        default['number_of_days'] = ''
-        default['party_credit_amounts'] = []
+        else:
+            default = default.copy()
+        default.setdefault('accounts', None)
+        default.setdefault('number_of_days', None)
+        default.setdefault('party_credit_amounts', None)
         return super(PartyCredit, cls).copy(records, default)
 
 
