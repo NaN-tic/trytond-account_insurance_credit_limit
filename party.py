@@ -316,7 +316,6 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             default = {}
         else:
             default = default.copy()
-        default.setdefault('accounts', None)
         default.setdefault('number_of_days', None)
         default.setdefault('party_credit_amounts', None)
         return super(PartyCredit, cls).copy(records, default)
