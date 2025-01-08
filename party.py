@@ -290,7 +290,7 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
             to_create.append(credit_amount)
 
         if to_create:
-            CreditAmount.create([x._save_values for x in to_create])
+            CreditAmount.create([x._save_values() for x in to_create])
 
     @classmethod
     @ModelView.button
