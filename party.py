@@ -14,10 +14,6 @@ from trytond.i18n import gettext
 from trytond.exceptions import UserError, UserWarning
 from trytond.modules.currency.fields import Monetary
 
-__all__ = ['Party', 'PartyCompanyCreditLimit', 'PartyCredit',
-    'PartyRiskAnalysis', 'PartyCreditRenewStart', 'PartyCreditRenew',
-    'PartyCreditAmount', 'PartyReplace', 'PartyErase']
-
 
 class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
     __name__ = 'party.party'
@@ -31,16 +27,14 @@ class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
     def __setup__(cls):
         super(Party, cls).__setup__()
         cls.credit_limit_amount = fields.Function(
-            fields.Numeric('Credit Limit Amount',
-                digits=(16, Eval('credit_limit_digits', 2)),
-                depends=['credit_limit_digits']),
+            Monetary('Credit Limit Amount',
+                currency='currency', digits='currency'),
             'on_change_with_credit_limit_amount')
         cls.credit_limit_amount.on_change_with = ['insurance_credit_limit',
             'company_credit_limit']
         cls.company_credit_limit = fields.MultiValue(
-            fields.Numeric('Company Credit Limit',
-                digits=(16, Eval('credit_limit_digits', 2)),
-                depends=['credit_limit_digits']))
+            Monetary('Company Credit Limit',
+                currency='currency', digits='currency'))
 
     @classmethod
     def default_company_credit_limit(cls, **pattern):
