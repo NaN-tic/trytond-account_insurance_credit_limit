@@ -165,8 +165,8 @@ class PartyCredit(Workflow, ModelSQL, ModelView):
 
     company = fields.Many2One('company.company', 'Company', required=True,
         readonly=True)
-    accounts = fields.Function(fields.One2Many('party.risk.analysis', None,
-            'Accounts'), 'get_accounts')
+    accounts = fields.Function(fields.Many2Many('party.risk.analysis', None,
+            None, 'Accounts'), 'get_accounts')
     party_credit_amounts = fields.One2Many('party.credit.amount',
         'party_credit', 'Party Credit Amounts')
     number_of_days = fields.Char('Number of days')
