@@ -19,22 +19,12 @@ class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
     __name__ = 'party.party'
     company_credit_limits = fields.One2Many('party.party.company_credit_limit',
         'party', 'Company Credit Limits')
+    company_credit_limit = fields.MultiValue(
+        Monetary('Company Credit Limit',
+            currency='currency', digits='currency'))
     insurance_credit_limit = fields.Function(fields.Numeric(
         'Insurance credit limit', digits=(16, 2)),
         'get_insurance_credit_limit')
-
-    @classmethod
-    def __setup__(cls):
-        super(Party, cls).__setup__()
-        cls.credit_limit_amount = fields.Function(
-            Monetary('Credit Limit Amount',
-                currency='currency', digits='currency'),
-            'on_change_with_credit_limit_amount')
-        cls.credit_limit_amount.on_change_with = ['insurance_credit_limit',
-            'company_credit_limit']
-        cls.company_credit_limit = fields.MultiValue(
-            Monetary('Company Credit Limit',
-                currency='currency', digits='currency'))
 
     @classmethod
     def default_company_credit_limit(cls, **pattern):
@@ -47,13 +37,17 @@ class Party(CompanyMultiValueMixin, metaclass=PoolMeta):
             return pool.get('party.party.company_credit_limit')
         return super(Party, cls).multivalue_model(field)
 
-    @fields.depends('insurance_credit_limit', 'company_credit_limit')
-    def on_change_with_credit_limit_amount(self, name=None):
-        if not self.insurance_credit_limit:
-            self.insurance_credit_limit = 0
-        if not self.company_credit_limit:
-            self.company_credit_limit = 0
-        return self.company_credit_limit + self.insurance_credit_limit
+    def get_multivalue(self, name, **pattern):
+        if name == 'credit_limit_amount':
+            company = pattern.get('company', Transaction().context.get('company'))
+            with Transaction().set_context(company=company):
+                company_credit_limit = super().get_multivalue(
+                    'company_credit_limit', company=company) or 0
+                insurance_credit_limit = (
+                    self.get_insurance_credit_limit('insurance_credit_limit')
+                    or 0)
+            return company_credit_limit + insurance_credit_limit
+        return super().get_multivalue(name, **pattern)
 
     def get_insurance_credit_limit(self, name):
         """
