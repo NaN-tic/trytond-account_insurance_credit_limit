@@ -1,0 +1,426 @@
+#
+msgid ""
+msgstr ""
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "field:party.credit,accounts:"
+msgid "Accounts"
+msgstr "Számlák"
+
+msgctxt "field:party.credit,accounts_data:"
+msgid "Accounts"
+msgstr "Számlák"
+
+msgctxt "field:party.credit,approved_credit_limit:"
+msgid "Approved Credit Limit"
+msgstr "Jóváhagyott hitelkeret"
+
+msgctxt "field:party.credit,company:"
+msgid "Company"
+msgstr "Cég"
+
+msgctxt "field:party.credit,create_date:"
+msgid "Create Date"
+msgstr "Létrehozás dátuma"
+
+msgctxt "field:party.credit,create_uid:"
+msgid "Create User"
+msgstr "Létrehozó felhasználó"
+
+msgctxt "field:party.credit,reference:"
+msgid "Reference"
+msgstr "Hivatkozás"
+
+msgctxt "field:party.credit,date:"
+msgid "Requested Date"
+msgstr "Igénylés dátuma"
+
+msgctxt "field:party.credit,end_date:"
+msgid "End Date"
+msgstr "Befejező dátum"
+
+msgctxt "field:party.credit,id:"
+msgid "ID"
+msgstr "Azonosító"
+
+msgctxt "field:party.credit,maximum_registered:"
+msgid "Maximum Registered Credit Amount"
+msgstr "Legnagyobb rögzített hitelösszeg"
+
+msgctxt "field:party.credit,number_of_days:"
+msgid "Number of days"
+msgstr "Napok száma"
+
+msgctxt "field:party.credit,party:"
+msgid "Party"
+msgstr "Ügyfél"
+
+msgctxt "field:party.credit,party_credit_amounts:"
+msgid "Party Credit Amounts"
+msgstr "Partner hitelösszegei"
+
+msgctxt "field:party.credit,rec_name:"
+msgid "Name"
+msgstr "Név"
+
+msgctxt "field:party.credit,requested_credit_limit:"
+msgid "Requested Credit Limit"
+msgstr "Igényelt hitelkeret"
+
+msgctxt "field:party.credit,start_date:"
+msgid "Start Date"
+msgstr "Kezdődátum"
+
+msgctxt "field:party.credit,state:"
+msgid "State"
+msgstr "Állapot"
+
+msgctxt "field:party.credit,write_date:"
+msgid "Write Date"
+msgstr "Módosítás dátuma"
+
+msgctxt "field:party.credit,write_uid:"
+msgid "Write User"
+msgstr "Módosító felhasználó"
+
+msgctxt "field:party.credit.amount,amount:"
+msgid "Conceded amount"
+msgstr "Engedélyezett összeg"
+
+msgctxt "field:party.credit.amount,create_date:"
+msgid "Create Date"
+msgstr "Létrehozás dátuma"
+
+msgctxt "field:party.credit.amount,create_uid:"
+msgid "Create User"
+msgstr "Létrehozó felhasználó"
+
+msgctxt "field:party.credit.amount,date:"
+msgid "Date"
+msgstr "Dátum"
+
+msgctxt "field:party.credit.amount,id:"
+msgid "ID"
+msgstr "Azonosító"
+
+msgctxt "field:party.credit.amount,initial_value:"
+msgid "Is initial value"
+msgstr "Kezdeti érték"
+
+msgctxt "field:party.credit.amount,party_credit:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "field:party.credit.amount,rec_name:"
+msgid "Name"
+msgstr "Név"
+
+msgctxt "field:party.credit.amount,write_date:"
+msgid "Write Date"
+msgstr "Módosítás dátuma"
+
+msgctxt "field:party.credit.amount,write_uid:"
+msgid "Write User"
+msgstr "Módosító felhasználó"
+
+msgctxt "field:party.credit.renew.start,credit:"
+msgid "Credit Approved"
+msgstr "Hitel jóváhagyva"
+
+msgctxt "field:party.credit.renew.start,id:"
+msgid "ID"
+msgstr "Azonosító"
+
+msgctxt "field:party.credit.renew.start,multiple_ids:"
+msgid "Multiple Active IDS"
+msgstr "Több aktív azonosító"
+
+msgctxt "field:party.party,company_credit_limit:"
+msgid "Company Credit Limit"
+msgstr "Vállalati hitelkeret"
+
+msgctxt "field:party.party,insurance_credit_limit:"
+msgid "Insurance credit limit"
+msgstr "Biztosítási hitelkeret"
+
+msgctxt "field:party.risk.analysis,balance:"
+msgid "Balance"
+msgstr "Egyenleg"
+
+msgctxt "field:party.risk.analysis,create_date:"
+msgid "Create Date"
+msgstr "Létrehozás dátuma"
+
+msgctxt "field:party.risk.analysis,create_uid:"
+msgid "Create User"
+msgstr "Létrehozó felhasználó"
+
+msgctxt "field:party.risk.analysis,credit:"
+msgid "Credit"
+msgstr "Követel"
+
+msgctxt "field:party.risk.analysis,date:"
+msgid "Date"
+msgstr "Dátum"
+
+msgctxt "field:party.risk.analysis,debit:"
+msgid "Debit"
+msgstr "Tartozik"
+
+msgctxt "field:party.risk.analysis,description:"
+msgid "Description"
+msgstr "Leírás"
+
+msgctxt "field:party.risk.analysis,id:"
+msgid "ID"
+msgstr "Azonosító"
+
+msgctxt "field:party.risk.analysis,move:"
+msgid "Move"
+msgstr "Bizonylat"
+
+msgctxt "field:party.risk.analysis,party:"
+msgid "Party"
+msgstr "Ügyfél"
+
+msgctxt "field:party.risk.analysis,party_credit:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "field:party.risk.analysis,rec_name:"
+msgid "Name"
+msgstr "Név"
+
+msgctxt "field:party.risk.analysis,write_date:"
+msgid "Write Date"
+msgstr "Módosítás dátuma"
+
+msgctxt "field:party.risk.analysis,write_uid:"
+msgid "Write User"
+msgstr "Módosító felhasználó"
+
+msgctxt "model:ir.action,name:act_party_credit_limit"
+msgid "Credit Limit"
+msgstr "Hitelkeret"
+
+msgctxt "model:ir.action,name:act_partycredit"
+msgid "Credit Limits"
+msgstr "Hitelkeretek"
+
+msgctxt "model:ir.action,name:act_partyrisk"
+msgid "Credit Limit"
+msgstr "Hitelkeret"
+
+msgctxt "model:ir.action,name:wizard_renew_party_credit"
+msgid "Renew Party Credit"
+msgstr "Partner hitelének megújítása"
+
+msgctxt "model:ir.message,text:invalid_date"
+msgid "The entered date is outside the period"
+msgstr "A megadott dátum kívül esik az időszakon."
+
+msgctxt "model:ir.message,text:big_amount"
+msgid ""
+"The entered amount is a 50% bigger than the maximum registered amount from "
+"the previous period"
+msgstr ""
+"A megadott összeg 50%-kal nagyobb az előző időszakban rögzített legnagyobb "
+"összegnél."
+
+#, python-format
+msgctxt "model:ir.message,text:requested_credits"
+msgid ""
+"The party \"%(party)s\" can not be erased because he has requested credit "
+"limit for the company \"%(company)s\"."
+msgstr ""
+"A(z) „%(party)s” partner nem törölhető, mert hitelkeretet igényelt a(z) "
+"„%(company)s” vállalatnál."
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit"
+msgid "Credit Limits"
+msgstr "Hitelkeretek"
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
+msgid "Credit Limits"
+msgstr "Hitelkeretek"
+
+msgctxt "model:party.credit,name:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "model:party.credit.amount,name:"
+msgid "Party Credit Conceded Amount"
+msgstr "Partner engedélyezett hitelösszege"
+
+msgctxt "model:party.credit.renew.start,name:"
+msgid "Initial view for the duplication of party credits wizard"
+msgstr "Partnerhitelek másolási varázslójának kezdőnézete"
+
+msgctxt "model:party.risk.analysis,name:"
+msgid "Party Risk Analysis"
+msgstr "Partner kockázatelemzése"
+
+msgctxt "selection:party.credit,state:"
+msgid "Approved"
+msgstr "Jóváhagyva"
+
+msgctxt "selection:party.credit,state:"
+msgid "Rejected"
+msgstr "Elutasítva"
+
+msgctxt "selection:party.credit,state:"
+msgid "Requested"
+msgstr "Igényelve"
+
+msgctxt "view:party.credit.amount:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "view:party.credit.renew.start:"
+msgid "Renew Party Credit"
+msgstr "Partner hitelének megújítása"
+
+msgctxt "view:party.credit:"
+msgid "Accounts Data"
+msgstr "Számlaadatok"
+
+msgctxt "view:party.credit:"
+msgid "Approve"
+msgstr "Jóváhagyás"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit Amounts"
+msgstr "Partner hitelösszegei"
+
+msgctxt "view:party.credit:"
+msgid "Reject"
+msgstr "Elutasítás"
+
+msgctxt "view:party.credit:"
+msgid "Renew"
+msgstr "Megújítás"
+
+msgctxt "view:party.credit:"
+msgid "Request"
+msgstr "Kérés"
+
+msgctxt "view:party.risk.analysis:"
+msgid "Party Risk Analysis"
+msgstr "Partner kockázatelemzése"
+
+msgctxt "wizard_button:party.credit.renew,start,renew:"
+msgid "Renew"
+msgstr "Megújítás"
+
+msgctxt "wizard_button:party.credit.renew,start,end:"
+msgid "Cancel"
+msgstr "Mégse"
+
+msgctxt "field:party.credit,first_approved_credit_limit:"
+msgid "First Approved Credit Limit"
+msgstr "Első jóváhagyott hitelkeret"
+
+msgctxt "field:party.party.company_credit_limit,company:"
+msgid "Company"
+msgstr "Cég"
+
+msgctxt "field:party.party.company_credit_limit,company_credit_limit:"
+msgid "Company Credit Limit"
+msgstr "Vállalati hitelkeret"
+
+msgctxt "field:party.party.company_credit_limit,credit_limit_digits:"
+msgid "Currency Digits"
+msgstr "Pénznem tizedesjegyei"
+
+msgctxt "field:party.party.company_credit_limit,party:"
+msgid "Party"
+msgstr "Ügyfél"
+
+msgctxt "field:party.party,company_credit_limits:"
+msgid "Company Credit Limits"
+msgstr "Vállalati hitelkeretek"
+
+msgctxt "field:party.risk.analysis,company:"
+msgid "Company"
+msgstr "Cég"
+
+msgctxt "field:party.risk.analysis,currency:"
+msgid "Currency"
+msgstr "Pénznem"
+
+msgctxt "field:party.risk.analysis,currency_digits:"
+msgid "Currency Digits"
+msgstr "Pénznem tizedesjegyei"
+
+msgctxt "field:party.risk.analysis,party_required:"
+msgid "Party Required"
+msgstr "Ügyfél megadása kötelező"
+
+msgctxt "model:ir.action,name:act_party_credit"
+msgid "Credit Limits"
+msgstr "Hitelkeretek"
+
+msgctxt "model:ir.action,name:act_party_credit_limit1"
+msgid "Credit Limit"
+msgstr "Hitelkeret"
+
+#, python-format
+msgctxt "model:ir.message,text:duplicate_party_credit"
+msgid ""
+"Existing credit limit \"%(duplicate)s\" overlaps with record \"%(current)s\""
+" that you are trying to approve."
+msgstr ""
+"A meglévő „%(duplicate)s” hitelkeret átfedi a jóváhagyni kívánt "
+"„%(current)s” rekordot."
+
+msgctxt "model:ir.model.button,string:party_credit_request_button"
+msgid "Request"
+msgstr "Kérés"
+
+msgctxt "model:ir.model.button,string:party_credit_approve_button"
+msgid "Approve"
+msgstr "Jóváhagyás"
+
+msgctxt "model:ir.model.button,string:party_credit_renew_button"
+msgid "Renew"
+msgstr "Megújítás"
+
+msgctxt "model:ir.model.button,string:party_credit_reject_button"
+msgid "Reject"
+msgstr "Elutasítás"
+
+msgctxt "model:ir.rule.group,name:rule_group_party_credit"
+msgid "Party Credit Rule"
+msgstr "Partner hitelszabálya"
+
+msgctxt "model:ir.rule.group,name:rule_group_party_risk_analysis"
+msgid "Party Risk Analysis Rule"
+msgstr "Partner kockázatelemzési szabálya"
+
+msgctxt "model:party.credit.amount,string:"
+msgid "Party Credit Amount"
+msgstr "Partner hitelösszege"
+
+msgctxt "model:party.credit,string:"
+msgid "Party Credit"
+msgstr "Partner hitele"
+
+msgctxt "model:party.party.company_credit_limit,name:"
+msgid "Party Company Credit Limit"
+msgstr "Partner vállalati hitelkerete"
+
+msgctxt "model:party.party.company_credit_limit,string:"
+msgid "Party Company Credit Limit"
+msgstr "Partner vállalati hitelkerete"
+
+msgctxt "model:party.risk.analysis,string:"
+msgid "Party Risk Analysis"
+msgstr "Partner kockázatelemzése"
