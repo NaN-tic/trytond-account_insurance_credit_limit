@@ -1,0 +1,425 @@
+#
+msgid ""
+msgstr ""
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "field:party.credit,accounts:"
+msgid "Accounts"
+msgstr "គណនី"
+
+msgctxt "field:party.credit,accounts_data:"
+msgid "Accounts"
+msgstr "គណនី"
+
+msgctxt "field:party.credit,approved_credit_limit:"
+msgid "Approved Credit Limit"
+msgstr "កម្រិតឥណទានដែលបានអនុម័ត"
+
+msgctxt "field:party.credit,company:"
+msgid "Company"
+msgstr "ក្រុមហ៊ុន"
+
+msgctxt "field:party.credit,create_date:"
+msgid "Create Date"
+msgstr "កាលបរិច្ឆេទបង្កើត"
+
+msgctxt "field:party.credit,create_uid:"
+msgid "Create User"
+msgstr "អ្នកបង្កើត"
+
+msgctxt "field:party.credit,reference:"
+msgid "Reference"
+msgstr "ឯកសារយោង"
+
+msgctxt "field:party.credit,date:"
+msgid "Requested Date"
+msgstr "កាលបរិច្ឆេទនៃសំណើ"
+
+msgctxt "field:party.credit,end_date:"
+msgid "End Date"
+msgstr "កាលបរិច្ឆេទបញ្ចប់"
+
+msgctxt "field:party.credit,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:party.credit,maximum_registered:"
+msgid "Maximum Registered Credit Amount"
+msgstr "ចំនួនឥណទានអតិបរមាដែលបានចុះបញ្ជី"
+
+msgctxt "field:party.credit,number_of_days:"
+msgid "Number of days"
+msgstr "ចំនួនថ្ងៃ"
+
+msgctxt "field:party.credit,party:"
+msgid "Party"
+msgstr "ភាគី"
+
+msgctxt "field:party.credit,party_credit_amounts:"
+msgid "Party Credit Amounts"
+msgstr "ចំនួនឥណទានរបស់ភាគី"
+
+msgctxt "field:party.credit,rec_name:"
+msgid "Name"
+msgstr "ឈ្មោះ"
+
+msgctxt "field:party.credit,requested_credit_limit:"
+msgid "Requested Credit Limit"
+msgstr "កម្រិតឥណទានដែលបានស្នើ"
+
+msgctxt "field:party.credit,start_date:"
+msgid "Start Date"
+msgstr "កាលបរិច្ឆេទចាប់ផ្តើម"
+
+msgctxt "field:party.credit,state:"
+msgid "State"
+msgstr "ស្ថានភាព"
+
+msgctxt "field:party.credit,write_date:"
+msgid "Write Date"
+msgstr "កាលបរិច្ឆេទកែប្រែ"
+
+msgctxt "field:party.credit,write_uid:"
+msgid "Write User"
+msgstr "អ្នកកែប្រែ"
+
+msgctxt "field:party.credit.amount,amount:"
+msgid "Conceded amount"
+msgstr "ចំនួនទឹកប្រាក់ដែលបានផ្ដល់"
+
+msgctxt "field:party.credit.amount,create_date:"
+msgid "Create Date"
+msgstr "កាលបរិច្ឆេទបង្កើត"
+
+msgctxt "field:party.credit.amount,create_uid:"
+msgid "Create User"
+msgstr "អ្នកបង្កើត"
+
+msgctxt "field:party.credit.amount,date:"
+msgid "Date"
+msgstr "កាលបរិច្ឆេទ"
+
+msgctxt "field:party.credit.amount,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:party.credit.amount,initial_value:"
+msgid "Is initial value"
+msgstr "ជាតម្លៃដំបូង"
+
+msgctxt "field:party.credit.amount,party_credit:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "field:party.credit.amount,rec_name:"
+msgid "Name"
+msgstr "ឈ្មោះ"
+
+msgctxt "field:party.credit.amount,write_date:"
+msgid "Write Date"
+msgstr "កាលបរិច្ឆេទកែប្រែ"
+
+msgctxt "field:party.credit.amount,write_uid:"
+msgid "Write User"
+msgstr "អ្នកកែប្រែ"
+
+msgctxt "field:party.credit.renew.start,credit:"
+msgid "Credit Approved"
+msgstr "ឥណទានដែលបានអនុម័ត"
+
+msgctxt "field:party.credit.renew.start,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:party.credit.renew.start,multiple_ids:"
+msgid "Multiple Active IDS"
+msgstr "លេខសម្គាល់សកម្មច្រើន"
+
+msgctxt "field:party.party,company_credit_limit:"
+msgid "Company Credit Limit"
+msgstr "កម្រិតឥណទានក្រុមហ៊ុន"
+
+msgctxt "field:party.party,insurance_credit_limit:"
+msgid "Insurance credit limit"
+msgstr "កម្រិតឥណទានមានការធានារ៉ាប់រង"
+
+msgctxt "field:party.risk.analysis,balance:"
+msgid "Balance"
+msgstr "សមតុល្យ"
+
+msgctxt "field:party.risk.analysis,create_date:"
+msgid "Create Date"
+msgstr "កាលបរិច្ឆេទបង្កើត"
+
+msgctxt "field:party.risk.analysis,create_uid:"
+msgid "Create User"
+msgstr "អ្នកបង្កើត"
+
+msgctxt "field:party.risk.analysis,credit:"
+msgid "Credit"
+msgstr "ឥណទាន"
+
+msgctxt "field:party.risk.analysis,date:"
+msgid "Date"
+msgstr "កាលបរិច្ឆេទ"
+
+msgctxt "field:party.risk.analysis,debit:"
+msgid "Debit"
+msgstr "ឥណពន្ធ"
+
+msgctxt "field:party.risk.analysis,description:"
+msgid "Description"
+msgstr "សេចក្តីពិពណ៌នា"
+
+msgctxt "field:party.risk.analysis,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:party.risk.analysis,move:"
+msgid "Move"
+msgstr "កំណត់ត្រាគណនេយ្យ"
+
+msgctxt "field:party.risk.analysis,party:"
+msgid "Party"
+msgstr "ភាគី"
+
+msgctxt "field:party.risk.analysis,party_credit:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "field:party.risk.analysis,rec_name:"
+msgid "Name"
+msgstr "ឈ្មោះ"
+
+msgctxt "field:party.risk.analysis,write_date:"
+msgid "Write Date"
+msgstr "កាលបរិច្ឆេទកែប្រែ"
+
+msgctxt "field:party.risk.analysis,write_uid:"
+msgid "Write User"
+msgstr "អ្នកកែប្រែ"
+
+msgctxt "model:ir.action,name:act_party_credit_limit"
+msgid "Credit Limit"
+msgstr "ដែនកំណត់ឥណទាន"
+
+msgctxt "model:ir.action,name:act_partycredit"
+msgid "Credit Limits"
+msgstr "កម្រិតឥណទាន"
+
+msgctxt "model:ir.action,name:act_partyrisk"
+msgid "Credit Limit"
+msgstr "ដែនកំណត់ឥណទាន"
+
+msgctxt "model:ir.action,name:wizard_renew_party_credit"
+msgid "Renew Party Credit"
+msgstr "បន្តសុពលភាពឥណទានរបស់ភាគី"
+
+msgctxt "model:ir.message,text:invalid_date"
+msgid "The entered date is outside the period"
+msgstr "កាលបរិច្ឆេទដែលបានបញ្ចូលនៅក្រៅគ្រា"
+
+msgctxt "model:ir.message,text:big_amount"
+msgid ""
+"The entered amount is a 50% bigger than the maximum registered amount from "
+"the previous period"
+msgstr ""
+"ចំនួនទឹកប្រាក់ដែលបានបញ្ចូលធំជាងចំនួនអតិបរមាដែលបានចុះបញ្ជីក្នុងគ្រាមុន 50%"
+
+#, python-format
+msgctxt "model:ir.message,text:requested_credits"
+msgid ""
+"The party \"%(party)s\" can not be erased because he has requested credit "
+"limit for the company \"%(company)s\"."
+msgstr ""
+"មិនអាចលុបភាគី «%(party)s» បានទេ "
+"ព្រោះភាគីនេះបានស្នើកម្រិតឥណទានសម្រាប់ក្រុមហ៊ុន «%(company)s»។"
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit"
+msgid "Credit Limits"
+msgstr "កម្រិតឥណទាន"
+
+msgctxt "model:ir.ui.menu,name:menu_party_credit_root"
+msgid "Credit Limits"
+msgstr "កម្រិតឥណទាន"
+
+msgctxt "model:party.credit,name:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "model:party.credit.amount,name:"
+msgid "Party Credit Conceded Amount"
+msgstr "ចំនួនឥណទានដែលបានផ្ដល់ឱ្យភាគី"
+
+msgctxt "model:party.credit.renew.start,name:"
+msgid "Initial view for the duplication of party credits wizard"
+msgstr "ទិដ្ឋភាពដំបូងរបស់ជំនួយការចម្លងឥណទានភាគី"
+
+msgctxt "model:party.risk.analysis,name:"
+msgid "Party Risk Analysis"
+msgstr "ការវិភាគហានិភ័យរបស់ភាគី"
+
+msgctxt "selection:party.credit,state:"
+msgid "Approved"
+msgstr "បានអនុម័ត"
+
+msgctxt "selection:party.credit,state:"
+msgid "Rejected"
+msgstr "បានបដិសេធ"
+
+msgctxt "selection:party.credit,state:"
+msgid "Requested"
+msgstr "បានស្នើ"
+
+msgctxt "view:party.credit.amount:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "view:party.credit.renew.start:"
+msgid "Renew Party Credit"
+msgstr "បន្តសុពលភាពឥណទានរបស់ភាគី"
+
+msgctxt "view:party.credit:"
+msgid "Accounts Data"
+msgstr "ទិន្នន័យគណនី"
+
+msgctxt "view:party.credit:"
+msgid "Approve"
+msgstr "អនុម័ត"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "view:party.credit:"
+msgid "Party Credit Amounts"
+msgstr "ចំនួនឥណទានរបស់ភាគី"
+
+msgctxt "view:party.credit:"
+msgid "Reject"
+msgstr "បដិសេធ"
+
+msgctxt "view:party.credit:"
+msgid "Renew"
+msgstr "បន្តសុពលភាព"
+
+msgctxt "view:party.credit:"
+msgid "Request"
+msgstr "សំណើ"
+
+msgctxt "view:party.risk.analysis:"
+msgid "Party Risk Analysis"
+msgstr "ការវិភាគហានិភ័យរបស់ភាគី"
+
+msgctxt "wizard_button:party.credit.renew,start,renew:"
+msgid "Renew"
+msgstr "បន្តសុពលភាព"
+
+msgctxt "wizard_button:party.credit.renew,start,end:"
+msgid "Cancel"
+msgstr "បោះបង់"
+
+msgctxt "field:party.credit,first_approved_credit_limit:"
+msgid "First Approved Credit Limit"
+msgstr "កម្រិតឥណទានដំបូងដែលបានអនុម័ត"
+
+msgctxt "field:party.party.company_credit_limit,company:"
+msgid "Company"
+msgstr "ក្រុមហ៊ុន"
+
+msgctxt "field:party.party.company_credit_limit,company_credit_limit:"
+msgid "Company Credit Limit"
+msgstr "កម្រិតឥណទានក្រុមហ៊ុន"
+
+msgctxt "field:party.party.company_credit_limit,credit_limit_digits:"
+msgid "Currency Digits"
+msgstr "ចំនួនខ្ទង់រូបិយប័ណ្ណ"
+
+msgctxt "field:party.party.company_credit_limit,party:"
+msgid "Party"
+msgstr "ភាគី"
+
+msgctxt "field:party.party,company_credit_limits:"
+msgid "Company Credit Limits"
+msgstr "កម្រិតឥណទានក្រុមហ៊ុន"
+
+msgctxt "field:party.risk.analysis,company:"
+msgid "Company"
+msgstr "ក្រុមហ៊ុន"
+
+msgctxt "field:party.risk.analysis,currency:"
+msgid "Currency"
+msgstr "រូបិយប័ណ្ណ"
+
+msgctxt "field:party.risk.analysis,currency_digits:"
+msgid "Currency Digits"
+msgstr "ចំនួនខ្ទង់រូបិយប័ណ្ណ"
+
+msgctxt "field:party.risk.analysis,party_required:"
+msgid "Party Required"
+msgstr "តម្រូវឱ្យមានភាគី"
+
+msgctxt "model:ir.action,name:act_party_credit"
+msgid "Credit Limits"
+msgstr "កម្រិតឥណទាន"
+
+msgctxt "model:ir.action,name:act_party_credit_limit1"
+msgid "Credit Limit"
+msgstr "ដែនកំណត់ឥណទាន"
+
+#, python-format
+msgctxt "model:ir.message,text:duplicate_party_credit"
+msgid ""
+"Existing credit limit \"%(duplicate)s\" overlaps with record \"%(current)s\" "
+"that you are trying to approve."
+msgstr ""
+"កម្រិតឥណទានដែលមានស្រាប់ «%(duplicate)s» ត្រួតលើកំណត់ត្រា «%(current)s» "
+"ដែលអ្នកកំពុងអនុម័ត។"
+
+msgctxt "model:ir.model.button,string:party_credit_request_button"
+msgid "Request"
+msgstr "សំណើ"
+
+msgctxt "model:ir.model.button,string:party_credit_approve_button"
+msgid "Approve"
+msgstr "អនុម័ត"
+
+msgctxt "model:ir.model.button,string:party_credit_renew_button"
+msgid "Renew"
+msgstr "បន្តសុពលភាព"
+
+msgctxt "model:ir.model.button,string:party_credit_reject_button"
+msgid "Reject"
+msgstr "បដិសេធ"
+
+msgctxt "model:ir.rule.group,name:rule_group_party_credit"
+msgid "Party Credit Rule"
+msgstr "វិធានឥណទានរបស់ភាគី"
+
+msgctxt "model:ir.rule.group,name:rule_group_party_risk_analysis"
+msgid "Party Risk Analysis Rule"
+msgstr "វិធានការវិភាគហានិភ័យរបស់ភាគី"
+
+msgctxt "model:party.credit.amount,string:"
+msgid "Party Credit Amount"
+msgstr "ចំនួនឥណទានរបស់ភាគី"
+
+msgctxt "model:party.credit,string:"
+msgid "Party Credit"
+msgstr "ឥណទានរបស់ភាគី"
+
+msgctxt "model:party.party.company_credit_limit,name:"
+msgid "Party Company Credit Limit"
+msgstr "កម្រិតឥណទានក្រុមហ៊ុនសម្រាប់ភាគី"
+
+msgctxt "model:party.party.company_credit_limit,string:"
+msgid "Party Company Credit Limit"
+msgstr "កម្រិតឥណទានក្រុមហ៊ុនសម្រាប់ភាគី"
+
+msgctxt "model:party.risk.analysis,string:"
+msgid "Party Risk Analysis"
+msgstr "ការវិភាគហានិភ័យរបស់ភាគី"
